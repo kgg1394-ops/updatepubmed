@@ -1,0 +1,20 @@
+name: Daily-Update
+on:
+  schedule:
+    - cron: '0 21 * * *' # 한국 시간 오전 6시
+  workflow_dispatch: # 내가 원할 때 버튼 눌러서 실행
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Python
+        run: python main.py
+      - name: Save Changes
+        run: |
+          git config --global user.name "Bot"
+          git config --global user.email "bot@github.com"
+          git add index.html
+          git commit -m "Update" || exit 0
+          git push
