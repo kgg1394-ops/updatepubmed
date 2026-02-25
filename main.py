@@ -1,14 +1,12 @@
 import urllib.request
 import urllib.parse
-import re
-import datetime
 import json
+import datetime
+import time  # 봇 차단 방지를 위한 시간 조절 모듈 추가
 
 def get_pubmed_papers(query, limit=3):
     encoded_query = urllib.parse.quote(query)
     search_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={encoded_query}&retmax={limit}&sort=date&retmode=json"
-    
-    # 봇 차단을 막기 위해 일반 브라우저처럼 위장 (User-Agent 추가)
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     
     try:
@@ -20,6 +18,8 @@ def get_pubmed_papers(query, limit=3):
         
         if not ids:
             return "<p style='color:#999; padding-left:20px;'>최근 검색된 논문이 없습니다.</p>"
+
+        time.sleep(1) # 상세 데이터 요청 전 1초 휴식 (PubMed 차단 방지)
 
         # 2. 논문 상세 정보 요청
         summary_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={','.join(ids)}&retmode=json"
@@ -42,9 +42,9 @@ def get_pubmed_papers(query, limit=3):
         return papers_html
     
     except Exception as e:
-        return f"<p style='color:#e74c3c; padding-left:20px;'>데이터 로딩 실패 (PubMed 서버 응답 지연)</p>"
+        return f"<p style='color:#e74c3c; padding-left:20px;'>데이터 로딩 실패: {e}</p>"
 
-# 3. 분과별 검색어 (PubMed 최적화)
+# 3. 분과별 검색어
 keywords = {
     "🍎 위장관 (GI)": "Gastroenterology",
     "🍺 간 (Liver)": "Hepatology",
@@ -56,6 +56,8 @@ for display_name, search_term in keywords.items():
     all_sections_html += f"""
     <h2 style="color: #2c3e50; margin-top: 40px; border-bottom: 3px solid #3498db; padding-bottom: 8px; display: inline-block;">{display_name}</h2>
     <div style="margin-top: 15px;">{get_pubmed_papers(search_term)}</div>"""
+    
+    time.sleep(1.5) # 다음 분과 검색 전 1.5초 휴식 (매우 중요!)
 
 # 시간 설정 (KST)
 now = datetime.datetime.now() + datetime.timedelta(hours=9)
