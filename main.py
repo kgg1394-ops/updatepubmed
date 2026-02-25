@@ -1,26 +1,37 @@
 import urllib.request
+import urllib.parse
 import re
 import datetime
 import json
 
 def get_pubmed_papers(query, limit=3):
-    search_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={query.replace(' ', '+')}&retmax={limit}&sort=date&retmode=json"
+    encoded_query = urllib.parse.quote(query)
+    search_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={encoded_query}&retmax={limit}&sort=date&retmode=json"
+    
+    # 봇 차단을 막기 위해 일반 브라우저처럼 위장 (User-Agent 추가)
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+    
     try:
-        with urllib.request.urlopen(search_url) as response:
+        # 1. 논문 ID 검색
+        req_search = urllib.request.Request(search_url, headers=headers)
+        with urllib.request.urlopen(req_search) as response:
             search_data = json.loads(response.read().decode('utf-8'))
-            ids = search_data['esearchresult']['idlist']
+            ids = search_data.get('esearchresult', {}).get('idlist', [])
+        
         if not ids:
-            return "<p style='color:#999; padding-left:20px;'>최근 등록된 논문이 없습니다.</p>"
-            
+            return "<p style='color:#999; padding-left:20px;'>최근 검색된 논문이 없습니다.</p>"
+
+        # 2. 논문 상세 정보 요청
         summary_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={','.join(ids)}&retmode=json"
-        with urllib.request.urlopen(summary_url) as res:
-            summary_data = json.loads(res.read().decode('utf-8'))
+        req_summary = urllib.request.Request(summary_url, headers=headers)
+        with urllib.request.urlopen(req_summary) as res:
+            summary_raw = json.loads(res.read().decode('utf-8'))
+            summary_result = summary_raw.get('result', {})
             
         papers_html = ""
         for pmid in ids:
-            # 데이터가 비어있을 경우를 대비해 .get() 사용 및 기본값 설정
-            info = summary_data.get('result', {}).get(pmid, {})
-            title = info.get('title', 'No Title Available')
+            info = summary_result.get(pmid, {})
+            title = info.get('title', '제목을 불러올 수 없습니다 (클릭하여 확인)')
             pubdate = info.get('pubdate', 'Recent')
             
             papers_html += f"""
@@ -29,14 +40,15 @@ def get_pubmed_papers(query, limit=3):
                 <a href="https://pubmed.ncbi.nlm.nih.gov/{pmid}/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.05em; line-height:1.5; display: block; margin-top: 5px;">{title}</a>
             </div>"""
         return papers_html
+    
     except Exception as e:
-        return f"<p style='color:#e74c3c; padding-left:20px;'>데이터 매칭 오류 (잠시 후 다시 시도해 주세요)</p>"
+        return f"<p style='color:#e74c3c; padding-left:20px;'>데이터 로딩 실패 (PubMed 서버 응답 지연)</p>"
 
-# 1. 분과 설정 (검색 키워드 정교화)
+# 3. 분과별 검색어 (PubMed 최적화)
 keywords = {
-    "🍎 위장관 (GI)": "Gastrointestinal Diseases",
-    "🍺 간 (Liver)": "Liver OR Hepatology",
-    "🧬 췌담관 (Pancreas & Biliary)": "Pancreas OR Biliary Tract"
+    "🍎 위장관 (GI)": "Gastroenterology",
+    "🍺 간 (Liver)": "Hepatology",
+    "🧬 췌담관 (Pancreas & Biliary)": "Pancreas OR Biliary"
 }
 
 all_sections_html = ""
@@ -45,10 +57,10 @@ for display_name, search_term in keywords.items():
     <h2 style="color: #2c3e50; margin-top: 40px; border-bottom: 3px solid #3498db; padding-bottom: 8px; display: inline-block;">{display_name}</h2>
     <div style="margin-top: 15px;">{get_pubmed_papers(search_term)}</div>"""
 
+# 시간 설정 (KST)
 now = datetime.datetime.now() + datetime.timedelta(hours=9)
 time_label = now.strftime("%Y-%m-%d %H:%M")
 
-# 2. HTML 템플릿 (하단 푸터까지 포함된 전체 구조)
 html_template = f"""
 <!DOCTYPE html>
 <html lang="ko">
@@ -66,11 +78,8 @@ html_template = f"""
     <main>{all_sections_html}</main>
     <section style="margin-top: 70px; padding: 35px; background: linear-gradient(135deg, #2c3e50, #4ca1af); border-radius: 20px; color: white;">
         <h3 style="margin-top: 0; color: #00d2ff; font-size: 1.6em;">🚀 Project: MedProductive</h3>
-        <p style="font-size: 1.1em; opacity: 0.95;">의료 현장의 비효율을 AI로 해결합니다.<br><b>Vol 1. 전공의를 위한 스마트 워크플로우 가이드</b> 제작 중</p>
+        <p style="font-size: 1.1em; opacity: 0.95;">의료 현장의 비효율을 AI로 해결합니다.</p>
     </section>
-    <footer style="text-align: center; margin-top: 40px; color: #bdc3c7; font-size: 0.85em; padding-bottom: 50px;">
-        <p>© 2026 kgg1394-ops. Automated by GitHub Actions & PubMed API.</p>
-    </footer>
 </body>
 </html>
 """
