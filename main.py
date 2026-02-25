@@ -10,7 +10,6 @@ def get_pubmed_data(query, limit=5):
     headers = {'User-Agent': 'Mozilla/5.0'}
     
     try:
-        # 1. ID 검색
         req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req) as res:
             ids = json.loads(res.read().decode('utf-8')).get('esearchresult', {}).get('idlist', [])
@@ -18,7 +17,6 @@ def get_pubmed_data(query, limit=5):
         if not ids: return [], {}
         time.sleep(0.5)
 
-        # 2. 요약 정보 가져오기
         summary_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={','.join(ids)}&retmode=json"
         req_sum = urllib.request.Request(summary_url, headers=headers)
         with urllib.request.urlopen(req_sum) as res:
@@ -27,14 +25,11 @@ def get_pubmed_data(query, limit=5):
     except:
         return [], {}
 
-# --- 데이터 수집 시작 ---
-
-# 1. [거대 트렌드 용] 최근 소화기 관련 논문 100개 제목 수집
+# --- 데이터 수집 ---
 big_trend_ids, big_trend_data = get_pubmed_data("Gastroenterology OR Hepatology OR Pancreas OR Endoscopy", limit=100)
 big_titles = [big_trend_data.get(pid, {}).get('title', '') for pid in big_trend_ids]
 time.sleep(1)
 
-# 2. [오늘의 브리핑 용] 분과별 데이터 수집
 categories = {
     "🍎 위장관 (GI)": "Gastrointestinal Diseases",
     "🍺 간 (Liver)": "Hepatology",
@@ -65,7 +60,7 @@ time_label = (datetime.datetime.now() + datetime.timedelta(hours=9)).strftime("%
 big_titles_json = json.dumps(big_titles)
 daily_titles_json = json.dumps(daily_titles)
 
-# --- HTML 템플릿 ---
+# --- HTML 템플릿 (금지어 사전 대폭 강화) ---
 html_template = f"""
 <!DOCTYPE html>
 <html lang="ko">
@@ -120,20 +115,53 @@ html_template = f"""
     </div>
 
     <script>
-        const stopWords = ["the","of","and","a","in","to","for","with","on","as","by","an","is","at","from","study","clinical","trial","patient","patients","treatment","analysis","results"];
+        // 선생님의 피드백을 반영하여 쓸데없는 연구 용어들을 싹 다 쳐냈습니다!
+        const stopWords = [
+            "the", "of", "and", "a", "in", "to", "for", "with", "on", "as", "by", "an", "is", "at", "from", 
+            "study", "clinical", "trial", "patient", "patients", "treatment", "analysis", "results", "using", 
+            "versus", "vs", "comparing", "compared", "comparison", "relation", "relationship", "between", "among", 
+            "after", "during", "before", "diagnostic", "diagnosis", "probe", "targeted", "target", "healthy", 
+            "accuracy", "specific", "quantitative", "implications", "evidence", "predict", "predicting", "predictive", 
+            "takes", "fractions", "methodological", "interpretative", "considerations", "retrospective", "prospective", 
+            "cohort", "multicenter", "impact", "yield", "survival", "outcomes", "outcome", "associated", "association", 
+            "risk", "factors", "factor", "development", "validation", "model", "models", "efficacy", "safety", 
+            "systematic", "review", "meta-analysis", "disease", "diseases", "case", "report", "system", "role", 
+            "effect", "effects", "evaluation", "evaluating", "based", "new", "novel", "approach", "approaches", 
+            "management", "use", "utility", "changes", "expression", "levels", "level", "related", "group", "groups", 
+            "high", "low", "significant", "significance", "increase", "decreased", "increased", "decrease", "activity", 
+            "therapy", "therapies", "characteristics", "features", "human", "mice", "mouse", "cell", "cells", 
+            "protein", "proteins", "gene", "genes", "pathway", "pathways", "mechanism", "mechanisms", "type", "types", 
+            "data", "methods", "method", "conclusion", "conclusions", "background", "objective", "aim", "introduction",
+            "through", "which", "that", "this", "these", "those"
+        ];
         
         function drawCloud(canvasId, titles, color) {{
-            const words = titles.join(" ").toLowerCase().replace(/[.,/#!$%^&*;:{{}}==_`~()]/g,"").split(" ");
+            // 특수문자 제거 및 소문자 변환
+            const words = titles.join(" ").toLowerCase().replace(/[.,/#!$%^&*;:{{}}==_`~()?'"]/g,"").split(/\s+/);
             const freqMap = {{}};
+            
             words.forEach(w => {{
-                if (w.length > 4 && !stopWords.includes(w)) freqMap[w] = (freqMap[w] || 0) + 1;
+                // 길이가 3자 이하이거나 금지어 사전에 있는 단어는 무시
+                if (w.length > 3 && !stopWords.includes(w)) {{
+                    freqMap[w] = (freqMap[w] || 0) + 1;
+                }}
             }});
-            const list = Object.entries(freqMap).map(([t, s]) => [t, s * 7]);
-            WordCloud(document.getElementById(canvasId), {{ list: list, color: color, backgroundColor: '#fff', weightFactor: 1.5, rotateRatio: 0.3 }});
+            
+            // 빈도수 기반 크기 설정
+            const list = Object.entries(freqMap).map(([t, s]) => [t, s * 8]);
+            
+            WordCloud(document.getElementById(canvasId), {{ 
+                list: list, 
+                color: color, 
+                backgroundColor: '#fff', 
+                weightFactor: 1.2, 
+                rotateRatio: 0.3,
+                minSize: 8 // 너무 작은 단어는 그리지 않음
+            }});
         }}
 
         drawCloud('canvas-big', {big_titles_json}, '#2c3e50');
-        drawCloud('canvas-daily', {daily_titles_json}, '#3498db');
+        drawCloud('canvas-daily', {daily_titles_json}, '#e74c3c'); // Daily는 눈에 띄게 붉은 계열로 변경
     </script>
 </body>
 </html>
