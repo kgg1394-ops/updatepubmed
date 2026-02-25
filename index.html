@@ -1,61 +1,107 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GI Latest Briefing</title></head>
-<body style="font-family: sans-serif; background-color: #f0f4f7; padding: 20px; max-width: 850px; margin: auto;">
-    <header style="text-align: center; padding: 40px 0; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
-        <h1 style="color: #2c3e50; margin: 0;">🏥 소화기내과 최신 지견 포털</h1>
-        <div style="display: inline-block; background: #ebf5ff; color: #007bff; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 0.9em; margin-top: 15px;">Last Update: 2026-02-26 08:44 (KST)</div>
-    </header>
-    <main><h2 style='color:#2c3e50; margin-top:40px; border-bottom:3px solid #3498db; padding-bottom:8px; display:inline-block;'>🍎 위장관 (GI)</h2><div style='margin-top:15px;'>
-            <div style="background: white; margin-bottom: 20px; padding: 20px; border-radius: 12px; border-left: 6px solid #3498db; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 2026 Mar 2</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41740171/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4; display: block; margin-top: 5px;">Sigmoid Volvulus in a Healthy Adolescent Male.</a>
-                <p style="color: #555; font-size: 0.95em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; line-height: 1.5;">🇰🇷 건강한 청소년 남성의 S상 염전.</p>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GI Professional Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+    <style>
+        body { font-family: sans-serif; background:#f4f7f6; color:#333; margin:0; padding:20px; }
+        .container { max-width: 1000px; margin: auto; }
+        header { text-align:center; padding:30px; background:white; border-radius:15px; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom:20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .card { background:white; padding:20px; border-radius:15px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+        h2 { color:#2c3e50; border-bottom:2px solid #3498db; padding-bottom:10px; font-size:1.2em; }
+        canvas { width: 100%; height: 250px; }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 style="margin:0;">🏥 GI/Liver/Biliary Trend Portal</h1>
+            <p style="color:#7f8c8d; margin:10px 0;">최신 논문 빅데이터 기반 트렌드 분석</p>
+            <small style="background:#34495e; color:white; padding:5px 15px; border-radius:20px;">Last Update: 2026-02-26 08:54 (KST)</small>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h2>📈 Macro Trend (Last 100 Papers)</h2>
+                <p style="font-size:0.8em; color:#999;">소화기 전체 분야의 거시적 흐름</p>
+                <canvas id="canvas-big"></canvas>
             </div>
-            <div style="background: white; margin-bottom: 20px; padding: 20px; border-radius: 12px; border-left: 6px solid #3498db; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 2026 Jan 9</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4; display: block; margin-top: 5px;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
-                <p style="color: #555; font-size: 0.95em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; line-height: 1.5;">🇰🇷 호산 구성 식도염 완화에 대한 감시 내시경 검사 시간의 가변성과 치료 결과와의 관계.</p>
+            <div class="card">
+                <h2>🔥 Daily Hot Topics</h2>
+                <p style="font-size:0.8em; color:#999;">오늘 수집된 주요 논문 내 핵심 키워드</p>
+                <canvas id="canvas-daily"></canvas>
             </div>
-            <div style="background: white; margin-bottom: 20px; padding: 20px; border-radius: 12px; border-left: 6px solid #3498db; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 2026 Feb 25</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41739522/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4; display: block; margin-top: 5px;">Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.</a>
-                <p style="color: #555; font-size: 0.95em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; line-height: 1.5;">🇰🇷 궤양성 대장염에서 직장 조직내시경 활동을 예측하기 위해 미세 볼록 탐침과 기존 선형 탐침을 사용한 경회음 초음파의 진단 정확도를 비교합니다. 쌍을 이루는 전향적 일대일 비교 연구입니다.</p>
-            </div></div><h2 style='color:#2c3e50; margin-top:40px; border-bottom:3px solid #3498db; padding-bottom:8px; display:inline-block;'>🍺 간 (Liver)</h2><div style='margin-top:15px;'>
-            <div style="background: white; margin-bottom: 20px; padding: 20px; border-radius: 12px; border-left: 6px solid #3498db; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 2026 Feb 25</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41740191/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4; display: block; margin-top: 5px;">Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.</a>
-                <p style="color: #555; font-size: 0.95em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; line-height: 1.5;">🇰🇷 PRM을 사용한 세포질, 미토콘드리아 및 핵 분획의 특정 단백질에 대한 표적 정량 분석.</p>
+        </div>
+
+        <div class="card" style="margin-top:20px;">
+            <h2>📄 Latest Research Briefing</h2>
+            <div class="grid">
+                <h3>🍎 위장관 (GI)</h3>
+        <div style="background:white; margin-bottom:10px; padding:12px; border-radius:8px; border-left:4px solid #3498db; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <small style="color:#3498db;">📅 2026 Jan 9</small><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739742/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:0.9em;">Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.</a>
+        </div>
+        <div style="background:white; margin-bottom:10px; padding:12px; border-radius:8px; border-left:4px solid #3498db; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <small style="color:#3498db;">📅 2026 Jan 9</small><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:0.9em;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
+        </div>
+        <div style="background:white; margin-bottom:10px; padding:12px; border-radius:8px; border-left:4px solid #3498db; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <small style="color:#3498db;">📅 2026 Feb 25</small><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739328/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:0.9em;">Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.</a>
+        </div><h3>🍺 간 (Liver)</h3>
+        <div style="background:white; margin-bottom:10px; padding:12px; border-radius:8px; border-left:4px solid #3498db; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <small style="color:#3498db;">📅 2026 Feb 25</small><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41740191/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:0.9em;">Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.</a>
+        </div>
+        <div style="background:white; margin-bottom:10px; padding:12px; border-radius:8px; border-left:4px solid #3498db; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <small style="color:#3498db;">📅 2026 Mar 2</small><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41740171/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:0.9em;">Sigmoid Volvulus in a Healthy Adolescent Male.</a>
+        </div>
+        <div style="background:white; margin-bottom:10px; padding:12px; border-radius:8px; border-left:4px solid #3498db; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <small style="color:#3498db;">📅 2026 Jan 9</small><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:0.9em;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
+        </div><h3>🧬 췌담관 (Pancreas & Biliary)</h3>
+        <div style="background:white; margin-bottom:10px; padding:12px; border-radius:8px; border-left:4px solid #3498db; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <small style="color:#3498db;">📅 2026 Feb 25</small><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739886/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:0.9em;">The Difficult Gallbladder: Practical Considerations for Performing Safe Cholecystectomy.</a>
+        </div>
+        <div style="background:white; margin-bottom:10px; padding:12px; border-radius:8px; border-left:4px solid #3498db; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <small style="color:#3498db;">📅 2026 Feb 25</small><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739485/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:0.9em;">Contemporary Outcomes of Cholecystectomy.</a>
+        </div>
+        <div style="background:white; margin-bottom:10px; padding:12px; border-radius:8px; border-left:4px solid #3498db; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+            <small style="color:#3498db;">📅 2026 Feb 25</small><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739407/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:0.9em;">Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study.</a>
+        </div>
             </div>
-            <div style="background: white; margin-bottom: 20px; padding: 20px; border-radius: 12px; border-left: 6px solid #3498db; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 2026 Mar 2</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41740171/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4; display: block; margin-top: 5px;">Sigmoid Volvulus in a Healthy Adolescent Male.</a>
-                <p style="color: #555; font-size: 0.95em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; line-height: 1.5;">🇰🇷 건강한 청소년 남성의 S상 염전.</p>
-            </div>
-            <div style="background: white; margin-bottom: 20px; padding: 20px; border-radius: 12px; border-left: 6px solid #3498db; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 2026 Jan 9</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4; display: block; margin-top: 5px;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
-                <p style="color: #555; font-size: 0.95em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; line-height: 1.5;">🇰🇷 호산 구성 식도염 완화에 대한 감시 내시경 검사 시간의 가변성과 치료 결과와의 관계.</p>
-            </div></div><h2 style='color:#2c3e50; margin-top:40px; border-bottom:3px solid #3498db; padding-bottom:8px; display:inline-block;'>🧬 췌담관 (Pancreas & Biliary)</h2><div style='margin-top:15px;'>
-            <div style="background: white; margin-bottom: 20px; padding: 20px; border-radius: 12px; border-left: 6px solid #3498db; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 2026 Feb 25</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41739886/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4; display: block; margin-top: 5px;">The Difficult Gallbladder: Practical Considerations for Performing Safe Cholecystectomy.</a>
-                <p style="color: #555; font-size: 0.95em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; line-height: 1.5;">🇰🇷 어려운 담낭: 안전한 담낭절제술을 시행하기 위한 실제 고려사항.</p>
-            </div>
-            <div style="background: white; margin-bottom: 20px; padding: 20px; border-radius: 12px; border-left: 6px solid #3498db; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 2026 Feb 25</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41739485/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4; display: block; margin-top: 5px;">Contemporary Outcomes of Cholecystectomy.</a>
-                <p style="color: #555; font-size: 0.95em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; line-height: 1.5;">🇰🇷 담낭절제술의 현대적 결과.</p>
-            </div>
-            <div style="background: white; margin-bottom: 20px; padding: 20px; border-radius: 12px; border-left: 6px solid #3498db; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 2026 Feb 25</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41739407/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4; display: block; margin-top: 5px;">Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study.</a>
-                <p style="color: #555; font-size: 0.95em; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; line-height: 1.5;">🇰🇷 경구용 저용량 메토트렉세이트는 크론병의 인플릭시맙 약동학, 면역원성 및 내시경 결과를 개선합니다. 성향 점수 조정 실제 연구입니다.</p>
-            </div></div></main>
-    <footer style="margin-top: 70px; padding: 35px; background: linear-gradient(135deg, #2c3e50, #4ca1af); border-radius: 20px; color: white;">
-        <h3 style="margin-top: 0; color: #00d2ff;">🚀 Project: MedProductive</h3>
-        <p>의료 현장의 비효율을 AI로 해결합니다.</p>
-    </footer>
+        </div>
+
+        <footer style="margin-top:40px; text-align:center; padding:30px; background:#2c3e50; color:white; border-radius:15px;">
+            <h3>🚀 MedProductive Project</h3>
+            <p>의료 생산성 혁신을 위한 AI 시스템을 구축합니다.</p>
+        </footer>
+    </div>
+
+    <script>
+        const stopWords = ["the","of","and","a","in","to","for","with","on","as","by","an","is","at","from","study","clinical","trial","patient","patients","treatment","analysis","results"];
+        
+        function drawCloud(canvasId, titles, color) {
+            const words = titles.join(" ").toLowerCase().replace(/[.,/#!$%^&*;:{}==_`~()]/g,"").split(" ");
+            const freqMap = {};
+            words.forEach(w => {
+                if (w.length > 4 && !stopWords.includes(w)) freqMap[w] = (freqMap[w] || 0) + 1;
+            });
+            const list = Object.entries(freqMap).map(([t, s]) => [t, s * 7]);
+            WordCloud(document.getElementById(canvasId), { list: list, color: color, backgroundColor: '#fff', weightFactor: 1.5, rotateRatio: 0.3 });
+        }
+
+        drawCloud('canvas-big', ["Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.", "Sigmoid Volvulus in a Healthy Adolescent Male.", "Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.", "Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.", "Robotic Hysterectomy for Benign Gynecology: Evidence and Insights.", "Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.", "Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study.", "External Validation of an AI-Based Colonoscopy Quality Assessment Tool in Japanese Clinical Practice: A Pilot Study.", "Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.", "Combined Peroral Endoscopic Myotomy (POEM) and Diverticular POEM (D-POEM) for Type II Achalasia with a Large Epiphrenic Diverticulum.", "Unusual Endoscopic Findings in a Case of Small Bowel Lipoma.", "Epidemiology and Treatment of Inflammatory Bowel Disease in Pregnancy: Results from a Retrospective, Observational Study.", "Changing etiology of acute pancreatitis in Kashmir: Implications for outcomes and healthcare utilization.", "CD44 is associated with papillary thyroid carcinoma metastasis via potential modulation of the immunosuppressive tumor microenvironment.", "Clinicopathological features of localized-type IgG4-related cholecystitis: a nationwide multicenter study in Japan.", "American Society for Gastrointestinal Endoscopy standards for fellowship training in peroral endoscopic myotomy.", "Incidence of Cancer in Patients With Familial Adenomatous Polyposis in the Netherlands: A Nationwide Cohort Study.", "The MetALD-ALD Prediction Index: A Phosphatidylethanol-Driven Biomarker Panel for Identifying Individuals With Steatotic Liver Disease and Excessive Alcohol Use.", "Engineered Nanoplatform with Dual Anti-Inflammatory and Microbiota-Modulating Actions for Targeted Therapy in Chronic Inflammatory Bowel Disease.", "The Long View, a Long Way to Go: Palliative Care Along the Transplant Journey.", "Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.", "What weighs most is what we do not say.", "Blown-out myotomy as a cause of symptomatic recurrence after POEM: endoscopic management.", "Dyshidrotic eczema associated with Upadacitinib use: a paradoxical adverse event or serendipity?", "Synchronous multiple early gastric cancer with Schistosoma japonicum eggs.", "Lipid-mediated brain-gut axis alterations in functional diarrhea and their role in oxidative stress and neurodegeneration.", "Letter to the Editor.", "Dynamics in circulating immune cell subsets after faecal microbiota transplantation for recurrent Clostridioides difficile infection.", "Differences in Outcomes following Ileocecal Resection in Older Adults with Crohn's Disease in the Biologic Era.", "Adjunctive Use of p53 Immunohistochemistry for Risk Stratification in Barrett's Esophagus: A Systematic Review and Meta-Analysis.", "Colorectal neoplasia rates in Li Fraumeni Syndrome.", "Evaluating the Use of Sex in Gastroenterology Algorithms: A FAIRS Framework Analysis.", "No Increased Risk of Infection Following a Protocol Change to Decrease Duration of Perioperative Antibiotic Prophylaxis in Liver Transplantation.", "[Minimally invasive coronary surgery: new developments in myocardial revascularization].", "Exploring the impact of stigmatization on mental health in persons with liver disease: a scoping review.", "CD72 downregulation on DN2 B cells associates with disease activity and resistance to rituximab in systemic lupus erythematosus.", "Cardiac involvement in newly diagnosed patients with idiopathic inflammatory myopathies is associated with skeletal muscle involvement.", "Transoral Endoscopic Resection Assisted by Radiofrequency Plasma Ablation for Lingual Thyroglossal Duct Cysts: A Retrospective Evaluation of Feasibility, Safety, and Outcomes.", "The CFTR potentiator Icenticaftor for treatment of bronchiectasis: An international phase 2, double-blind, randomized placebo-controlled trial.", "Reply to Tang and Sun, and to Deng and Liu.", "Argatroban in Patients with Extracorporeal Membrane Oxygenation-A Randomized Controlled Pilot Trial.", "C-Type Lectin-Like Receptor 2 in Lung Epithelium Protects Against Acute Lung Injury.", "Plasma exchange for severe alveolar hemorrhage in ANCA-associated vasculitis: emulation of a target trial.", "The Psoriatic Disease Assessment Index (PSODAI) Score to Evaluate Systemic Involvement of Psoriasis.", "Preferable Concentration-Volume Combination of Ropivacaine for Femoral Nerve Block in Arthroscopic Meniscoplasty: A Prospective, Double-Blind, Randomized Clinical Trial.", "Prebiotic \u03b2 (1-4) Galacto-oligosaccharides Strengthen Intestinal Barrier Integrity via Mucus Production and Modulation of Tight Junction Genes.", "Bioinformatic Identification and Preliminary Validation of TP53, TGFB1, and NFE2L2 as Potential Ferroptosis-Related Regulators in Pancreatic Adenocarcinoma.", "Association Between Menstrual Pain and Procedural Pain During Office Hysteroscopy: A 10-Year Cohort Study.", "High Rate of Positive Fecal Occult Blood Test in Healthy Infants: A Nested Case-control Study.", "Structural maintenance of chromosome protein 1A exacerbates liver fibrosis by enhancing hepatic stellate cell activation and extracellular matrix synthesis via laminin subunit gamma 2 activation.", "Diagnostic Performance of the Multi-Biomarker Disease Activity (MBDA) Score for Rheumatoid Arthritis in Patients with New-Onset Joint Symptoms: An Age-Stratified Retrospective Study.", "Clinical Presentation and Management of Omental Ectopic Pregnancy in a 23-Year-Old Patient: Integrative Case Study and Literature Review.", "Gastrointestinal endoscopy and visceral surgery: current status and potentials for interdisciplinary patient care.", "Fibrosis activity vs. disease stage: Complementary and independent predictors of outcomes in alcohol-related liver disease.", "Development and patterns of acute-on-chronic liver failure in patients with cirrhosis and acute kidney injury.", "HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.", "Association Between Patatin-Like Phospholipase Do-Main-Containing Protein-3 Variant and Cardiovascular Disease Risk in People Living With HIV on Antiretroviral Therapy in Taiwan: A Cross-Sectional Study.", "Epidemiology and Burden of Gallbladder and Biliary Diseases and the Socioeconomic Factors in the Region of Middle East and North Africa, 1990-2021: Estimates From the Global Burden of Disease 2021 Study.", "Exploring the prediction model and core genes for coronary artery disease in non-obese steatotic liver disease patients.", "Development and validation of a prediction model for in-hospital mortality in intensive care unit patients with cirrhosis and sepsis: a multicentre retrospective cohort study.", "Exploration of multi-omics liquid biopsy approaches for multi-cancer early detection: The PROMISE study.", "Precision targeting of STING: Challenges, innovations, and clinical outlook for cancer therapy.", "Tailored weight-management recommendations for obesity patients with cardiovascular-metabolic diseases.", "Outcomes Following Constipation Treatments Between Parkinson's Disease and Non-Parkinson's Disease Patients Evaluated by the Constipation Scoring System.", "Multifunctional theranostic magnetic PLGA nanoparticles encapsulating cyclosporine A: addressing challenges in pancreas transplantation for type 1 diabetes.", "Integrated single-cell and spatial transcriptomics reveal the differentiation drivers of gastric epithelial lineage progression.", "From microtubule remodeling to clinical translation: the multifaceted roles of vasohibin-1 in disease modulation.", "Extraintestinal manifestations in ulcerative colitis patients with disease phenotype: insights from a Pakistani population.", "Unmasking a Rare Genetic Puzzle: Hereditary Hemorrhagic Telangiectasia in a Black Kenyan Woman: A Case Report.", "Pelvic Radiodensities Secondary to Geophagia in a Child.", "Acute Quadriparesis From Concurrent Celiac Crisis and Giardiasis.", "Immunoglobulin G4-Related Disease-Like Gastric Lesion Presenting as Submucosal Tumor-Like Lesions.", "Rectal Arteriovenous Malformation Mimicking a Submucosal Tumor: Successful Long-Term Outcome After Transcatheter Arterial Embolization With N-Butyl-2-Cyanoacrylate-Lipiodol.", "Successful Endoscopic Ultrasound-Guided Transgastric Drainage for Intra-Abdominal Abscess Caused by Delayed Perforation After Gastric Endoscopic Mucosal Resection.", "Utility of Hybrid Endoscopy Combining Small-Bowel Capsule Endoscopy and Conventional Ileocolonoscopy in Crohn's Disease.", "dMMR killer: A conditional suicide gene that preferentially kills DNA mismatch repair-deficient cells.", "Rare co-occurrence of colon cancer and Gastrodiscoides hominis in a human host: A case report and literature review.", "Anti-oncogenic and immunological functions of ATP23 in CMS4 colon adenocarcinoma based on a machine learning computational framework.", "Establishing emergency bronchoscopy in Timor-Leste: a healthcare needs assessment-driven novel model of training.", "Multi-Scale Mapping of Gene Expression from Whole-slide Images for Identifying Phenotype-Associated Subpopulations.", "PAF Triggered Pyroptotic NETosis Aggravates Myocardial Ischemia/Reperfusion Injury.", "Disruption of Signalling Pathways Induced by HBV HBx, HCV Core, and EBV LMP1 in Gastric Cancer.", "[Eosinophilic Gastrointestinal Diseases: Diving beyond the Tip of the Iceberg].", "Presence of Autoantibodies against the Autonomic Nervous System in Primary Achalasia.", "Changes in Psychosocial Outcomes Reported in Behavioral Intervention Trials for Children and Adolescents with Overweight and Obesity: A Scoping Review.", "hnRNPA2B1 induces HBV cccDNA degradation by recruiting APOBEC3B.", "Seroprevalence of Hepatitis E Virus Infection among Blood Donors in Lebanon: A National Comparative Evaluation of Two Serological Assays.", "A Novel Approach to Complex Splenic Hilar Aneurysms: ICG-Guided Partial Spleen Preservation Combined With Distal Pancreatectomy.", "Progressive Decline in Interferon-\u03b3 Release is Associated with Cirrhosis Progression and Severity: A Prospective Preliminary Report.", "Cold snare polypectomy for 10-19\u2009mm colorectal adenomas in familial adenomatous polyposis: a prospective randomized controlled trial.", "Title-effectiveness and safety of Danshen injection for acute kidney injury in primary nephrotic syndrome.", "Gegen Qinlian decoction ameliorates experimental colitis in miceferroptosis pathway.", "Molecular analysis of the interaction between ubiquitin-specific protease 7 and large T antigen of Merkel cell polyomavirus.", "Vaccination in delivery wards leads to high timely coverage of hepatitis B birth dose vaccine in Islamabad-Pakistan, 2023.", "Comparative Efficacy of Standard-Volume Plasma Exchange Versus High-Volume Plasma Exchange in Patients With Acute-on-Chronic Liver Failure.", "The mediating role of the kynurenine pathway in longitudinal associations between dietary intake and quality of life in colorectal cancer survivors up to 12\u2009months posttreatment.", "Balancing therapeutic benefits and hidden risks of proton pump inhibitors in pediatric practice: a narrative review and update.", "Venovenous Extracorporeal Membrane Oxygenation Outcomes in Cirrhosis: An Extracorporeal Life Support Organization Registry Study.", "MetALD: A narrative review of the clinical and molecular landscape of reclassifying steatotic liver disease.", "Fitness Training for \u03b3\u03b4 T cells in mouse and human atherosclerosis takes place in plaques and artery tertiary lymphoid organs."], '#2c3e50');
+        drawCloud('canvas-daily', ["Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.", "Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.", "Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.", "Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.", "Sigmoid Volvulus in a Healthy Adolescent Male.", "Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.", "The Difficult Gallbladder: Practical Considerations for Performing Safe Cholecystectomy.", "Contemporary Outcomes of Cholecystectomy.", "Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study."], '#3498db');
+    </script>
 </body>
 </html>
