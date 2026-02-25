@@ -4,9 +4,8 @@ import datetime
 import json
 
 def get_pubmed_papers():
-    # 검색어 설정: Gastroenterology
-    # sort=date (최근 등록 순) 옵션을 사용하여 엉뚱한 미래 날짜가 먼저 나오지 않게 합니다.
     query = "Gastroenterology"
+    # sort=date로 최신순 정렬
     search_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={query}&retmax=5&sort=date&retmode=json"
     
     try:
@@ -26,14 +25,13 @@ def get_pubmed_papers():
             paper_info = summary_data['result'][pmid]
             title = paper_info.get('title', 'No Title')
             
-            # 정식 출판일 대신 시스템 등록일(sortdate)을 사용하면 더 정확한 '최근성'을 보여줍니다.
-            raw_date = paper_info.get('sortdate', 'No Date')
-            clean_date = raw_date.split(' ')[0] if ' ' in raw_date else raw_date
+            # 날짜 추출 로직 강화: pubdate가 없으면 sortdate 사용
+            display_date = paper_info.get('pubdate', paper_info.get('sortdate', 'Recent'))
             
             papers_html += f"""
-            <li style="background: white; margin-bottom: 15px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); list-style: none;">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 등록일: {clean_date}</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/{pmid}/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.4;">{title}</a>
+            <li style="background: white; margin-bottom: 15px; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); list-style: none; border-left: 5px solid #3498db;">
+                <span style="color: #3498db; font-weight: bold; font-size: 0.9em;">📅 {display_date}</span><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/{pmid}/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.5; display: block; margin-top: 5px;">{title}</a>
             </li>"""
         return papers_html
 
@@ -54,18 +52,32 @@ html_template = f"""
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GI 최신 논문 브리핑</title>
 </head>
-<body style="font-family: 'Malgun Gothic', sans-serif; background-color: #f0f2f5; padding: 20px; max-width: 700px; margin: auto;">
-    <header style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #2c3e50;">🏥 GI 최신 논문 브리핑</h1>
-        <p style="color: #7f8c8d;">자동 갱신 시간: {time_label} (KST)</p>
+<body style="font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background-color: #f8f9fa; padding: 20px; max-width: 800px; margin: auto; color: #333;">
+    <header style="text-align: center; margin-bottom: 40px; padding: 20px 0;">
+        <h1 style="color: #2c3e50; font-size: 2em; margin-bottom: 10px;">🏥 GI 최신 논문 브리핑</h1>
+        <p style="color: #7f8c8d; font-size: 1em;">자동 업데이트: <strong>{time_label}</strong> (KST)</p>
     </header>
+
     <main>
         <ul style="padding: 0;">
             {paper_list}
         </ul>
     </main>
-    <footer style="text-align: center; margin-top: 50px; color: #bdc3c7; font-size: 0.8em;">
-        <p>PubMed API를 통해 실시간 데이터를 수집합니다.</p>
+
+    <section style="margin-top: 60px; padding: 30px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 15px; color: white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+        <h2 style="margin-top: 0; font-size: 1.5em;">🚀 MedProductive Project</h2>
+        <p style="font-size: 1.1em; line-height: 1.6; opacity: 0.9;">
+            AI를 활용한 의료 생산성 혁신 시스템을 개발하고 있습니다.<br>
+            <b>Vol 1. 전공의를 위한 업무 자동화 가이드</b> (준비 중)
+        </p>
+        <div style="margin-top: 20px;">
+            <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 0.9em; margin-right: 10px;">#GI_Fellow</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 0.9em;">#AI_Efficiency</span>
+        </div>
+    </section>
+
+    <footer style="text-align: center; margin-top: 40px; color: #bdc3c7; font-size: 0.85em;">
+        <p>본 사이트는 GitHub Actions를 통해 매일 PubMed 데이터를 자동으로 수집합니다.</p>
     </footer>
 </body>
 </html>
