@@ -3,10 +3,9 @@ import re
 import datetime
 import json
 
-def get_pubmed_papers():
-    query = "Gastroenterology"
-    # sort=date로 최신순 정렬
-    search_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={query}&retmax=5&sort=date&retmode=json"
+def get_pubmed_papers(query, limit=3):
+    # 키워드별 검색 (한 섹션당 3개씩, 최신순)
+    search_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={query.replace(' ', '+')}&retmax={limit}&sort=date&retmode=json"
     
     try:
         with urllib.request.urlopen(search_url) as response:
@@ -14,7 +13,7 @@ def get_pubmed_papers():
             ids = search_data['esearchresult']['idlist']
         
         if not ids:
-            return "<li>검색된 최근 논문이 없습니다.</li>"
+            return "<p style='color:#999; padding-left:20px;'>최근 24시간 내 등록된 논문이 없습니다.</p>"
 
         summary_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={','.join(ids)}&retmode=json"
         with urllib.request.urlopen(summary_url) as res:
@@ -24,64 +23,48 @@ def get_pubmed_papers():
         for pmid in ids:
             paper_info = summary_data['result'][pmid]
             title = paper_info.get('title', 'No Title')
-            
-            # 날짜 추출 로직 강화: pubdate가 없으면 sortdate 사용
-            display_date = paper_info.get('pubdate', paper_info.get('sortdate', 'Recent'))
+            # 날짜가 길 경우 연도/월만 추출하여 깔끔하게 표시
+            pubdate = paper_info.get('pubdate', 'Recent')
             
             papers_html += f"""
-            <li style="background: white; margin-bottom: 15px; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); list-style: none; border-left: 5px solid #3498db;">
-                <span style="color: #3498db; font-weight: bold; font-size: 0.9em;">📅 {display_date}</span><br>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/{pmid}/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.1em; line-height:1.5; display: block; margin-top: 5px;">{title}</a>
-            </li>"""
+            <div style="background: white; margin-bottom: 15px; padding: 18px; border-radius: 10px; border-left: 5px solid #3498db; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <span style="color: #3498db; font-weight: bold; font-size: 0.85em;">📅 {pubdate}</span><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/{pmid}/" target="_blank" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 1.05em; line-height:1.5; display: block; margin-top: 5px;">{title}</a>
+            </div>"""
         return papers_html
+    except:
+        return "<p style='color:red;'>데이터를 가져오는 중 오류가 발생했습니다.</p>"
 
-    except Exception as e:
-        return f"<li>데이터 로딩 오류: {e}</li>"
+# 1. 선생님이 요청하신 3대 분과 키워드 설정
+keywords = {
+    "🍎 위장관 (GI)": "Gastrointestinal Tract",
+    "🍺 간 (Liver)": "Liver Diseases",
+    "🧬 췌담관 (Pancreas & Biliary)": "Pancreas OR Biliary Tract"
+}
 
-# 시간 설정 (KST)
+# 2. 각 키워드별 결과 생성
+all_sections_html = ""
+for display_name, search_term in keywords.items():
+    all_sections_html += f"""
+    <h2 style="color: #2c3e50; margin-top: 45px; border-bottom: 3px solid #3498db; padding-bottom: 8px; display: inline-block;">{display_name}</h2>
+    <div style="margin-top: 15px;">
+        {get_pubmed_papers(search_term)}
+    </div>
+    """
+
+# 3. 시간 설정 (KST)
 now = datetime.datetime.now() + datetime.timedelta(hours=9)
 time_label = now.strftime("%Y-%m-%d %H:%M")
 
-paper_list = get_pubmed_papers()
-
+# 4. 전체 HTML 템플릿
 html_template = f"""
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GI 최신 논문 브리핑</title>
+    <title>GI/Liver/Biliary Dashboard</title>
 </head>
-<body style="font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background-color: #f8f9fa; padding: 20px; max-width: 800px; margin: auto; color: #333;">
-    <header style="text-align: center; margin-bottom: 40px; padding: 20px 0;">
-        <h1 style="color: #2c3e50; font-size: 2em; margin-bottom: 10px;">🏥 GI 최신 논문 브리핑</h1>
-        <p style="color: #7f8c8d; font-size: 1em;">자동 업데이트: <strong>{time_label}</strong> (KST)</p>
-    </header>
-
-    <main>
-        <ul style="padding: 0;">
-            {paper_list}
-        </ul>
-    </main>
-
-    <section style="margin-top: 60px; padding: 30px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 15px; color: white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-        <h2 style="margin-top: 0; font-size: 1.5em;">🚀 MedProductive Project</h2>
-        <p style="font-size: 1.1em; line-height: 1.6; opacity: 0.9;">
-            AI를 활용한 의료 생산성 혁신 시스템을 개발하고 있습니다.<br>
-            <b>Vol 1. 전공의를 위한 업무 자동화 가이드</b> (준비 중)
-        </p>
-        <div style="margin-top: 20px;">
-            <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 0.9em; margin-right: 10px;">#GI_Fellow</span>
-            <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 0.9em;">#AI_Efficiency</span>
-        </div>
-    </section>
-
-    <footer style="text-align: center; margin-top: 40px; color: #bdc3c7; font-size: 0.85em;">
-        <p>본 사이트는 GitHub Actions를 통해 매일 PubMed 데이터를 자동으로 수집합니다.</p>
-    </footer>
-</body>
-</html>
-"""
-
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_template)
+<body style="font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background-color: #f0f4f7; padding: 20px; max-width: 850px; margin: auto; color: #333; line-height: 1.6;">
+    <header style="text-align: center; padding: 40px 0; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
+        <h1 style="color: #2c3e50;
