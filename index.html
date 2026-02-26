@@ -5,35 +5,42 @@
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>GI Intelligence Terminal</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background:#f5f7fa; color:#2c3e50; margin: 0; padding: 10px; }
-        .card { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #e0e0e0; }
+        :root { --primary: #3498db; --success: #2ecc71; --warning: #ffb300; --bg: #f5f7fa; --text: #2c3e50; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 8px; }
+        .card { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 12px; border: 1px solid #e0e0e0; }
+        
+        /* 📊 도표 나란히 배치용 그리드 */
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+        .chart-card { background: #fff; border-radius: 12px; padding: 8px; border: 1px solid #e0e0e0; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+        
         .paper-item { margin-bottom: 8px; border-radius: 10px; overflow: hidden; list-style: none; border: 1px solid #eee; }
         summary { padding: 12px; cursor: pointer; outline: none; list-style: none; }
         summary::-webkit-details-marker { display: none; }
-        .meta { font-size: 0.75rem; color: #7f8c8d; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-        .title-row { font-weight: bold; font-size: 0.95rem; line-height: 1.4; display: flex; align-items: flex-start; }
-        .arrow-icon { display: inline-block; transition: transform 0.2s; color: #3498db; margin-right: 8px; flex-shrink: 0; }
+        .meta { font-size: 0.7rem; color: #7f8c8d; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+        .title-row { font-weight: bold; font-size: 0.9rem; line-height: 1.4; display: flex; align-items: flex-start; }
+        .arrow-icon { display: inline-block; transition: transform 0.2s; color: var(--primary); margin-right: 6px; flex-shrink: 0; }
         details[open] .arrow-icon { transform: rotate(90deg); }
-        .badge { padding: 2px 5px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; color: #fff; }
+        .badge { padding: 1px 4px; border-radius: 3px; font-size: 0.6rem; font-weight: bold; color: #fff; }
         .rct { background: #e74c3c; } .if { background: #8e44ad; }
-        .content { padding: 15px; background: #f9f9f9; border-top: 1px solid #eee; font-size: 0.9rem; }
-        .clinical-note { background: #fff8e1; border-left: 4px solid #ffb300; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 0.85rem; color: #5d4037; }
-        .btm-box { background: #ebf5ff; padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #3498db; font-weight: bold; }
-        .btn { flex: 1; padding: 10px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: bold; cursor: pointer; font-size: 0.85rem; border: none; color: #fff; }
-        .pub { background: #3498db; } .shr { background: #2ecc71; }
-        .filter-btn { width: 100%; padding: 12px; border-radius: 20px; border: 2px solid #2ecc71; background: #fff; color: #2ecc71; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
-        .filter-btn.active { background: #2ecc71; color: #fff; }
+        .content { padding: 12px; background: #f9f9f9; border-top: 1px solid #eee; font-size: 0.85rem; }
+        .clinical-note { background: #fff8e1; border-left: 3px solid var(--warning); padding: 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.8rem; color: #5d4037; }
+        .btm-box { background: #ebf5ff; padding: 10px; border-radius: 6px; margin-bottom: 10px; border-left: 3px solid var(--primary); font-weight: bold; }
+        .btn { flex: 1; padding: 8px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: bold; cursor: pointer; font-size: 0.8rem; border: none; color: #fff; }
+        .pub { background: var(--primary); } .shr { background: var(--success); }
+        .filter-btn { width: 100%; padding: 10px; border-radius: 20px; border: 1px solid var(--success); background: #fff; color: var(--success); font-weight: bold; cursor: pointer; margin-bottom: 12px; font-size: 0.85rem; }
+        .filter-btn.active { background: var(--success); color: #fff; }
+        h3 { font-size: 1.1rem; margin: 15px 0 10px 0; border-bottom: 2px solid #eee; padding-bottom: 5px; }
     </style>
 </head>
 <body>
     <div class="card" style="text-align:center;">
-        <h1 style="margin:0; font-size:1.6rem;">🏥 GI Intel Terminal</h1>
-        <small>Updated: 2026-02-26 14:51 KST</small>
+        <h1 style="margin:0; font-size:1.4rem;">🏥 GI Intel Terminal</h1>
+        <small style="font-size:0.75rem;">Updated: 2026-02-26 14:59 KST</small>
     </div>
     
     <div class="card" style="border-top: 5px solid #e74c3c;">
-        <h2 style="margin-top:0; font-size:1.1rem; color:#e74c3c;">🔥 Weekly Top 3 Analysis</h2>
-        <div id="top3-container">
+        <h2 style="margin-top:0; font-size:1rem; color:#e74c3c;">🔥 Weekly Top 3 Analysis</h2>
+        
     <details class="paper-item" style="border-left: 5px solid #e74c3c; background: #fffafa;">
         <summary>
             <div class="meta"><span class='badge if'>IF 29.4</span> <b>Therapeutic advances in gastroenterology</b>  🔥</div>
@@ -96,12 +103,12 @@
             </div>
             <textarea id="s_41737541" style="display:none;">📄 GI Intel\n📌 HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737541/</textarea>
         </div>
-    </details></div>
+    </details>
     </div>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-        <div class="card"><canvas id="c1" style="height:120px;"></canvas></div>
-        <div class="card"><canvas id="c2" style="height:120px;"></canvas></div>
+    <div class="chart-grid">
+        <div class="chart-card"><canvas id="c1" style="height:100px; width:100%;"></canvas></div>
+        <div class="chart-card"><canvas id="c2" style="height:100px; width:100%;"></canvas></div>
     </div>
 
     <div class="card">
@@ -211,7 +218,7 @@
             </div>
             <textarea id="s_41733106" style="display:none;">📄 GI Intel\n📌 Interrogating the immune landscape of microsatellite stable RAS-mutated colon cancer.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41733106/</textarea>
         </div>
-    </details></div><div class='sec-group'><h3>🍺 Liver Track</h3><p style='padding:15px; color:#7f8c8d; font-style:italic;'>현재 필터 조건에 맞는 최신 논문이 없습니다.</p></div><div class='sec-group'><h3>🧬 Biliary/Pancreas</h3>
+    </details></div><div class='sec-group'><h3>🍺 Liver Track</h3><p style='padding:15px; color:#7f8c8d;'>최근 논문이 없습니다.</p></div><div class='sec-group'><h3>🧬 Biliary/Pancreas</h3>
     <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
         <summary>
             <div class="meta"><span class='badge if'>IF 29.4</span> <b>Therapeutic advances in gastroenterology</b>  🔥</div>
@@ -361,7 +368,7 @@
     </details></div>
     </div>
 
-    <footer style="text-align:center; padding:20px; color:#95a5a6; font-size:0.8rem;">🚀 Project: MedProductive - Advanced Intelligence</footer>
+    <footer style="text-align:center; padding:15px; color:#95a5a6; font-size:0.75rem;">🚀 MedProductive Clinical Terminal</footer>
 
     <script>
         function toggleF() {
@@ -375,8 +382,25 @@
             const el = document.getElementById('s_'+id);
             navigator.clipboard.writeText(el.value.replace(/\\n/g, '\n')).then(() => alert("✅ 복사 완료!"));
         }
-        new Chart(document.getElementById('c1'), { type:'bar', data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[5, 0, 7], backgroundColor:'#3498db'}] }, options:{indexAxis:'y', plugins:{legend:{display:false}}} });
-        new Chart(document.getElementById('c2'), { type:'doughnut', data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[5, 0, 7], backgroundColor:['#e74c3c','#f1c40f','#2ecc71']}] }, options:{plugins:{legend:{position:'bottom'}}} });
+        
+        // 차트 폰트 및 설정 모바일 최적화
+        const chartOptions = {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { enabled: false } },
+            scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 9 } } } }
+        };
+
+        new Chart(document.getElementById('c1'), { 
+            type:'bar', 
+            data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[5, 0, 7], backgroundColor:'#3498db'}] }, 
+            options: chartOptions
+        });
+        
+        new Chart(document.getElementById('c2'), { 
+            type:'doughnut', 
+            data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[5, 0, 7], backgroundColor:['#e74c3c','#f1c40f','#2ecc71']}] }, 
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } 
+        });
     </script>
 </body>
 </html>
