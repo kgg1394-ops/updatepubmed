@@ -14,7 +14,7 @@ TOP_JOURNALS = [
     "lancet gastroenterology & hepatology", "nature reviews gastroenterology & hepatology"
 ]
 
-# 📊 [추가 기능 3] 주요 저널 Impact Factor
+# 📊 주요 저널 Impact Factor
 JOURNAL_IF = {
     "nature reviews gastroenterology & hepatology": 65.1,
     "lancet gastroenterology & hepatology": 35.7,
@@ -104,11 +104,9 @@ def get_pubmed_xml_with_abstract(query, limit=5):
         print(f"Error XML: {e}")
         return []
 
-# 1. 빅데이터 트렌드 수집
 big_titles = get_pubmed_json("Gastroenterology OR Hepatology OR Pancreas OR Endoscopy", limit=100)
 time.sleep(1)
 
-# 2. 데일리 브리핑 수집
 categories = {
     "🍎 위장관 (GI)": "Gastrointestinal Diseases",
     "🍺 간 (Liver)": "Hepatology",
@@ -126,19 +124,19 @@ for name, query in categories.items():
         badge = ""
         t_lower = p['title'].lower()
         if "randomized" in t_lower or "rct" in t_lower: 
-            badge = "<span style='background:#e74c3c; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle;'>RCT</span>"
+            badge = "<span class='type-badge' style='background:#e74c3c; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle;'>RCT</span>"
         elif "meta-analysis" in t_lower or "systematic" in t_lower:
-            badge = "<span style='background:#9b59b6; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle;'>Meta-Analysis</span>"
+            badge = "<span class='type-badge' style='background:#9b59b6; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle;'>Meta-Analysis</span>"
         elif "guideline" in t_lower or "consensus" in t_lower:
-            badge = "<span style='background:#2ecc71; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle;'>Guideline</span>"
+            # 📋 가이드라인 필터링을 위해 특정 클래스(badge-guideline) 추가
+            badge = "<span class='type-badge badge-guideline' style='background:#2ecc71; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle;'>Guideline</span>"
         elif "review" in t_lower:
-            badge = "<span style='background:#3498db; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle;'>Review</span>"
+            badge = "<span class='type-badge' style='background:#3498db; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle;'>Review</span>"
 
         j_lower = p['journal'].lower()
         is_top = any(top in j_lower for top in TOP_JOURNALS)
         top_badge = "<span style='background:#f1c40f; color:#2c3e50; padding:3px 8px; border-radius:12px; font-size:0.7em; margin-right:5px; font-weight:bold; box-shadow:0 1px 3px rgba(0,0,0,0.1);'>👑 Top Journal</span>" if is_top else ""
         
-        # 📊 IF 점수 판독
         if_badge = ""
         if_score_text = ""
         for j_name, score in JOURNAL_IF.items():
@@ -147,7 +145,6 @@ for name, query in categories.items():
                 if_badge = f"<span style='background:#8e44ad; color:white; padding:2px 6px; border-radius:4px; font-size:0.75em; margin-right:10px; font-weight:bold;'>IF {score}</span>"
                 break
         
-        # 💡 Bottom Line 하이라이트 박스
         bottom_line_html = ""
         if p['bottom_line']:
             bottom_line_html = f"""
@@ -157,12 +154,11 @@ for name, query in categories.items():
             </div>
             """
             
-        # 💬 카톡 공유 텍스트
-        bottom_text_for_share = p['bottom_line'] if p['bottom_line'] else "원문 초록 참조"
-        share_content = f"📄 [최신 논문 공유]\n📌 제목: {p['title']}\n📖 저널: {p['journal']}{if_score_text}\n💡 결론: {bottom_text_for_share}\n🔗 링크: https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/"
+        share_content = f"📄 [최신 논문 공유]\\n📌 제목: {p['title']}\\n📖 저널: {p['journal']}{if_score_text}\\n💡 결론: {p['bottom_line'] if p['bottom_line'] else '원문 참조'}\\n🔗 링크: https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/"
         
+        # 📋 details 태그에 paper-item 클래스 부여 (필터링용)
         papers_html += f"""
-        <details style="background:#fff; border: 1px solid #e0e0e0; margin-bottom:15px; border-radius:12px; border-left:4px solid #3498db; overflow:hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: all 0.2s;">
+        <details class="paper-item" style="background:#fff; border: 1px solid #e0e0e0; margin-bottom:15px; border-radius:12px; border-left:4px solid #3498db; overflow:hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: all 0.2s;">
             <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#2c3e50; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
                 <div style="margin-bottom:8px; font-size:0.85em; color:#7f8c8d; font-weight:normal; display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
                     {top_badge}{if_badge}<span>📅 {p['year']} &nbsp;|&nbsp; 📖 <i style="color:#3498db;">{p['journal']}</i></span> {badge}
@@ -174,7 +170,6 @@ for name, query in categories.items():
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
                 {bottom_line_html}
                 <div style="margin-bottom:20px;">{p['abstract']}</div>
-                
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
                     <a href="https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/" target="_blank" style="display:inline-block; background:#3498db; color:white; padding:8px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
                     <button onclick="copyToClipboard('share_{p['pmid']}')" style="display:inline-block; background:#2ecc71; color:white; padding:8px 15px; border-radius:6px; border:none; cursor:pointer; font-weight:bold; font-size:0.9em; font-family:inherit;">📤 카톡 공유 (복사)</button>
@@ -183,7 +178,7 @@ for name, query in categories.items():
             </div>
         </details>
         """
-    sections_html += f"<div style='margin-bottom: 35px;'><h3 style='color:#2c3e50; margin-top:0; border-bottom:2px solid #eee; padding-bottom:10px; font-size:1.3em;'>{name}</h3>{papers_html}</div>"
+    sections_html += f"<div class='section-group' style='margin-bottom: 35px;'><h3 style='color:#2c3e50; margin-top:0; border-bottom:2px solid #eee; padding-bottom:10px; font-size:1.3em;'>{name}</h3>{papers_html}</div>"
     time.sleep(1)
 
 time_label = (datetime.datetime.now() + datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M")
@@ -207,12 +202,20 @@ html_template = f"""
         .grid {{ display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 25px; }}
         h1 {{ margin:0; font-size:2.2em; color:#2c3e50; }}
         h2 {{ color:#2c3e50; font-size:1.2em; margin-top:0; border-bottom: 2px solid #f0f4f7; padding-bottom: 12px; }}
-        
-        /* 🐛 수정된 부분: 오직 화살표 아이콘만 회전하도록 CSS 변경 */
         details > summary::-webkit-details-marker {{ display: none; }}
         .arrow-icon {{ display: inline-block; transition: transform 0.2s; }}
         details[open] summary .arrow-icon {{ transform: rotate(90deg); }}
         
+        /* 📋 필터 버튼 스타일 */
+        .filter-btn {{
+            background: #fff; border: 2px solid #2ecc71; color: #2ecc71;
+            padding: 8px 20px; border-radius: 25px; cursor: pointer;
+            font-weight: bold; font-size: 0.9em; transition: all 0.2s;
+            margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px;
+        }}
+        .filter-btn.active {{ background: #2ecc71; color: #fff; }}
+        .filter-btn:hover {{ transform: translateY(-2px); box-shadow: 0 4px 10px rgba(46, 204, 113, 0.2); }}
+
         @media (max-width: 768px) {{ .grid {{ grid-template-columns: 1fr; }} }}
     </style>
 </head>
@@ -229,7 +232,6 @@ html_template = f"""
                 <h2>📈 Keyword Frequency (Last 100)</h2>
                 <div style="position:relative; height:250px; width:100%;"><canvas id="barChart"></canvas></div>
             </div>
-            
             <div class="card" style="margin-bottom: 0;">
                 <h2>🍩 Sector Activity</h2>
                 <div style="position:relative; height:250px; width:100%; display:flex; justify-content:center;"><canvas id="doughnutChart"></canvas></div>
@@ -237,8 +239,13 @@ html_template = f"""
         </div>
 
         <div class="card">
-            <h2>📑 Today's Clinical Papers</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <h2>📑 Today's Clinical Papers</h2>
+                <button id="btn-filter-guideline" class="filter-btn" onclick="toggleGuidelineFilter()">
+                    <span>📋</span> 가이드라인만 보기
+                </button>
+            </div>
+            <div id="paper-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
                 {sections_html}
             </div>
         </div>
@@ -250,24 +257,53 @@ html_template = f"""
     </div>
 
     <script>
+        // 📋 가이드라인 필터링 스크립트
+        let isGuidelineOnly = false;
+        function toggleGuidelineFilter() {{
+            const btn = document.getElementById('btn-filter-guideline');
+            const papers = document.querySelectorAll('.paper-item');
+            const sections = document.querySelectorAll('.section-group');
+            
+            isGuidelineOnly = !isGuidelineOnly;
+            
+            if (isGuidelineOnly) {{
+                btn.classList.add('active');
+                papers.forEach(p => {{
+                    const hasGuideline = p.querySelector('.badge-guideline');
+                    p.style.display = hasGuideline ? 'block' : 'none';
+                }});
+                // 논문이 하나도 없는 섹션 제목은 숨김 처리
+                sections.forEach(sec => {{
+                    const visiblePapers = sec.querySelectorAll('.paper-item[style="display: block;"]').length;
+                    sec.style.display = visiblePapers > 0 ? 'block' : 'none';
+                }});
+            }} else {{
+                btn.classList.remove('active');
+                papers.forEach(p => p.style.display = 'block');
+                sections.forEach(sec => sec.style.display = 'block');
+            }}
+        }}
+
         function copyToClipboard(elementId) {{
             var copyText = document.getElementById(elementId);
+            const originalVal = copyText.value;
+            // 줄바꿈 문자 처리
+            copyText.value = originalVal.replace(/\\\\n/g, '\\n');
             copyText.style.display = "block";
             copyText.select();
             document.execCommand("copy");
             copyText.style.display = "none";
-            alert("✅ 단톡방 공유용 텍스트가 복사되었습니다!\\n카카오톡에 바로 '붙여넣기' 하시면 됩니다.");
+            copyText.value = originalVal; // 원상복구
+            alert("✅ 단톡방 공유용 텍스트가 복사되었습니다!");
         }}
 
         const titles = {big_titles_json};
         const categoryCounts = {category_counts_json};
-        
         const stopWords = ["the","of","and","a","in","to","for","with","on","as","by","an","is","at","from","study","clinical","trial","patient","patients","treatment","analysis","results","using","versus","vs","comparing","compared","comparison","relation","relationship","between","among","after","during","before","diagnostic","diagnosis","probe","targeted","target","healthy","accuracy","specific","quantitative","implications","evidence","predict","predicting","predictive","takes","fractions","methodological","interpretative","considerations","retrospective","prospective","cohort","multicenter","impact","yield","survival","outcomes","outcome","associated","association","risk","factors","factor","development","validation","model","models","efficacy","safety","systematic","review","meta-analysis","disease","diseases","case","report","system","role","effect","effects","evaluation","evaluating","based","new","novel","approach","approaches","management","use","utility","changes","expression","levels","level","related","group","groups","high","low","significant","significance","increase","decreased","increased","decrease","activity","therapy","therapies","characteristics","features","human","mice","mouse","cell","cells","protein","proteins","gene","genes","pathway","pathways","mechanism","mechanisms","type","types","data","methods","method","conclusion","conclusions","background","objective","aim","introduction","through","which","that","this","these","those"];
         
         const words = titles.join(" ").toLowerCase().replace(/[.,/#!$%^&*;:{{}}==_`~()?'"]/g,"").split(/\\s+/);
         const freqMap = {{}};
         words.forEach(w => {{ if(w.length > 3 && !stopWords.includes(w)) freqMap[w] = (freqMap[w] || 0) + 1; }});
-        
         const sortedWords = Object.entries(freqMap).sort((a,b) => b[1] - a[1]).slice(0, 10);
         
         Chart.defaults.font.family = "'Apple SD Gothic Neo', sans-serif";
