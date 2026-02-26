@@ -4,112 +4,118 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GI Professional Dashboard</title>
+    <title>GI Intelligence Terminal</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: 'Apple SD Gothic Neo', sans-serif; background:#f5f7fa; color:#333; margin:0; padding:20px; line-height:1.6; }
+        body { font-family: 'Apple SD Gothic Neo', 'Consolas', sans-serif; background-color:#0f172a; color:#cbd5e1; margin:0; padding:20px; line-height:1.6; }
         .container { max-width: 1100px; margin: auto; }
-        header { text-align:center; padding:40px; background:white; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); margin-bottom:30px; }
-        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-        .card { background:white; padding:25px; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.03); }
-        h2 { color:#2c3e50; border-bottom:2px solid #f0f4f7; padding-bottom:15px; font-size:1.3em; margin-top:0; }
+        /* 글래스모피즘 (유리 질감) 스타일 */
+        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
+        header { text-align:center; padding:40px; margin-bottom:30px; }
+        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 20px; }
+        h2 { color:#38bdf8; font-size:1.2em; margin-top:0; letter-spacing: 1px; text-transform: uppercase; }
+        a:hover { color: #38bdf8 !important; }
         @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1 style="margin:0; font-size:2.2em; color:#2c3e50;">🏥 GI/Liver/Biliary Intelligence Board</h1>
-            <p style="color:#7f8c8d; font-size:1.1em; margin-top:10px;">데이터 기반 소화기내과 최신 트렌드 인포그래픽</p>
-            <div style="margin-top:20px;"><span style="background:#3498db; color:white; padding:6px 18px; border-radius:20px; font-weight:bold; font-size:0.9em;">Update: 2026-02-26 09:35 KST</span></div>
+        <header class="glass-panel">
+            <h1 style="margin:0; font-size:2.5em; color:#fff; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);">GI INTELLIGENCE TERMINAL</h1>
+            <p style="color:#94a3b8; font-size:1.1em; margin-top:10px;">Automated PubMed Scraping & Trend Analysis Board</p>
+            <div style="margin-top:20px;"><span style="background:rgba(56, 189, 248, 0.2); color:#38bdf8; padding:6px 18px; border-radius:20px; border: 1px solid #38bdf8; font-family:monospace;">SYS.UPDATE: 2026-02-26 09:48 KST</span></div>
         </header>
 
         <div class="grid">
-            <div class="card">
-                <h2>📊 Top 10 Research Keywords (Last 100 Papers)</h2>
-                <div style="position: relative; height:300px; width:100%;">
+            <div class="glass-panel">
+                <h2>📈 Keyword Frequency (Last 100)</h2>
+                <div style="position: relative; height:280px; width:100%;">
                     <canvas id="barChart"></canvas>
                 </div>
             </div>
             
-            <div class="card">
-                <h2>🍩 Today's Publication Ratio</h2>
-                <div style="position: relative; height:300px; width:100%; display:flex; justify-content:center;">
+            <div class="glass-panel">
+                <h2>🍩 Sector Activity</h2>
+                <div style="position: relative; height:280px; width:100%; display:flex; justify-content:center;">
                     <canvas id="doughnutChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="card" style="margin-top:20px;">
-            <h2>📑 Latest Research Briefing</h2>
+        <div class="glass-panel">
+            <h2>📑 Daily Filtered Publications</h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                <div style='margin-bottom: 20px;'><h3 style='color:#2c3e50; margin-top:30px;'><span style='background:#ebf5ff; padding:5px 10px; border-radius:8px;'>🍎 위장관 (GI)</span></h3>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Jan 9</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739742/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.</a>
+                <div style='margin-bottom: 25px;'><h3 style='color:#fff; margin-top:10px; border-bottom:1px solid #333; padding-bottom:10px;'>🍎 위장관 (GI)</h3>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Jan 9</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739742/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Jan 9</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Jan 9</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb 25</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739328/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739328/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb 25</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739229/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Tumor-specific antibody cocktail treatment suppresses colorectal tumor growth in mice.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739229/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Tumor-specific antibody cocktail treatment suppresses colorectal tumor growth in mice.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Dec</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739173/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Comparative burden and projections of chewing tobacco-attributable lip/oral cavity and esophageal cancers: global and China-specific trends, 2000-2036.</a>
-        </div></div><div style='margin-bottom: 20px;'><h3 style='color:#2c3e50; margin-top:30px;'><span style='background:#ebf5ff; padding:5px 10px; border-radius:8px;'>🍺 간 (Liver)</span></h3>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb 25</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41740191/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Dec</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739173/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Comparative burden and projections of chewing tobacco-attributable lip/oral cavity and esophageal cancers: global and China-specific trends, 2000-2036.</a>
+        </div></div><div style='margin-bottom: 25px;'><h3 style='color:#fff; margin-top:10px; border-bottom:1px solid #333; padding-bottom:10px;'>🍺 간 (Liver)</h3>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41740191/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Mar 2</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41740171/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Sigmoid Volvulus in a Healthy Adolescent Male.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Mar 2</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41740171/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Sigmoid Volvulus in a Healthy Adolescent Male.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Jan 9</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Jan 9</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb 25</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739522/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739522/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb 25</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739409/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.</a>
-        </div></div><div style='margin-bottom: 20px;'><h3 style='color:#2c3e50; margin-top:30px;'><span style='background:#ebf5ff; padding:5px 10px; border-radius:8px;'>🧬 췌담관 (Pancreas & Biliary)</span></h3>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb 25</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739886/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">The Difficult Gallbladder: Practical Considerations for Performing Safe Cholecystectomy.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739409/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.</a>
+        </div></div><div style='margin-bottom: 25px;'><h3 style='color:#fff; margin-top:10px; border-bottom:1px solid #333; padding-bottom:10px;'>🧬 췌담관 (Pancreas)</h3>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739886/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">The Difficult Gallbladder: Practical Considerations for Performing Safe Cholecystectomy.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb 25</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739485/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Contemporary Outcomes of Cholecystectomy.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739485/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Contemporary Outcomes of Cholecystectomy.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb 25</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739407/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41739407/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41738869/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb</small> <br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41738869/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.</a>
         </div>
-        <div style="background:white; margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #3498db; box-shadow:0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s;">
-            <small style="color:#3498db; font-weight:bold;">📅 2026 Feb 25</small><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41738624/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">Long-term efficacy of ursodeoxycholic acid for the prevention of gallstone formation after gastrectomy in patients with gastric cancer: a randomized clinical trial.</a>
+        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
+            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <span style='background:#e74c3c; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle; box-shadow:0 0 5px #e74c3c;'>RCT</span><br>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41738624/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Long-term efficacy of ursodeoxycholic acid for the prevention of gallstone formation after gastrectomy in patients with gastric cancer: a randomized clinical trial.</a>
         </div></div>
             </div>
         </div>
 
-        <footer style="margin-top:40px; text-align:center; padding:40px; background:linear-gradient(135deg, #2c3e50, #34495e); color:white; border-radius:20px;">
-            <h3 style="color:#3498db; margin-top:0;">🚀 Project: MedProductive</h3>
-            <p style="opacity:0.9;">의료 현장의 비효율을 AI로 해결합니다.</p>
+        <footer class="glass-panel" style="margin-top:30px; border-left: 5px solid #a855f7;">
+            <h3 style="color:#c084fc; margin-top:0;">🚀 MedProductive: Prompt of the Day</h3>
+            <p style="font-size: 0.9em; color:#94a3b8;">전공의 퇴원요약지 작성 자동화를 위한 GPT 프롬프트 (복사해서 사용하세요)</p>
+            <div style="background:#000; padding:15px; border-radius:8px; font-family:monospace; color:#10b981; font-size:0.9em; overflow-x:auto;">
+                > System: 당신은 소화기내과 전문의입니다.<br>
+                > User: 다음 EMR 경과기록을 바탕으로 SOAP 형식의 간결한 퇴원요약지를 작성해 줘. 주요 랩 수치(Hb, AST/ALT)의 변화 추이를 반드시 포함할 것.
+            </div>
         </footer>
     </div>
 
@@ -127,20 +133,21 @@
         const labels = sortedWords.map(item => item[0].toUpperCase());
         const dataValues = sortedWords.map(item => item[1]);
 
-        Chart.defaults.font.family = "'Apple SD Gothic Neo', sans-serif";
-        Chart.defaults.color = '#7f8c8d';
+        // 다크 모드 차트 설정
+        Chart.defaults.font.family = "'Apple SD Gothic Neo', 'Consolas', sans-serif";
+        Chart.defaults.color = '#94a3b8';
 
         new Chart(document.getElementById('barChart'), {
             type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Mention Frequency',
+                    label: 'Frequency',
                     data: dataValues,
-                    backgroundColor: 'rgba(52, 152, 219, 0.7)',
-                    borderColor: 'rgba(52, 152, 219, 1)',
+                    backgroundColor: 'rgba(56, 189, 248, 0.8)',
+                    borderColor: '#38bdf8',
                     borderWidth: 1,
-                    borderRadius: 5
+                    borderRadius: 4
                 }]
             },
             options: {
@@ -148,20 +155,20 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
-                scales: { x: { grid: { display: false } }, y: { grid: { borderDash: [5, 5] } } }
+                scales: { 
+                    x: { grid: { color: 'rgba(255,255,255,0.05)' } }, 
+                    y: { grid: { display: false } } 
+                }
             }
         });
 
-        const donutLabels = Object.keys(categoryCounts);
-        const donutData = Object.values(categoryCounts);
-        
         new Chart(document.getElementById('doughnutChart'), {
             type: 'doughnut',
             data: {
-                labels: donutLabels,
+                labels: Object.keys(categoryCounts),
                 datasets: [{
-                    data: donutData,
-                    backgroundColor: ['#e74c3c', '#f1c40f', '#2ecc71'], 
+                    data: Object.values(categoryCounts),
+                    backgroundColor: ['#f43f5e', '#eab308', '#10b981'], 
                     borderWidth: 0,
                     hoverOffset: 10
                 }]
@@ -169,10 +176,8 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: {
-                    legend: { position: 'bottom' }
-                }
+                cutout: '70%',
+                plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } }
             }
         });
     </script>
