@@ -42,9 +42,8 @@ sections_html = ""
 category_counts = {} 
 
 for name, query in categories.items():
-    # 도넛 차트의 비율을 더 극적으로 보여주기 위해 이번엔 분과별 5개씩 가져옵니다.
     ids, data = get_pubmed_data(query, limit=5)
-    category_counts[name.split(" ")[1]] = len(ids) # '위장관', '간', '췌담관' 라벨만 추출
+    category_counts[name.split(" ")[1]] = len(ids) 
     
     papers_html = ""
     for pid in ids:
@@ -56,14 +55,14 @@ for name, query in categories.items():
             <small style="color:#3498db; font-weight:bold;">📅 {d}</small><br>
             <a href="https://pubmed.ncbi.nlm.nih.gov/{pid}/" target="_blank" style="text-decoration:none; color:#2c3e50; font-weight:bold; font-size:1em; line-height:1.4; display:inline-block; margin-top:5px;">{t_en}</a>
         </div>"""
-    sections_html += f"<h3 style='color:#2c3e50; margin-top:30px;'><span style='background:#ebf5ff; padding:5px 10px; border-radius:8px;'>{name}</span></h3>{papers_html}"
+    sections_html += f"<div style='margin-bottom: 20px;'><h3 style='color:#2c3e50; margin-top:30px;'><span style='background:#ebf5ff; padding:5px 10px; border-radius:8px;'>{name}</span></h3>{papers_html}</div>"
     time.sleep(1)
 
 time_label = (datetime.datetime.now() + datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M")
 big_titles_json = json.dumps(big_titles)
 category_counts_json = json.dumps(category_counts)
 
-# --- HTML (Chart.js 라이브러리 탑재) ---
+# --- HTML 시작 ---
 html_template = f"""
 <!DOCTYPE html>
 <html lang="ko">
@@ -123,23 +122,19 @@ html_template = f"""
         const titles = {big_titles_json};
         const categoryCounts = {category_counts_json};
         
-        // 1. 금지어 필터링 (워드클라우드 때 썼던 강력한 사전 유지)
         const stopWords = ["the","of","and","a","in","to","for","with","on","as","by","an","is","at","from","study","clinical","trial","patient","patients","treatment","analysis","results","using","versus","vs","comparing","compared","comparison","relation","relationship","between","among","after","during","before","diagnostic","diagnosis","probe","targeted","target","healthy","accuracy","specific","quantitative","implications","evidence","predict","predicting","predictive","takes","fractions","methodological","interpretative","considerations","retrospective","prospective","cohort","multicenter","impact","yield","survival","outcomes","outcome","associated","association","risk","factors","factor","development","validation","model","models","efficacy","safety","systematic","review","meta-analysis","disease","diseases","case","report","system","role","effect","effects","evaluation","evaluating","based","new","novel","approach","approaches","management","use","utility","changes","expression","levels","level","related","group","groups","high","low","significant","significance","increase","decreased","increased","decrease","activity","therapy","therapies","characteristics","features","human","mice","mouse","cell","cells","protein","proteins","gene","genes","pathway","pathways","mechanism","mechanisms","type","types","data","methods","method","conclusion","conclusions","background","objective","aim","introduction","through","which","that","this","these","those"];
         
         const words = titles.join(" ").toLowerCase().replace(/[.,/#!$%^&*;:{{}}==_`~()?'"]/g,"").split(/\s+/);
         const freqMap = {{}};
         words.forEach(w => {{ if(w.length > 3 && !stopWords.includes(w)) freqMap[w] = (freqMap[w] || 0) + 1; }});
         
-        // 빈도수 높은 상위 10개 단어만 추출
         const sortedWords = Object.entries(freqMap).sort((a,b) => b[1] - a[1]).slice(0, 10);
-        const labels = sortedWords.map(item => item[0].toUpperCase()); // 대문자로 변환하여 깔끔하게
+        const labels = sortedWords.map(item => item[0].toUpperCase());
         const dataValues = sortedWords.map(item => item[1]);
 
-        // 차트 공통 옵션
         Chart.defaults.font.family = "'Apple SD Gothic Neo', sans-serif";
         Chart.defaults.color = '#7f8c8d';
 
-        // 1. Horizontal Bar Chart (막대 그래프)
         new Chart(document.getElementById('barChart'), {{
             type: 'bar',
             data: {{
@@ -154,7 +149,7 @@ html_template = f"""
                 }}]
             }},
             options: {{
-                indexAxis: 'y', // 가로 막대로 설정
+                indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {{ legend: {{ display: false }} }},
@@ -162,7 +157,6 @@ html_template = f"""
             }}
         }});
 
-        // 2. Doughnut Chart (도넛 그래프)
         const donutLabels = Object.keys(categoryCounts);
         const donutData = Object.values(categoryCounts);
         
@@ -172,7 +166,7 @@ html_template = f"""
                 labels: donutLabels,
                 datasets: [{{
                     data: donutData,
-                    backgroundColor: ['#e74c3c', '#f1c40f', '#2ecc71'], // 빨강(GI), 노랑(간), 초록(췌담관)
+                    backgroundColor: ['#e74c3c', '#f1c40f', '#2ecc71'], 
                     borderWidth: 0,
                     hoverOffset: 10
                 }}]
@@ -180,7 +174,7 @@ html_template = f"""
             options: {{
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '65%', // 가운데 구멍 크기
+                cutout: '65%',
                 plugins: {{
                     legend: {{ position: 'bottom' }}
                 }}
@@ -189,3 +183,8 @@ html_template = f"""
     </script>
 </body>
 </html>
+"""
+
+# HTML 파일 쓰기 (이 부분이 잘리면 안 됩니다!)
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_template)
