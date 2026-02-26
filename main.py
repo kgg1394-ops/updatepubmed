@@ -6,209 +6,158 @@ import time
 import re
 import xml.etree.ElementTree as ET
 
-# 👑 메이저 저널 및 IF 데이터 (기본 유지)
+# 👑 설정 및 저널 데이터
+HEADERS = {'User-Agent': 'GI-Intel-Bot/1.0'}
 TOP_JOURNALS = ["gastroenterology", "gut", "hepatology", "endoscopy", "clinical gastroenterology and hepatology", "journal of hepatology", "american journal of gastroenterology", "gastrointestinal endoscopy", "lancet gastroenterology & hepatology", "nature reviews gastroenterology & hepatology"]
 JOURNAL_IF = {"nature reviews gastroenterology & hepatology": 65.1, "lancet gastroenterology & hepatology": 35.7, "gastroenterology": 29.4, "journal of hepatology": 26.8, "gut": 24.5, "hepatology": 13.5, "clinical gastroenterology and hepatology": 11.6, "american journal of gastroenterology": 10.2, "endoscopy": 9.3, "gastrointestinal endoscopy": 7.7}
 
-def get_pubmed_json(query, limit=5):
-    encoded = urllib.parse.quote(query)
-    url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={encoded}&retmax={limit}&sort=date&retmode=json"
-    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-    try:
-        with urllib.request.urlopen(req) as res:
-            ids = json.loads(res.read().decode('utf-8')).get('esearchresult', {}).get('idlist', [])
-        if not ids: return []
-        time.sleep(0.5)
-        sum_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={','.join(ids)}&retmode=json"
-        with urllib.request.urlopen(urllib.request.Request(sum_url, headers={'User-Agent': 'Mozilla/5.0'})) as res:
-            data = json.loads(res.read().decode('utf-8')).get('result', {})
-            return [data.get(pid, {}).get('title', '') for pid in ids]
-    except: return []
+# 🛠️ 분석 로직 (선생님의 아이디어 반영)
+def compute_score(title, journal):
+    t, j, score = title.lower(), journal.lower(), 0
+    if "randomized" in t or "rct" in t: score += 10
+    if "meta-analysis" in t or "systematic" in t: score += 8
+    if any(k in t for k in ["guideline", "consensus", "recommendation"]): score += 15
+    for jn, val in JOURNAL_IF.items():
+        if jn in j: score += (val / 2)
+    return score
 
-def get_pubmed_xml_with_abstract(query, limit=5):
-    encoded = urllib.parse.quote(query)
-    url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={encoded}&retmax={limit}&sort=date&retmode=json"
-    headers = {'User-Agent': 'Mozilla/5.0'}
+def detect_practice_change(text):
+    keywords = ["reduced mortality", "improved survival", "superior", "noninferior", "first-line", "significant improvement", "standard of care"]
+    return any(k in text.lower() for k in keywords)
+
+# 📡 PubMed 수집 함수
+def fetch_pubmed(query, limit=10):
     try:
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req) as res:
-            ids = json.loads(res.read().decode('utf-8')).get('esearchresult', {}).get('idlist', [])
+        encoded = urllib.parse.quote(query)
+        search_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={encoded}&retmax={limit}&sort=date&retmode=json"
+        with urllib.request.urlopen(urllib.request.Request(search_url, headers=HEADERS)) as res:
+            ids = json.loads(res.read().decode("utf-8")).get("esearchresult", {}).get("idlist", [])
         if not ids: return []
         time.sleep(1)
         fetch_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={','.join(ids)}&retmode=xml"
-        req_fetch = urllib.request.Request(fetch_url, headers=headers)
-        with urllib.request.urlopen(req_fetch) as res:
+        with urllib.request.urlopen(urllib.request.Request(fetch_url, headers=HEADERS)) as res:
             root = ET.fromstring(res.read())
+        
         papers = []
-        for article in root.findall('.//PubmedArticle'):
-            pmid = article.find('.//PMID').text if article.find('.//PMID') is not None else ""
-            title = article.find('.//ArticleTitle').text if article.find('.//ArticleTitle') is not None else "No Title"
-            journal = article.find('.//Title').text if article.find('.//Title') is not None else "Unknown Journal"
-            abstract_parts = []
-            bottom_line = ""
-            for abs_text in article.findall('.//AbstractText'):
-                label = abs_text.get('Label', '')
-                text = abs_text.text if abs_text.text else ''
+        for article in root.findall(".//PubmedArticle"):
+            pmid = article.findtext(".//PMID", default="")
+            title = article.findtext(".//ArticleTitle", default="No Title")
+            journal = article.findtext(".//Title", default="Unknown Journal")
+            abstract_parts, bottom_line = [], ""
+            for abs_text in article.findall(".//AbstractText"):
+                label, text = abs_text.get("Label", ""), abs_text.text or ""
                 if label:
                     abstract_parts.append(f"<b style='color:#3498db;'>{label}:</b> {text}")
-                    if label.lower() in ['conclusion', 'conclusions']: bottom_line = text
+                    if label.lower() in ["conclusion", "conclusions"]: bottom_line = text
                 else:
                     abstract_parts.append(text)
-                    match = re.search(r'(?i)(?:conclusion|conclusions)s?[:.]\s*(.*)', text)
+                    match = re.search(r'(?i)(?:conclusion|conclusions)[:.]\s*(.*)', text)
                     if match: bottom_line = match.group(1)
-            papers.append({"pmid": pmid, "title": title, "journal": journal, "abstract": "<br><br>".join(abstract_parts), "bottom_line": bottom_line, "year": "Recent"})
-        return papers
+            
+            papers.append({
+                "pmid": pmid, "title": title, "journal": journal,
+                "abstract": "<br><br>".join(abstract_parts), "bottom_line": bottom_line,
+                "score": compute_score(title, journal)
+            })
+        return sorted(papers, key=lambda x: x["score"], reverse=True)
     except: return []
 
-# 데이터 수집
-big_titles = get_pubmed_json("Gastroenterology OR Hepatology", limit=100)
+# 🍎 카테고리별 데이터 생성
 categories = {"🍎 GI": "Gastrointestinal Diseases", "🍺 Liver": "Hepatology", "🧬 Pancreas": "Pancreas OR Biliary Tract"}
-sections_html = ""
-category_counts = {}
+sections_html, category_counts = "", {}
 
 for name, query in categories.items():
-    # 필터 기능을 위해 조금 더 넉넉하게(10개) 가져옵니다.
-    papers = get_pubmed_xml_with_abstract(query, limit=10)
-    category_counts[name.split(" ")[1]] = len(papers)
-    papers_html = ""
+    papers = fetch_pubmed(query)
+    category_counts[name] = len(papers)
+    p_html = ""
     for p in papers:
-        t_lower = p['title'].lower()
-        is_guideline = any(kw in t_lower for kw in ["guideline", "consensus", "recommendation"])
-        badge = ""
-        if "randomized" in t_lower or "rct" in t_lower: badge = "<span class='type-badge' style='background:#e74c3c; color:white;'>RCT</span>"
-        elif "meta-analysis" in t_lower: badge = "<span class='type-badge' style='background:#9b59b6; color:white;'>Meta</span>"
-        elif is_guideline: badge = "<span class='type-badge badge-guideline' style='background:#2ecc71; color:white;'>Guideline</span>"
+        t_low = p['title'].lower()
+        badges = ""
+        if "randomized" in t_low or "rct" in t_low: badges += "<span class='badge rct'>RCT</span>"
+        if "guideline" in t_low or "consensus" in t_low: badges += "<span class='badge gl badge-guideline'>Guideline</span>"
+        if detect_practice_change(p['bottom_line']): badges += " 🔥"
         
-        j_lower = p['journal'].lower()
-        top_badge = "<span class='top-badge'>👑 Top</span>" if any(top in j_lower for top in TOP_JOURNALS) else ""
-        if_badge = ""
-        if_val = ""
-        for j_n, score in JOURNAL_IF.items():
-            if j_n in j_lower:
-                if_badge = f"<span class='if-badge'>IF {score}</span>"
-                if_val = f" (IF: {score})"
-                break
+        j_low = p['journal'].lower()
+        top_crown = "👑" if any(tj in j_low for tj in TOP_JOURNALS) else ""
+        if_val = next((val for jn, val in JOURNAL_IF.items() if jn in j_low), None)
+        if_badge = f"<span class='badge if'>IF {if_val}</span>" if if_val else ""
+        
+        share_txt = f"📄 [GI Intel]\\n📌 {p['title']}\\n📖 {p['journal']}{' (IF:'+str(if_val)+')' if if_val else ''}\\n💡 결론: {p['bottom_line'][:100] if p['bottom_line'] else '원문참조'}...\\n🔗 https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/"
 
-        bottom_line_html = f"<div class='bottom-line-box'><b>💡 Bottom Line</b><br><div>{p['bottom_line']}</div></div>" if p['bottom_line'] else ""
-        share_content = f"📄 [논문 공유]\\n📌 제목: {p['title']}\\n📖 저널: {p['journal']}{if_val}\\n💡 결론: {p['bottom_line'] if p['bottom_line'] else '원문 참조'}\\n🔗 https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/"
-
-        papers_html += f"""
+        p_html += f"""
         <details class="paper-item">
             <summary>
-                <div class="meta-row">{top_badge}{if_badge}<span>📖 <i>{p['journal']}</i></span> {badge}</div>
-                <div class="title-row"><span class="arrow-icon">▶</span>{p['title']}</div>
+                <div class="meta">{top_crown} {if_badge} <b>{p['journal']}</b> {badges}</div>
+                <div class="title"><span class="arrow">▶</span>{p['title']}</div>
             </summary>
-            <div class="content-box">
-                {bottom_line_html} {p['abstract']}<br><br>
-                <div class="btn-group">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/" target="_blank" class="btn btn-pubmed">🔗 PubMed</a>
-                    <button onclick="copyToClipboard('share_{p['pmid']}')" class="btn btn-share">📤 공유</button>
+            <div class="content">
+                {f"<div class='btm-box'><b>💡 Bottom Line</b><br>{p['bottom_line']}</div>" if p['bottom_line'] else ""}
+                <div class="abs">{p['abstract']}</div>
+                <div class="btns">
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('{p['pmid']}')" class="btn shr">📤 카톡공유</button>
                 </div>
-                <textarea id="share_{p['pmid']}" style="display:none;">{share_content}</textarea>
+                <textarea id="s_{p['pmid']}" style="display:none;">{share_txt}</textarea>
             </div>
-        </details>
-        """
-    sections_html += f"<div class='section-group'><h3>{name}</h3>{papers_html}</div>"
+        </details>"""
+    sections_html += f"<div class='sec-group'><h3>{name}</h3>{p_html}</div>"
 
-# --- HTML (모바일 최적화 CSS 탑재) ---
-time_label = (datetime.datetime.now() + datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M")
-html_template = f"""
+# 🎨 디자인 및 HTML 생성
+time_label = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M")
+html_output = f"""
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <title>GI Intelligence</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>GI Intelligence</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {{ --primary: #3498db; --success: #2ecc71; --bg: #f5f7fa; --text: #2c3e50; }}
-        body {{ font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; }}
-        .container {{ max-width: 1000px; margin: auto; }}
-        .card {{ background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #e0e0e0; }}
-        header h1 {{ font-size: 1.5rem; margin: 0; color: var(--text); }}
-        .grid {{ display: grid; grid-template-columns: 1fr; gap: 15px; }}
-        @media (min-width: 768px) {{ .grid {{ grid-template-columns: 2fr 1fr; }} .card {{ padding: 25px; }} header h1 {{ font-size: 2rem; }} }}
-        
-        /* 논문 아이템 스타일 */
-        .paper-item {{ background: #fff; border: 1px solid #eee; margin-bottom: 10px; border-radius: 10px; border-left: 4px solid var(--primary); overflow: hidden; }}
-        summary {{ padding: 12px; cursor: pointer; list-style: none; outline: none; }}
-        summary::-webkit-details-marker {{ display: none; }}
-        .meta-row {{ font-size: 0.75rem; color: #7f8c8d; display: flex; align-items: center; gap: 5px; margin-bottom: 5px; flex-wrap: wrap; }}
-        .title-row {{ font-weight: bold; font-size: 0.95rem; line-height: 1.4; }}
-        .arrow-icon {{ display: inline-block; transition: transform 0.2s; color: var(--primary); margin-right: 5px; }}
-        details[open] .arrow-icon {{ transform: rotate(90deg); }}
-        
-        /* 뱃지 스타일 */
-        .type-badge {{ padding: 2px 5px; border-radius: 4px; font-size: 0.65rem; }}
-        .top-badge {{ background: #f1c40f; color: #000; padding: 2px 6px; border-radius: 10px; font-weight: bold; font-size: 0.65rem; }}
-        .if-badge {{ background: #8e44ad; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; }}
-        
-        /* 내용 및 버튼 */
-        .content-box {{ padding: 15px; background: #f9f9f9; border-top: 1px solid #eee; font-size: 0.9rem; line-height: 1.6; }}
-        .bottom-line-box {{ background: #ebf5ff; padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid var(--primary); font-weight: bold; }}
-        .btn-group {{ display: flex; gap: 10px; margin-top: 15px; }}
-        .btn {{ flex: 1; padding: 10px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.85rem; border: none; cursor: pointer; }}
-        .btn-pubmed {{ background: var(--primary); color: #fff; }}
-        .btn-share {{ background: var(--success); color: #fff; }}
-        
-        /* 필터 버튼 */
-        .filter-btn {{ width: 100%; padding: 10px; border-radius: 20px; border: 2px solid var(--success); background: #fff; color: var(--success); font-weight: bold; margin-bottom: 15px; cursor: pointer; }}
-        .filter-btn.active {{ background: var(--success); color: #fff; }}
+        body {{ font-family: -apple-system, sans-serif; background:#f5f7fa; color:#2c3e50; margin:0; padding:10px; }}
+        .card {{ background:#fff; border-radius:12px; padding:15px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:15px; border:1px solid #e0e0e0; }}
+        .paper-item {{ background:#fff; border:1px solid #eee; margin-bottom:8px; border-radius:10px; border-left:4px solid #3498db; overflow:hidden; }}
+        summary {{ padding:12px; cursor:pointer; list-style:none; outline:none; }}
+        summary::-webkit-details-marker {{ display:none; }}
+        .meta {{ font-size:0.75rem; color:#7f8c8d; margin-bottom:5px; display:flex; align-items:center; gap:5px; flex-wrap:wrap; }}
+        .title {{ font-weight:bold; font-size:0.95rem; line-height:1.4; }}
+        .arrow {{ display:inline-block; transition:0.2s; color:#3498db; margin-right:5px; }}
+        details[open] .arrow {{ transform:rotate(90deg); }}
+        .badge {{ padding:2px 5px; border-radius:4px; font-size:0.65rem; font-weight:bold; color:#fff; }}
+        .rct {{ background:#e74c3c; }} .gl {{ background:#2ecc71; }} .if {{ background:#8e44ad; }}
+        .content {{ padding:15px; background:#f9f9f9; border-top:1px solid #eee; font-size:0.9rem; }}
+        .btm-box {{ background:#ebf5ff; padding:12px; border-radius:8px; margin-bottom:12px; border-left:4px solid #3498db; }}
+        .btns {{ display:flex; gap:10px; margin-top:15px; }}
+        .btn {{ flex:1; padding:10px; border-radius:6px; text-align:center; text-decoration:none; font-weight:bold; border:none; cursor:pointer; font-size:0.85rem; color:#fff; }}
+        .pub {{ background:#3498db; }} .shr {{ background:#2ecc71; }}
+        .filter-btn {{ width:100%; padding:10px; border-radius:20px; border:2px solid #2ecc71; background:#fff; color:#2ecc71; font-weight:bold; cursor:pointer; margin-bottom:15px; }}
+        .filter-btn.active {{ background:#2ecc71; color:#fff; }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="card" style="text-align:center;">
-            <h1>🏥 GI Intel Terminal</h1>
-            <div style="margin-top:10px;"><span style="background:#ebf5ff; color:var(--primary); padding:4px 12px; border-radius:15px; font-size:0.8rem; font-weight:bold;">Update: {time_label}</span></div>
-        </header>
-
-        <div class="grid">
-            <div class="card"><canvas id="barChart" style="max-height:200px;"></canvas></div>
-            <div class="card"><canvas id="doughnutChart" style="max-height:200px;"></canvas></div>
-        </div>
-
-        <div class="card">
-            <button id="btn-filter-guideline" class="filter-btn" onclick="toggleGuidelineFilter()">📋 가이드라인만 보기</button>
-            <div id="sections-container">{sections_html}</div>
-        </div>
-
-        <footer style="text-align:center; padding: 20px; color: #95a5a6; font-size: 0.8rem;">
-            <p>🚀 Project: MedProductive<br>의료 현장의 비효율을 AI로 해결합니다.</p>
-        </footer>
+    <div class="card" style="text-align:center;"><h1>🏥 GI Intelligence</h1><small>SYS.UPDATE: {time_label}</small></div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <div class="card"><canvas id="c1" style="height:150px;"></canvas></div>
+        <div class="card"><canvas id="c2" style="height:150px;"></canvas></div>
     </div>
-
+    <div class="card">
+        <button id="fBtn" class="filter-btn" onclick="toggleF()">📋 가이드라인만 보기</button>
+        {sections_html}
+    </div>
     <script>
-        function toggleGuidelineFilter() {{
-            const btn = document.getElementById('btn-filter-guideline');
-            const papers = document.querySelectorAll('.paper-item');
-            const sections = document.querySelectorAll('.section-group');
-            btn.classList.toggle('active');
-            const isFilter = btn.classList.contains('active');
-            
-            papers.forEach(p => {{
-                const isG = p.querySelector('.badge-guideline');
-                p.style.display = isFilter ? (isG ? 'block' : 'none') : 'block';
-            }});
-            sections.forEach(s => {{
-                const hasVisible = Array.from(s.querySelectorAll('.paper-item')).some(p => p.style.display !== 'none');
-                s.style.display = hasVisible ? 'block' : 'none';
+        function toggleF() {{
+            const btn = document.getElementById('fBtn'); btn.classList.toggle('active');
+            const isF = btn.classList.contains('active');
+            document.querySelectorAll('.paper-item').forEach(p => {{
+                p.style.display = isF ? (p.querySelector('.badge-guideline') ? 'block' : 'none') : 'block';
             }});
         }}
-
-        function copyToClipboard(id) {{
-            const el = document.getElementById(id);
+        function copyShare(id) {{
+            const el = document.getElementById('s_'+id);
             const val = el.value.replace(/\\\\n/g, '\\n');
-            navigator.clipboard.writeText(val).then(() => alert("✅ 공유용 텍스트가 복사되었습니다!"));
+            navigator.clipboard.writeText(val).then(() => alert("✅ 복사 완료! 단톡방에 붙여넣으세요."));
         }}
-
-        const labels = {json.dumps(list(category_counts.keys()))};
-        const counts = {json.dumps(list(category_counts.values()))};
-        
-        new Chart(document.getElementById('barChart'), {{ type: 'bar', data: {{ labels: labels, datasets: [{{ label: 'Papers', data: counts, backgroundColor: '#3498db' }}] }}, options: {{ indexAxis: 'y', plugins: {{ legend: {{ display: false }} }} }} }});
-        new Chart(document.getElementById('doughnutChart'), {{ type: 'doughnut', data: {{ labels: labels, datasets: [{{ data: counts, backgroundColor: ['#e74c3c', '#f1c40f', '#2ecc71'] }}] }}, options: {{ plugins: {{ legend: {{ position: 'bottom' }} }} }} }});
+        new Chart(document.getElementById('c1'), {{ type:'bar', data:{{ labels:{json.dumps(list(category_counts.keys()))}, datasets:[{{data:{json.dumps(list(category_counts.values()))}, backgroundColor:'#3498db'}}] }}, options:{{indexAxis:'y', plugins:{{legend:{{display:false}}}}}} }});
+        new Chart(document.getElementById('c2'), {{ type:'doughnut', data:{{ labels:{json.dumps(list(category_counts.keys()))}, datasets:[{{data:{json.dumps(list(category_counts.values()))}, backgroundColor:['#e74c3c','#f1c40f','#2ecc71']}}] }}, options:{{plugins:{{legend:{{position:'bottom'}}}}}} }});
     </script>
 </body>
 </html>
 """
-with open("index.html", "w", encoding="utf-8") as f: f.write(html_template)
+with open("index.html", "w", encoding="utf-8") as f: f.write(html_output)
