@@ -1,20 +1,34 @@
-name: Daily-Update
+name: Update GI Intel
+
 on:
   schedule:
-    - cron: '0 21 * * *' # 한국 시간 오전 6시
-  workflow_dispatch: # 내가 원할 때 버튼 눌러서 실행
+    # 한국 시간 기준 새벽 3시, 9시, 오후 3시, 9시 (6시간마다)
+    - cron: "0 */6 * * *"
+  workflow_dispatch: # 수동 실행 버튼 활성화
 
 jobs:
-  run-bot:
+  build:
     runs-on: ubuntu-latest
+    # 💡 자동 Push를 위해 쓰기 권한이 반드시 필요합니다.
+    permissions:
+      contents: write
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Run Python
-        run: python main.py
-      - name: Save Changes
-        run: |
-          git config --global user.name "Bot"
-          git config --global user.email "bot@github.com"
-          git add index.html
-          git commit -m "Update" || exit 0
-          git push
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Run Scraper
+      # 💡 파일명이 main.py이므로 아래와 같이 실행합니다.
+      run: python main.py
+
+    - name: Commit and Push
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "actions@github.com"
+        git add index.html
+        git commit -m "🚀 Auto Update: Latest GI Research & Scores" || echo "No changes to commit"
+        git push
