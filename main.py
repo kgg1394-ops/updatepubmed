@@ -14,7 +14,7 @@ TOP_JOURNALS = [
     "lancet gastroenterology & hepatology", "nature reviews gastroenterology & hepatology"
 ]
 
-# 📊 [추가 기능 3] 주요 저널 Impact Factor (2024~2025 기준 근사치)
+# 📊 [추가 기능 3] 주요 저널 Impact Factor
 JOURNAL_IF = {
     "nature reviews gastroenterology & hepatology": 65.1,
     "lancet gastroenterology & hepatology": 35.7,
@@ -138,7 +138,7 @@ for name, query in categories.items():
         is_top = any(top in j_lower for top in TOP_JOURNALS)
         top_badge = "<span style='background:#f1c40f; color:#2c3e50; padding:3px 8px; border-radius:12px; font-size:0.7em; margin-right:5px; font-weight:bold; box-shadow:0 1px 3px rgba(0,0,0,0.1);'>👑 Top Journal</span>" if is_top else ""
         
-        # 📊 [추가 기능 3] IF 점수 판독
+        # 📊 IF 점수 판독
         if_badge = ""
         if_score_text = ""
         for j_name, score in JOURNAL_IF.items():
@@ -147,7 +147,7 @@ for name, query in categories.items():
                 if_badge = f"<span style='background:#8e44ad; color:white; padding:2px 6px; border-radius:4px; font-size:0.75em; margin-right:10px; font-weight:bold;'>IF {score}</span>"
                 break
         
-        # 💡 Bottom Line 하이라이트 박스 (유지)
+        # 💡 Bottom Line 하이라이트 박스
         bottom_line_html = ""
         if p['bottom_line']:
             bottom_line_html = f"""
@@ -157,7 +157,7 @@ for name, query in categories.items():
             </div>
             """
             
-        # 💬 [추가 기능 2] 단톡방 공유용 텍스트 생성
+        # 💬 카톡 공유 텍스트
         bottom_text_for_share = p['bottom_line'] if p['bottom_line'] else "원문 초록 참조"
         share_content = f"📄 [최신 논문 공유]\n📌 제목: {p['title']}\n📖 저널: {p['journal']}{if_score_text}\n💡 결론: {bottom_text_for_share}\n🔗 링크: https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/"
         
@@ -168,7 +168,7 @@ for name, query in categories.items():
                     {top_badge}{if_badge}<span>📅 {p['year']} &nbsp;|&nbsp; 📖 <i style="color:#3498db;">{p['journal']}</i></span> {badge}
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>{p['title']}
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>{p['title']}
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -207,8 +207,12 @@ html_template = f"""
         .grid {{ display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 25px; }}
         h1 {{ margin:0; font-size:2.2em; color:#2c3e50; }}
         h2 {{ color:#2c3e50; font-size:1.2em; margin-top:0; border-bottom: 2px solid #f0f4f7; padding-bottom: 12px; }}
+        
+        /* 🐛 수정된 부분: 오직 화살표 아이콘만 회전하도록 CSS 변경 */
         details > summary::-webkit-details-marker {{ display: none; }}
-        details[open] summary span:first-child {{ transform: rotate(90deg); display: inline-block; transition: 0.2s; }}
+        .arrow-icon {{ display: inline-block; transition: transform 0.2s; }}
+        details[open] summary .arrow-icon {{ transform: rotate(90deg); }}
+        
         @media (max-width: 768px) {{ .grid {{ grid-template-columns: 1fr; }} }}
     </style>
 </head>
@@ -246,7 +250,6 @@ html_template = f"""
     </div>
 
     <script>
-        // 💬 [추가 기능 2] 복사 기능 자바스크립트
         function copyToClipboard(elementId) {{
             var copyText = document.getElementById(elementId);
             copyText.style.display = "block";
