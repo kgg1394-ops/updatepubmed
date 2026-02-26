@@ -14,6 +14,24 @@ TOP_JOURNALS = [
     "lancet gastroenterology & hepatology", "nature reviews gastroenterology & hepatology"
 ]
 
+# 📊 [추가 기능 3] 주요 저널 Impact Factor (2024~2025 기준 근사치)
+JOURNAL_IF = {
+    "nature reviews gastroenterology & hepatology": 65.1,
+    "lancet gastroenterology & hepatology": 35.7,
+    "gastroenterology": 29.4,
+    "journal of hepatology": 26.8,
+    "gut": 24.5,
+    "hepatology": 13.5,
+    "clinical gastroenterology and hepatology": 11.6,
+    "american journal of gastroenterology": 10.2,
+    "endoscopy": 9.3,
+    "gastrointestinal endoscopy": 7.7,
+    "alimentary pharmacology & therapeutics": 7.6,
+    "journal of gastroenterology": 6.7,
+    "liver international": 5.8,
+    "digestive endoscopy": 5.2
+}
+
 def get_pubmed_json(query, limit=5):
     encoded = urllib.parse.quote(query)
     url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={encoded}&retmax={limit}&sort=date&retmode=json"
@@ -56,7 +74,7 @@ def get_pubmed_xml_with_abstract(query, limit=5):
             journal = journal_node.text if journal_node is not None else "Unknown Journal"
             
             abstract_parts = []
-            bottom_line = "" # 💡 결론만 따로 저장할 변수
+            bottom_line = ""
             
             for abs_text in article.findall('.//AbstractText'):
                 label = abs_text.get('Label', '')
@@ -64,12 +82,10 @@ def get_pubmed_xml_with_abstract(query, limit=5):
                 
                 if label:
                     abstract_parts.append(f"<b style='color:#3498db;'>{label}:</b> {text}")
-                    # 구조화된 초록인 경우 Conclusion 파트 추출
                     if label.lower() in ['conclusion', 'conclusions']:
                         bottom_line = text
                 else:
                     abstract_parts.append(text)
-                    # 비구조화된 초록인 경우 정규식으로 Conclusion 파트 추출
                     match = re.search(r'(?i)(?:conclusion|conclusions)s?[:.]\s*(.*)', text)
                     if match:
                         bottom_line = match.group(1)
@@ -118,10 +134,20 @@ for name, query in categories.items():
         elif "review" in t_lower:
             badge = "<span style='background:#3498db; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle;'>Review</span>"
 
-        is_top = any(top in p['journal'].lower() for top in TOP_JOURNALS)
-        top_badge = "<span style='background:#f1c40f; color:#2c3e50; padding:3px 8px; border-radius:12px; font-size:0.7em; margin-right:10px; font-weight:bold; box-shadow:0 1px 3px rgba(0,0,0,0.1);'>👑 Top Journal</span>" if is_top else ""
+        j_lower = p['journal'].lower()
+        is_top = any(top in j_lower for top in TOP_JOURNALS)
+        top_badge = "<span style='background:#f1c40f; color:#2c3e50; padding:3px 8px; border-radius:12px; font-size:0.7em; margin-right:5px; font-weight:bold; box-shadow:0 1px 3px rgba(0,0,0,0.1);'>👑 Top Journal</span>" if is_top else ""
         
-        # 💡 Bottom Line(결론) 하이라이트 박스
+        # 📊 [추가 기능 3] IF 점수 판독
+        if_badge = ""
+        if_score_text = ""
+        for j_name, score in JOURNAL_IF.items():
+            if j_name in j_lower:
+                if_score_text = f" (IF: {score})"
+                if_badge = f"<span style='background:#8e44ad; color:white; padding:2px 6px; border-radius:4px; font-size:0.75em; margin-right:10px; font-weight:bold;'>IF {score}</span>"
+                break
+        
+        # 💡 Bottom Line 하이라이트 박스 (유지)
         bottom_line_html = ""
         if p['bottom_line']:
             bottom_line_html = f"""
@@ -130,12 +156,16 @@ for name, query in categories.items():
                 <div style="color:#1c2833; font-size:0.95em; line-height:1.6; margin-top:5px; font-weight:bold;">{p['bottom_line']}</div>
             </div>
             """
+            
+        # 💬 [추가 기능 2] 단톡방 공유용 텍스트 생성
+        bottom_text_for_share = p['bottom_line'] if p['bottom_line'] else "원문 초록 참조"
+        share_content = f"📄 [최신 논문 공유]\n📌 제목: {p['title']}\n📖 저널: {p['journal']}{if_score_text}\n💡 결론: {bottom_text_for_share}\n🔗 링크: https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/"
         
         papers_html += f"""
         <details style="background:#fff; border: 1px solid #e0e0e0; margin-bottom:15px; border-radius:12px; border-left:4px solid #3498db; overflow:hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: all 0.2s;">
             <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#2c3e50; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
-                <div style="margin-bottom:8px; font-size:0.85em; color:#7f8c8d; font-weight:normal;">
-                    {top_badge} 📅 {p['year']} &nbsp;|&nbsp; 📖 <i style="color:#3498db;">{p['journal']}</i> {badge}
+                <div style="margin-bottom:8px; font-size:0.85em; color:#7f8c8d; font-weight:normal; display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    {top_badge}{if_badge}<span>📅 {p['year']} &nbsp;|&nbsp; 📖 <i style="color:#3498db;">{p['journal']}</i></span> {badge}
                 </div>
                 <div style="line-height:1.4;">
                     <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>{p['title']}
@@ -144,7 +174,12 @@ for name, query in categories.items():
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
                 {bottom_line_html}
                 <div style="margin-bottom:20px;">{p['abstract']}</div>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/" target="_blank" style="display:inline-block; background:#3498db; color:white; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+                
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/" target="_blank" style="display:inline-block; background:#3498db; color:white; padding:8px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+                    <button onclick="copyToClipboard('share_{p['pmid']}')" style="display:inline-block; background:#2ecc71; color:white; padding:8px 15px; border-radius:6px; border:none; cursor:pointer; font-weight:bold; font-size:0.9em; font-family:inherit;">📤 카톡 공유 (복사)</button>
+                </div>
+                <textarea id="share_{p['pmid']}" style="display:none;">{share_content}</textarea>
             </div>
         </details>
         """
@@ -211,6 +246,16 @@ html_template = f"""
     </div>
 
     <script>
+        // 💬 [추가 기능 2] 복사 기능 자바스크립트
+        function copyToClipboard(elementId) {{
+            var copyText = document.getElementById(elementId);
+            copyText.style.display = "block";
+            copyText.select();
+            document.execCommand("copy");
+            copyText.style.display = "none";
+            alert("✅ 단톡방 공유용 텍스트가 복사되었습니다!\\n카카오톡에 바로 '붙여넣기' 하시면 됩니다.");
+        }}
+
         const titles = {big_titles_json};
         const categoryCounts = {category_counts_json};
         
