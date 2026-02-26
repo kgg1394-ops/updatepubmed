@@ -176,7 +176,7 @@ top3_html = "".join([render_paper(p, True) for p in top3])
 
 time_label = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M")
 
-# 📱 모바일 최적화 UI (CSS & Charts 포함)
+# 📱 최종 HTML (막대그래프 삭제 및 UI 최적화)
 html_output = f"""
 <!DOCTYPE html>
 <html>
@@ -187,8 +187,10 @@ html_output = f"""
         :root {{ --primary: #3498db; --success: #2ecc71; --warning: #ffb300; --bg: #f5f7fa; --text: #2c3e50; }}
         body {{ font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 8px; }}
         .card {{ background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 12px; border: 1px solid #e0e0e0; }}
-        .chart-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }}
-        .chart-card {{ background: #fff; border-radius: 12px; padding: 8px; border: 1px solid #e0e0e0; height: 120px; }}
+        
+        /* 🍩 도표 중앙 배치 스타일 */
+        .chart-container {{ background: #fff; border-radius: 12px; padding: 12px; border: 1px solid #e0e0e0; height: 160px; display: flex; justify-content: center; margin-bottom: 12px; }}
+        
         .paper-item {{ margin-bottom: 8px; border-radius: 10px; overflow: hidden; list-style: none; border: 1px solid #eee; }}
         summary {{ padding: 12px; cursor: pointer; outline: none; list-style: none; }}
         summary::-webkit-details-marker {{ display: none; }}
@@ -217,13 +219,12 @@ html_output = f"""
         {top3_html}
     </div>
 
-    <div class="chart-grid">
-        <div class="chart-card"><canvas id="c1"></canvas></div>
-        <div class="chart-card"><canvas id="c2"></canvas></div>
+    <div class="chart-container">
+        <canvas id="c2"></canvas>
     </div>
 
     <div class="card">
-        <button id="fBtn" onclick="toggleF()" style="width:100%; padding:10px; border-radius:20px; border:1px solid var(--success); background:#fff; color:var(--success); font-weight:bold; cursor:pointer;">📋 가이드라인만 보기</button>
+        <button id="fBtn" onclick="toggleF()" style="width:100%; padding:10px; border-radius:20px; border:1px solid var(--success); background:#fff; color:var(--success); font-weight:bold; cursor:pointer; font-size: 0.85rem;">📋 가이드라인만 보기</button>
         {sections_html}
     </div>
 
@@ -244,9 +245,18 @@ html_output = f"""
             navigator.clipboard.writeText(el.value.replace(/\\\\n/g, '\\n')).then(() => alert("✅ 복사 완료!"));
         }}
         
-        const config = {{ responsive: true, maintainAspectRatio: false, plugins: {{ legend: {{ display: false }} }} }};
-        new Chart(document.getElementById('c1'), {{ type:'bar', data:{{ labels:{json.dumps(list(cat_counts.keys()))}, datasets:[{{data:{json.dumps(list(cat_counts.values()))}, backgroundColor:'#3498db'}}] }}, options: config }});
-        new Chart(document.getElementById('c2'), {{ type:'doughnut', data:{{ labels:{json.dumps(list(cat_counts.keys()))}, datasets:[{{data:{json.dumps(list(cat_counts.values()))}, backgroundColor:['#e74c3c','#f1c40f','#2ecc71']}}] }}, options: {{ ...config, plugins: {{ legend: {{ display: false }} }} }} }});
+        // 도넛 차트만 렌더링
+        new Chart(document.getElementById('c2'), {{ 
+            type:'doughnut', 
+            data:{{ labels:{json.dumps(list(cat_counts.keys()))}, datasets:[{{data:{json.dumps(list(cat_counts.values()))}, backgroundColor:['#e74c3c','#f1c40f','#2ecc71']}}] }}, 
+            options: {{ 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {{ 
+                    legend: {{ position: 'right', labels: {{ font: {{ size: 10 }} }} }} 
+                }} 
+            }} 
+        }});
     </script>
 </body>
 </html>
