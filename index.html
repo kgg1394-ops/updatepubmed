@@ -4,180 +4,298 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GI Intelligence Terminal</title>
+    <title>MedProductive: GI Abstract Scanner</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: 'Apple SD Gothic Neo', 'Consolas', sans-serif; background-color:#0f172a; color:#cbd5e1; margin:0; padding:20px; line-height:1.6; }
-        .container { max-width: 1100px; margin: auto; }
-        /* 글래스모피즘 (유리 질감) 스타일 */
-        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
-        header { text-align:center; padding:40px; margin-bottom:30px; }
-        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 20px; }
-        h2 { color:#38bdf8; font-size:1.2em; margin-top:0; letter-spacing: 1px; text-transform: uppercase; }
-        a:hover { color: #38bdf8 !important; }
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+        body { font-family: 'Apple SD Gothic Neo', 'Segoe UI', sans-serif; background-color:#0f172a; color:#cbd5e1; margin:0; padding:20px; }
+        .container { max-width: 1000px; margin: auto; }
+        .glass { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* 아코디언 기본 화살표 숨기기 */
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary span { transform: rotate(90deg); display: inline-block; transition: 0.2s; }
     </style>
 </head>
 <body>
     <div class="container">
-        <header class="glass-panel">
-            <h1 style="margin:0; font-size:2.5em; color:#fff; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);">GI INTELLIGENCE TERMINAL</h1>
-            <p style="color:#94a3b8; font-size:1.1em; margin-top:10px;">Automated PubMed Scraping & Trend Analysis Board</p>
-            <div style="margin-top:20px;"><span style="background:rgba(56, 189, 248, 0.2); color:#38bdf8; padding:6px 18px; border-radius:20px; border: 1px solid #38bdf8; font-family:monospace;">SYS.UPDATE: 2026-02-26 09:48 KST</span></div>
+        <header class="glass" style="text-align:center; margin-bottom:30px;">
+            <h1 style="margin:0; font-size:2.2em; color:#fff; text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);">GI Abstract Scanner</h1>
+            <p style="color:#94a3b8; font-size:1.1em; margin-top:5px;">의료 현장을 위한 초고속 논문 초록 판독기</p>
+            <div style="margin-top:15px;"><span style="background:rgba(56,189,248,0.1); color:#38bdf8; padding:5px 15px; border-radius:20px; font-family:monospace; font-size:0.9em;">SYS.UPDATE: 2026-02-26 10:22 (KST)</span></div>
         </header>
 
-        <div class="grid">
-            <div class="glass-panel">
-                <h2>📈 Keyword Frequency (Last 100)</h2>
-                <div style="position: relative; height:280px; width:100%;">
-                    <canvas id="barChart"></canvas>
-                </div>
+        <div class="glass" style="margin-bottom:30px; display:flex; flex-wrap:wrap; gap:20px;">
+            <div style="flex:1; min-width:300px;">
+                <h2 style="color:#38bdf8; font-size:1.1em; margin-top:0;">📊 Keyword Radar (100 Papers)</h2>
+                <div style="position:relative; height:200px; width:100%;"><canvas id="barChart"></canvas></div>
             </div>
-            
-            <div class="glass-panel">
-                <h2>🍩 Sector Activity</h2>
-                <div style="position: relative; height:280px; width:100%; display:flex; justify-content:center;">
-                    <canvas id="doughnutChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-panel">
-            <h2>📑 Daily Filtered Publications</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                <div style='margin-bottom: 25px;'><h3 style='color:#fff; margin-top:10px; border-bottom:1px solid #333; padding-bottom:10px;'>🍎 위장관 (GI)</h3>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Jan 9</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739742/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Jan 9</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739328/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739229/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Tumor-specific antibody cocktail treatment suppresses colorectal tumor growth in mice.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Dec</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739173/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Comparative burden and projections of chewing tobacco-attributable lip/oral cavity and esophageal cancers: global and China-specific trends, 2000-2036.</a>
-        </div></div><div style='margin-bottom: 25px;'><h3 style='color:#fff; margin-top:10px; border-bottom:1px solid #333; padding-bottom:10px;'>🍺 간 (Liver)</h3>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41740191/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Mar 2</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41740171/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Sigmoid Volvulus in a Healthy Adolescent Male.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Jan 9</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739522/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739409/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.</a>
-        </div></div><div style='margin-bottom: 25px;'><h3 style='color:#fff; margin-top:10px; border-bottom:1px solid #333; padding-bottom:10px;'>🧬 췌담관 (Pancreas)</h3>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739886/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">The Difficult Gallbladder: Practical Considerations for Performing Safe Cholecystectomy.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739485/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Contemporary Outcomes of Cholecystectomy.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41739407/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb</small> <br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41738869/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.</a>
-        </div>
-        <div style="background:rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:12px; padding:15px; border-radius:10px; border-left:4px solid #00d2ff; transition: all 0.3s ease;">
-            <small style="color:#00d2ff; font-weight:bold;">📅 2026 Feb 25</small> <span style='background:#e74c3c; color:white; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:8px; vertical-align:middle; box-shadow:0 0 5px #e74c3c;'>RCT</span><br>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/41738624/" target="_blank" style="text-decoration:none; color:#e0e0e0; font-weight:bold; font-size:1.05em; line-height:1.4; display:inline-block; margin-top:8px;">Long-term efficacy of ursodeoxycholic acid for the prevention of gallstone formation after gastrectomy in patients with gastric cancer: a randomized clinical trial.</a>
-        </div></div>
+            <div style="flex:1; min-width:300px; padding-left:20px; border-left:1px solid #334155;">
+                <h2 style="color:#38bdf8; font-size:1.1em; margin-top:0;">💡 How to use</h2>
+                <ul style="line-height:1.8; color:#94a3b8; font-size:0.95em;">
+                    <li>제목을 <b>클릭</b>하면 페이지 이동 없이 즉시 <span style="color:#f8fafc;">초록(Abstract)</span>이 펼쳐집니다.</li>
+                    <li><span style="color:#f59e0b;">👑 Top Journal</span> 마크는 세계구급 주요 학술지(Gastro, Gut 등)에만 자동 부여됩니다.</li>
+                    <li>바쁜 회진 전, 핵심 논문의 결론만 1분 만에 스캔하세요.</li>
+                </ul>
             </div>
         </div>
 
-        <footer class="glass-panel" style="margin-top:30px; border-left: 5px solid #a855f7;">
-            <h3 style="color:#c084fc; margin-top:0;">🚀 MedProductive: Prompt of the Day</h3>
-            <p style="font-size: 0.9em; color:#94a3b8;">전공의 퇴원요약지 작성 자동화를 위한 GPT 프롬프트 (복사해서 사용하세요)</p>
-            <div style="background:#000; padding:15px; border-radius:8px; font-family:monospace; color:#10b981; font-size:0.9em; overflow-x:auto;">
-                > System: 당신은 소화기내과 전문의입니다.<br>
-                > User: 다음 EMR 경과기록을 바탕으로 SOAP 형식의 간결한 퇴원요약지를 작성해 줘. 주요 랩 수치(Hb, AST/ALT)의 변화 추이를 반드시 포함할 것.
+        <div class="glass">
+            <h2 style="color:#38bdf8; font-size:1.3em; margin-top:0; border-bottom:1px solid #334155; padding-bottom:15px; margin-bottom:25px;">📑 Today's Clinical Papers</h2>
+            <div style='margin-bottom: 30px;'><h3 style='color:#fff; margin-top:0; border-bottom:2px solid #334155; padding-bottom:10px;'>🍎 위장관 (GI)</h3>
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                The prognostic value of lymph node (LN) yield in esophageal and gastric cancer remains controversial, especially in the context of modern perioperative treatment. This multicenter Danish cohort study evaluates the association between LN yield and survival outcomes. This study included 3092 patients who underwent curative-intent resection for esophageal (n = 2402) or gastric cancer (n = 690) between 2013 and 2021 at four Danish upper GI centers. All cases were registered in the Danish Esophagogastric Cancer Group database, covering 99% of all Danish esophageal and gastric cancer cases. Patients were stratified by nodal status (pN0/pN+) and categorized into five LN yield groups. Survival analyses were performed using Kaplan-Meier curves and multivariable Cox regression. In node-negative esophageal cancer, higher LN yields (20-29, 30-39, and 40+) were significantly associated with improved survival (hazard ratio: 0.47-0.58, P < 0.001) compared with the reference group (16-19). No survival benefit was seen beyond 16-19 nodes in node-positive esophageal or gastric cancers. Perioperative chemotherapy improved survival in node-positive esophageal cancer but had no effect in node-negative esophageal and gastric cancer. Discrepancies between clinical and pathological nodal staging were frequent and influenced both survival estimates and treatment allocation. LN removal was associated with survival in esophageal and gastric cancer. Node-negative patients showed increased survival if ≥20 nodes were removed, while node-positive esophageal cancer and gastric cancer patients showed no difference in survival beyond 16-19. Lastly, discrepancies between clinical and pathological staging underscore the need for more accurate preoperative diagnostics and highlight the impact of modern perioperative chemotherapy.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41739742/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
             </div>
-        </footer>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                Patients with eosinophilic esophagitis (EoE) in remission require monitoring, but optimal timing for endoscopic assessment is unknown. We aimed to assess variability in time from remission to surveillance endoscopy and associations with disease outcomes. This retrospective cohort study included patients with EoE who achieved histologic remission (<15 eos/hpf) while on stable treatment and had at least one surveillance endoscopy with biopsy after remission. Time to surveillance was categorized (≤1 year, 1-2 years, >2 years) and compared to a range of EoE clinicopathologic characteristics and disease outcomes. The 91-patient cohort had substantial variability in time to first surveillance endoscopy (mean 1.3 ± 1.0 years; median/IQR 1.0/0.6-1.8; range 0.2-7.3). While most patient characteristics were not associated with time to surveillance, larger dilation size at remission correlated with longer surveillance intervals (R = 0.36, p = 0.03), and EoE Endoscopic Reference Score (EREFS) was inversely associated (R = -0.21, p = 0.07). Outcomes of EREFS, Index of Severity of EoE, and eosinophil count were similar for <1, 1-2, or 2+ years surveillance intervals. However, numerically fewer patients with endoscopy 2+ years after remission maintained histologic response (59% vs. 78% at ≤1 year and 82% at 1-2 years; p = 0.15) and had more ongoing EoE symptoms (47% vs. 34% at ≤1 year and 24% at 1-2 years; p = 0.26). Surveillance timing in EoE remission varies widely and is largely unexplained by clinical features, except for dilation size. While outcomes were similar across intervals, patients with longer surveillance (>2 years) had numerically less histologic response and more persistent symptoms, warranting further study.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Digestive diseases and sciences</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                <span style='color:#94a3b8; font-style:italic;'>초록(Abstract)이 원문에 제공되지 않은 논문입니다.</span><br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41739328/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Cancer immunology, immunotherapy : CII</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Tumor-specific antibody cocktail treatment suppresses colorectal tumor growth in mice.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                <b style='color:#38bdf8;'>BACKGROUND:</b> Colorectal cancer (CRC) remains a leading cause of cancer-related mortality, with advanced-stage disease frequently marked by treatment resistance and recurrence. Tumor heterogeneity, driven by the accumulation of somatic mutations, undermines the efficacy of conventional therapies and limits the long-term success of targeted agents. There is an urgent need for new therapeutic strategies that can exploit, rather than be constrained by, this heterogeneity.<br><br><b style='color:#38bdf8;'>METHODS:</b> We developed a personalized immunotherapeutic pipeline in the syngeneic CT26 murine model of CRC. Briefly, whole exome sequencing identified mutated surface proteins (MSPs) unique to these cells. Of these MSPs, we selected 10 for the generation of MSP-specific polyclonal antibodies (pAbs). These pAbs were tested for specificity and peptide binding to peptides via ELISA, tumor tissue by immunofluorescence, and tumor cells by flow cytometry. Therapeutic efficacy was evaluated in vivo using CT26 tumor-bearing mice treated with the pAb cocktail alone or in combination with anti-PD-1 immune checkpoint blockade. To assess clinical relevance, we analyzed The Cancer Genome Atlas (TCGA) whole exome sequencing data from 100 human CRC patients for MSP prevalence and inter-patient variability.<br><br><b style='color:#38bdf8;'>RESULTS:</b> The 10-pAb oligoclonal antibody cocktail preparations exhibited additive, high-affinity, tumor-specific binding with minimal reactivity to healthy tissues. In vivo, this pAb cocktail significantly suppressed tumor growth and, when combined with PD-1 blockade, prolonged median survival to over 90 days in treated mice compared to less than 25 days in controls. Whole exome sequence data revealed that the majority of human CRC tumors harbored 10 or more MSPs, with minimal overlap between individuals, highlighting the feasibility and necessity of personalized antibody-based therapies.<br><br><b style='color:#38bdf8;'>CONCLUSION:</b> Our findings establish a proof-of-concept for individualized, mutation-guided antibody therapies, supporting further development of this approach to improve outcomes in patients with advanced CRC.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41739229/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Annals of medicine</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Comparative burden and projections of chewing tobacco-attributable lip/oral cavity and esophageal cancers: global and China-specific trends, 2000-2036.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                <b style='color:#38bdf8;'>BACKGROUND:</b> Smokeless tobacco (SLT), particularly chewing tobacco, is an underrecognized public health concern. Its long-term burden and trends, especially in China, remain incompletely quantified.<br><br><b style='color:#38bdf8;'>METHODS:</b> Using Global Burden of Disease (GBD) 2021 data, we estimated chewing tobacco-attributable deaths, disability-adjusted life years (DALYs), and age-standardized mortality and DALY rates for lip and oral cavity cancer and esophageal cancer (2000-2021), globally and in China. Analyses were stratified by year, sex, and age. Decomposition, age-period-cohort (APC), and Bayesian age-period-cohort (BAPC) models assessed drivers and project trends.<br><br><b style='color:#38bdf8;'>RESULTS:</b> From 2000 to 2021, chewing tobacco-attributable lip and oral cavity cancer deaths and DALYs nearly doubled globally and in China, with modest rises in age-standardized rates. Esophageal cancer showed slight absolute increases but declining standardized rates. For both cancers, DALYs peaked earlier than deaths. Compared with global patterns, China experienced a steeper increase in age-standardized lip and oral cavity cancer burden, particularly among males, and a larger decline in esophageal cancer burden, especially among females, leading to increasing male predominance. Globally, changes mainly reflected population growth and aging, whereas population growth predominated in China. Projections indicate continued increases in lip and oral cavity cancer burden and further declines in esophageal cancer burden.<br><br><b style='color:#38bdf8;'>CONCLUSIONS:</b> Chewing tobacco-attributable lip and oral cavity cancer burden in China has risen markedly and is projected to increase further, particularly among males and working-age populations, whereas esophageal cancer burden continues to decline. Integrated prevention strategies are needed to sustain progress and reduce the growing burden.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41739173/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        </div><div style='margin-bottom: 30px;'><h3 style='color:#fff; margin-top:0; border-bottom:2px solid #334155; padding-bottom:10px;'>🍺 간 (Liver)</h3>
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Journal of proteome research</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                Mitochondria play a central role in liver physiology by regulating key metabolic processes. Consequently, mitochondrial dysfunction is a hallmark of multiple liver diseases, including steatosis, steatohepatitis, and liver failure following hepatectomy. Subcellular fractionation is widely used to isolate mitochondria from liver cells or tissue; however, the enrichment and purity of isolated fractions are critical to ensure reliable downstream functional and proteomic analyses. Conventional validation methods, such as immunoblotting of organelle-specific markers, are limited by low throughput, restricted sensitivity, and variability. In this study, we present a targeted proteomics strategy based on parallel reaction monitoring (PRM) to quantitatively assess the enrichment of cytosolic, mitochondrial, and nuclear fractions obtained from liver samples using commercial isolation kits. PRM analyses demonstrated robust and compartment-specific enrichment in both PLC/PRF/5 cells and mouse liver tissue. In PLC/PRF/5 cells, high nuclear/cytosolic enrichment was observed for Prelamin A/C, while mitochondrial markers such as ATPase showed strong mitochondrial/cytosolic ratios. Cytosolic markers consistently displayed enrichment in the cytosolic fraction. Similar trends were observed in mouse liver tissue, confirming applicability across biological systems. Overall, these results highlight PRM as a sensitive, reproducible, and cost-effective alternative to immunodetection approaches for evaluating subcellular fraction purity, supporting high-quality mitochondrial preparations for translational hepatology studies.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41740191/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Rhode Island medical journal (2013)</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Sigmoid Volvulus in a Healthy Adolescent Male.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                We report the case of a 15-year-old previously healthy male who presented with several days of progressive abdominal pain, vomiting, and anorexia. On arrival to the emergency department, he was hemodynamically stable. Patient's abdominal exam revealed a soft, benign abdomen with right-sided greater than left-sided tenderness. Cross-sectional imaging demonstrated sigmoid volvulus without evidence of pneumatosis, perforation, or free air. He underwent multidisciplinary evaluation by pediatric surgery and gastroenterology, and urgent endoscopic detorsion was performed. Pediatric sigmoid volvulus is rare, accounting for a small minority of large bowel obstructions in this age group. Symptoms may be nonspecific, and exam findings can appear reassuring despite the presence of a high-risk surgical emergency. This case highlights the importance of maintaining a broad differential diagnosis in adolescents presenting with abdominal pain and underscores the role of imaging and multidisciplinary collaboration in timely recognition and management.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41740171/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                Patients with eosinophilic esophagitis (EoE) in remission require monitoring, but optimal timing for endoscopic assessment is unknown. We aimed to assess variability in time from remission to surveillance endoscopy and associations with disease outcomes. This retrospective cohort study included patients with EoE who achieved histologic remission (<15 eos/hpf) while on stable treatment and had at least one surveillance endoscopy with biopsy after remission. Time to surveillance was categorized (≤1 year, 1-2 years, >2 years) and compared to a range of EoE clinicopathologic characteristics and disease outcomes. The 91-patient cohort had substantial variability in time to first surveillance endoscopy (mean 1.3 ± 1.0 years; median/IQR 1.0/0.6-1.8; range 0.2-7.3). While most patient characteristics were not associated with time to surveillance, larger dilation size at remission correlated with longer surveillance intervals (R = 0.36, p = 0.03), and EoE Endoscopic Reference Score (EREFS) was inversely associated (R = -0.21, p = 0.07). Outcomes of EREFS, Index of Severity of EoE, and eosinophil count were similar for <1, 1-2, or 2+ years surveillance intervals. However, numerically fewer patients with endoscopy 2+ years after remission maintained histologic response (59% vs. 78% at ≤1 year and 82% at 1-2 years; p = 0.15) and had more ongoing EoE symptoms (47% vs. 34% at ≤1 year and 24% at 1-2 years; p = 0.26). Surveillance timing in EoE remission varies widely and is largely unexplained by clinical features, except for dilation size. While outcomes were similar across intervals, patients with longer surveillance (>2 years) had numerically less histologic response and more persistent symptoms, warranting further study.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Inflammatory bowel diseases</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                <b style='color:#38bdf8;'>BACKGROUND AND AIMS:</b> Prior studies have reported variable diagnostic accuracy of transperineal ultrasound (TPUS) in ulcerative colitis (UC) using linear and/or microconvex probes. This study directly compared these probes for predicting rectal histoendoscopic activity.<br><br><b style='color:#38bdf8;'>METHODS:</b> Adults with UC prospectively underwent transabdominal ultrasound (TAS) with TPUS using linear followed by microconvex probes by blinded operators. Rectal total wall thickness (TWT), vascularity (Modified Limberg score [MLS]), and Milan ultrasound criteria (MUC) were recorded. Receiver operating characteristic analysis determined area under the curve (AUC) for endoscopic (Ulcerative Colitis Endoscopic Index of Severity >1) and histologic (Nancy Index >1) activity, with paired AUC comparisons.<br><br><b style='color:#38bdf8;'>RESULTS:</b> Ninety-seven patients (32% female; age 18-70 years) were included. For endoscopic activity, TPUS outperformed TAS. Microconvex TPUS showed numerically higher AUCs for selected parameters (TWT: 0.77; vascularity: 0.78; MUC: 0.81) compared with linear TPUS (TWT: 0.75; vascularity: 0.71; MUC: 0.77), although head-to-head differences were not consistently statistically significant. For histologic activity, microconvex and linear TPUS demonstrated comparable performance (AUC range 0.66-0.80). Axial-plane posterior wall thickness assessment with the microconvex probe showed favorable trends over longitudinal measurements (endoscopic: ΔAUC -0.071, P = .074; histologic: ΔAUC 0.081, P = .08). Vascularity-based metrics were consistently superior on TPUS compared with TAS, irrespective of probe type.<br><br><b style='color:#38bdf8;'>CONCLUSION:</b> TPUS provides clinically relevant, noninvasive assessment of rectal inflammation in UC. While microconvex TPUS offers technical advantages-particularly axial-plane assessment of posterior wall thickness with favorable diagnostic trends-no single probe demonstrated uniform superiority. These findings highlight the complementary roles of linear and microconvex probes and support ongoing standardization of TPUS.<br><br>This study compared two ultrasound probes for assessing rectal inflammation in ulcerative colitis. Transperineal ultrasound enabled accurate, noninvasive monitoring, with the microconvex probe showing slightly better visualization and diagnostic trends, while overall performance was comparable between probes.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41739522/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">International journal of clinical pharmacy</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                <b style='color:#38bdf8;'>BACKGROUND:</b> Infliximab (IFX), a monoclonal antibody that neutralizes tumor necrosis factor-α, is widely used as a biologic treatment for Crohn's disease (CD). Despite its established efficacy, a substantial proportion of patients develop subtherapeutic IFX trough concentrations (< 3 μg/mL), leading to diminished clinical response and treatment failure. Early identification of high-risk individuals remains challenging due to the multifactorial nature of IFX pharmacokinetics.<br><br><b style='color:#38bdf8;'>AIM:</b> This study integrated Least Absolute Shrinkage and Selection Operator (LASSO)-based variable selection with multivariable logistic regression to identify CD patients at risk for subtherapeutic IFX trough levels during induction.<br><br><b style='color:#38bdf8;'>METHOD:</b> A total of 347 patients diagnosed with CD who commenced IFX induction therapy at the Sixth Affiliated Hospital of Sun Yat-sen University from January to December 2023 were retrospectively reviewed in this study. Comprehensive demographic, clinical, and biochemical data were retrieved from electronic records. Variable selection was performed using the Least Absolute Shrinkage and Selection Operator (LASSO), after which a multivariable logistic model was developed. Model discrimination, calibration and clinical usefulness were assessed through the area under the receiver operating characteristic curve (AUC), calibration curves, decision curve analysis (DCA) and clinical impact curves (CIC).<br><br><b style='color:#38bdf8;'>RESULTS:</b> Of the 347 participants, 148 (42.7%) exhibited subtherapeutic IFX trough concentrations. LASSO and multivariable logistic analyses identified four independent predictors: older age at diagnosis (> 40 years), elevated anti-drug antibody levels, higher erythrocyte sedimentation rate and reduced albumin (P < 0.05). The model demonstrated an AUC of 0.737 (95% CI 0.684-0.790), with a bootstrap-adjusted AUC of 0.726 (95% CI 0.697-0.739) based on 1000 resamples. Calibration demonstrated close alignment with observed outcomes, validated by a non-significant Hosmer-Lemeshow test (χ<br><br><b style='color:#38bdf8;'>CONCLUSION:</b> The proposed LASSO-logistic regression model demonstrates promising predictive performance for identifying subtherapeutic IFX exposure in CD patients. By leveraging readily available clinical data, it enables early risk stratification and individualized therapeutic decision-making, thereby facilitating more effective treatment optimization.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41739409/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        </div><div style='margin-bottom: 30px;'><h3 style='color:#fff; margin-top:0; border-bottom:2px solid #334155; padding-bottom:10px;'>🧬 췌담관 (Pancreas)</h3>
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">JAMA surgery</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Contemporary Outcomes of Cholecystectomy.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                <b style='color:#38bdf8;'>IMPORTANCE:</b> Cholecystectomy is among the most common surgical procedures in the US, yet as patient complexity has increased and surgical techniques have evolved, contemporary trends in complication rates remain understudied.<br><br><b style='color:#38bdf8;'>OBJECTIVE:</b> To evaluate changes in postoperative outcomes and complication rates following minimally invasive cholecystectomy among Medicare beneficiaries between 2011 and 2021.<br><br><b style='color:#38bdf8;'>DESIGN, SETTING, AND PARTICIPANTS:</b> This cohort study used Medicare fee-for-service claims data from 2011 to 2021 to identify beneficiaries undergoing inpatient minimally invasive (laparoscopic or robotic) cholecystectomy. Risk-adjusted outcomes were estimated using multivariable logistic regression with marginal effects, adjusting for demographics, comorbidities, biliary diagnosis, admission type, and year. Adjusted estimates for length of stay were estimated using multivariable Poisson regression with marginal effects, adjusting for the same covariates. Data were analyzed between March and August 2025.<br><br><b style='color:#38bdf8;'>MAIN OUTCOMES AND MEASURES:</b> Key outcomes included length of stay, 30-day readmission, complications, serious complications, 30-day mortality, and in-hospital mortality. Specific complications, such as intraoperative hemorrhage, bile duct injury, transfusion, percutaneous drainage, urinary tract infection, and deep venous thrombosis, were also assessed.<br><br><b style='color:#38bdf8;'>RESULTS:</b> Among 516 372 Medicare fee-for-service beneficiaries (mean [SD] age, 74.8 [9.8] years; 52.4% female), the proportion who had unplanned (vs elective) admissions for cholecystectomy increased from 78.8% in 2011 to 90.1% in 2021 (P < .001), alongside increases in Elixhauser comorbidity burden. Risk-adjusted rates of overall complications decreased from 21.5% (95% CI, 21.3%-21.7%) in 2011 to 16.5% (95% CI, 16.4%-16.7%) in 2021 (P < .001), and serious complications declined from 12.3% (95% CI, 12.2%-12.5%) to 7.0% (95% CI, 6.9%-7.1%) (P < .001). Specific complications also improved, including intraoperative hemorrhage (1.07% [95% CI, 1.01%-1.13%] to 0.54% [95% CI, 0.50%-0.58%]), blood transfusion (5.47% [95% CI, 5.34%-5.60%] to 1.87% [95% CI, 1.80%-1.94%]), and bile duct injury (0.19% [95% CI, 0.16%-0.21%] to 0.12% [95% CI, 0.11%-0.14%]) (all P < .001). However, rates of postoperative percutaneous drainage increased from 1.32% (95% CI, 1.26%-1.37%) to 2.91% (95% CI, 2.81%-3.01%) (P < .001).<br><br><b style='color:#38bdf8;'>CONCLUSIONS AND RELEVANCE:</b> In this study of Medicare beneficiaries undergoing inpatient minimally invasive cholecystectomy, surgical complication rates, including bile duct injury, declined substantially from 2011 to 2021 despite increasing patient complexity. These improvements may reflect improved technique, overcoming the initial learning curve, or the cumulative influence of quality improvement efforts. The increasing use of drainage may reflect evolving surgical practice rather than declining quality, which underscores the need for continued investigation and surveillance.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41739485/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Zoological science</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                Deuterostomes generally share a functional digestive system involving the sequential steps of ingestion, digestion, absorption, and elimination along their one-way gut. Previous gene expression studies on pancreas-related exocrine digestive enzymes (XDEs), pancreas-related transcription factors (TFs), and ParaHox genes in the ascidian <br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41738869/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2025 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Frontiers in immunology</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Prognostic value of PD-L1 expression on tumor-infiltrating immune cells and neutrophil-to-lymphocyte ratio in patients with biliary tract cancer.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                <b style='color:#38bdf8;'>BACKGROUND:</b> The expression of Programmed Death-Ligand 1 (PD-L1) on tumor-infiltrating immune cells (TIICs), plays a crucial role in tumor progression and immune evasion, impacting both the natural immune response and immune-targeted therapeutic strategies. The neutrophil-to-lymphocyte ratio (NLR) has also gained attention as a potential predictive biomarker for immunotherapy efficacy, as it may correlate with treatment outcomes.<br><br><b style='color:#38bdf8;'>OBJECTIVE:</b> To examine the expression of PD-L1 on TIICs and assess the influence of PD-L1 and NLR on immunotherapy outcomes following biliary tract cancers (BTC) recurrence.<br><br><b style='color:#38bdf8;'>METHODS:</b> From January 1, 2017, to January 1, 2020, this study enrolled 239 patients from the Department of Pancreaticobiliary Surgery at Sun Yat-sen University Cancer Center. Immunohistochemical analysis of PD-L1 on TIICs was conducted on pathological tissue sections from these patients. Clinical data, including overall survival (OS), disease-free survival (DFS), and pathological findings, were collected during follow-up. Statistical analyses were performed to assess outcomes related to the study objectives. Furthermore, data from The Cancer Genome Atlas (TCGA) were utilized to examine PD-L1 expression profiles and related information.<br><br><b style='color:#38bdf8;'>RESULTS:</b> Tumor stage did not differ significantly (P = 0.173), while metastasis stage approached significance (P = 0.093), with a higher proportion of M0 cases in the PD-L1 low group. Univariate analysis revealed vascular tumor thrombus, tumor differentiation, node stage, and preoperative CA199 levels as factors associated with DFS. Notably, vascular tumor thrombus (HR = 1.791, P = 0.002), moderate tumor differentiation (HR = 0.537, P = 0.002), and elevated preoperative CA199 levels (>35, HR = 1.624, P = 0.009) emerged as significant risk factors. Elevated NLR demonstrated a significant association with reduced DFS (HR = 1.54, p = 0.017 one week prior; HR = 1.70, p = 0.007 one month after) and diminished OS (HR = 2.30, p < 0.001 one week prior; HR = 1.94, p = 0.005 one month after). Exploratory analysis in a limited immunotherapy subgroup (n=35) suggested patients exhibiting high PD-L1 levels on TIICs may be associated with worse OS following immunotherapy after recurrence (HR = 3.03, p = 0.036). High NLR, both one month before recurrence (HR = 2.23, p = 0.015) and one month after recurrence (HR = 2.10, p = 0.027), correlated with decreased OS.<br><br><b style='color:#38bdf8;'>CONCLUSION:</b> PD-L1 expression on TIICs and dynamic NLR may be indicative of prognosis in BTC and could provide insights into immune status and response to immunotherapy after recurrence. These findings highlight the potential value of integrating local immune contexture with systemic inflammatory markers, but further validation in larger and prospective cohorts is warranted.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41737495/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Innovation (Cambridge (Mass.))</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Exploration of multi-omics liquid biopsy approaches for multi-cancer early detection: The PROMISE study.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                Although circulating cell-free DNA (cfDNA) methylation has emerged as the mainstream approach in multi-cancer detection blood tests (MCDBTs), the potential of integrating proteins and mutations, to enhance its performance remains unclear. The PROMISE study (NCT04972201) was conducted to investigate the feasibility of a multi-omics integration strategy in MCDBTs across nine types of cancers in head and neck (excluding nasopharynx), esophagus, lung, stomach, liver, biliary tract, pancreas, colorectum, and ovary. Blood samples were prospectively collected from 1,706 participants (840 non-cancer; 866 cancer) and then randomly divided into training and validation sets. The complementarity between various omics were investigated, and specific omics features were carefully selected for further multimodal model construction. The methylation-based classifier outperformed both the mutation-based and protein-based classifiers. As 95.0% of cancer cases detected by the mutation-based classifier were simultaneously identified by the methylation-based classifier, while 14.0% of the protein-positive samples were missed, protein markers may provide complementary value to the methylation-based classifier. Compared with the methylation-based classifier, the multimodal classifier combining methylation and protein features exhibited an improved sensitivity of 75.1% (95% confidence interval [CI], 69.3%-80.3%) at the same specificity of 98.8% with the accuracy of top predicted origin (TPO1) of 73.1% (95% CI, 66.2%-79.2%). Notably, the TPO1 accuracy reached 100% in liver and ovarian cancers with negative results of the methylation-based classifier. Collectively, these data suggest that the integration of protein markers in the multimodal classifier can offer additional benefits to the methylation-based classifier, particularly in identifying liver and ovarian cancers.<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41737326/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        
+        <details style="background:rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom:15px; border-radius:12px; border-left:4px solid #00d2ff; overflow:hidden;">
+            <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#f8fafc; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
+                <div style="margin-bottom:8px; font-size:0.85em; color:#94a3b8; font-weight:normal;">
+                     📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#a78bfa;">Frontiers in immunology</i>
+                </div>
+                <div style="line-height:1.4;">
+                    <span style="color:#38bdf8; font-size:0.9em; margin-right:8px;">▶</span>Multifunctional theranostic magnetic PLGA nanoparticles encapsulating cyclosporine A: addressing challenges in pancreas transplantation for type 1 diabetes.
+                </div>
+            </summary>
+            <div style="padding:20px; background:rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(255,255,255,0.05); font-size:0.95em; color:#cbd5e1; line-height:1.7;">
+                Type 1 Diabetes (T1D) is a high-incidence chronic autoimmune disease, with patients requiring lifelong insulin therapy. In the most severe cases, pancreas transplantation (PTA) arises as the first choice of treatment for these patients in the hope of achieving insulin independence. However, the long-term success of PTA is hindered by ischemia-reperfusion injury (IRI) and immune rejection, both of which limit graft survival. To address these challenges, we have developed multifunctional theranostic nanoparticles (t-PLGA NPs) co-encapsulating Fe<br><br>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41737232/" target="_blank" style="display:inline-block; background:#38bdf8; color:#0f172a; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
+            </div>
+        </details>
+        </div>
+        </div>
     </div>
 
     <script>
         const titles = ["Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.", "Sigmoid Volvulus in a Healthy Adolescent Male.", "Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.", "Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.", "Robotic Hysterectomy for Benign Gynecology: Evidence and Insights.", "Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.", "Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study.", "External Validation of an AI-Based Colonoscopy Quality Assessment Tool in Japanese Clinical Practice: A Pilot Study.", "Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.", "Combined Peroral Endoscopic Myotomy (POEM) and Diverticular POEM (D-POEM) for Type II Achalasia with a Large Epiphrenic Diverticulum.", "Unusual Endoscopic Findings in a Case of Small Bowel Lipoma.", "Epidemiology and Treatment of Inflammatory Bowel Disease in Pregnancy: Results from a Retrospective, Observational Study.", "Changing etiology of acute pancreatitis in Kashmir: Implications for outcomes and healthcare utilization.", "CD44 is associated with papillary thyroid carcinoma metastasis via potential modulation of the immunosuppressive tumor microenvironment.", "Clinicopathological features of localized-type IgG4-related cholecystitis: a nationwide multicenter study in Japan.", "American Society for Gastrointestinal Endoscopy standards for fellowship training in peroral endoscopic myotomy.", "Incidence of Cancer in Patients With Familial Adenomatous Polyposis in the Netherlands: A Nationwide Cohort Study.", "The MetALD-ALD Prediction Index: A Phosphatidylethanol-Driven Biomarker Panel for Identifying Individuals With Steatotic Liver Disease and Excessive Alcohol Use.", "Engineered Nanoplatform with Dual Anti-Inflammatory and Microbiota-Modulating Actions for Targeted Therapy in Chronic Inflammatory Bowel Disease.", "The Long View, a Long Way to Go: Palliative Care Along the Transplant Journey.", "Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.", "What weighs most is what we do not say.", "Blown-out myotomy as a cause of symptomatic recurrence after POEM: endoscopic management.", "Dyshidrotic eczema associated with Upadacitinib use: a paradoxical adverse event or serendipity?", "Synchronous multiple early gastric cancer with Schistosoma japonicum eggs.", "Lipid-mediated brain-gut axis alterations in functional diarrhea and their role in oxidative stress and neurodegeneration.", "Letter to the Editor.", "Dynamics in circulating immune cell subsets after faecal microbiota transplantation for recurrent Clostridioides difficile infection.", "Differences in Outcomes following Ileocecal Resection in Older Adults with Crohn's Disease in the Biologic Era.", "Adjunctive Use of p53 Immunohistochemistry for Risk Stratification in Barrett's Esophagus: A Systematic Review and Meta-Analysis.", "Colorectal neoplasia rates in Li Fraumeni Syndrome.", "Evaluating the Use of Sex in Gastroenterology Algorithms: A FAIRS Framework Analysis.", "No Increased Risk of Infection Following a Protocol Change to Decrease Duration of Perioperative Antibiotic Prophylaxis in Liver Transplantation.", "[Minimally invasive coronary surgery: new developments in myocardial revascularization].", "Exploring the impact of stigmatization on mental health in persons with liver disease: a scoping review.", "CD72 downregulation on DN2 B cells associates with disease activity and resistance to rituximab in systemic lupus erythematosus.", "Cardiac involvement in newly diagnosed patients with idiopathic inflammatory myopathies is associated with skeletal muscle involvement.", "Transoral Endoscopic Resection Assisted by Radiofrequency Plasma Ablation for Lingual Thyroglossal Duct Cysts: A Retrospective Evaluation of Feasibility, Safety, and Outcomes.", "The CFTR potentiator Icenticaftor for treatment of bronchiectasis: An international phase 2, double-blind, randomized placebo-controlled trial.", "Reply to Tang and Sun, and to Deng and Liu.", "Argatroban in Patients with Extracorporeal Membrane Oxygenation-A Randomized Controlled Pilot Trial.", "C-Type Lectin-Like Receptor 2 in Lung Epithelium Protects Against Acute Lung Injury.", "Plasma exchange for severe alveolar hemorrhage in ANCA-associated vasculitis: emulation of a target trial.", "The Psoriatic Disease Assessment Index (PSODAI) Score to Evaluate Systemic Involvement of Psoriasis.", "Preferable Concentration-Volume Combination of Ropivacaine for Femoral Nerve Block in Arthroscopic Meniscoplasty: A Prospective, Double-Blind, Randomized Clinical Trial.", "Prebiotic \u03b2 (1-4) Galacto-oligosaccharides Strengthen Intestinal Barrier Integrity via Mucus Production and Modulation of Tight Junction Genes.", "Bioinformatic Identification and Preliminary Validation of TP53, TGFB1, and NFE2L2 as Potential Ferroptosis-Related Regulators in Pancreatic Adenocarcinoma.", "Association Between Menstrual Pain and Procedural Pain During Office Hysteroscopy: A 10-Year Cohort Study.", "High Rate of Positive Fecal Occult Blood Test in Healthy Infants: A Nested Case-control Study.", "Structural maintenance of chromosome protein 1A exacerbates liver fibrosis by enhancing hepatic stellate cell activation and extracellular matrix synthesis via laminin subunit gamma 2 activation.", "Diagnostic Performance of the Multi-Biomarker Disease Activity (MBDA) Score for Rheumatoid Arthritis in Patients with New-Onset Joint Symptoms: An Age-Stratified Retrospective Study.", "Clinical Presentation and Management of Omental Ectopic Pregnancy in a 23-Year-Old Patient: Integrative Case Study and Literature Review.", "Gastrointestinal endoscopy and visceral surgery: current status and potentials for interdisciplinary patient care.", "Fibrosis activity vs. disease stage: Complementary and independent predictors of outcomes in alcohol-related liver disease.", "Development and patterns of acute-on-chronic liver failure in patients with cirrhosis and acute kidney injury.", "HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.", "Association Between Patatin-Like Phospholipase Do-Main-Containing Protein-3 Variant and Cardiovascular Disease Risk in People Living With HIV on Antiretroviral Therapy in Taiwan: A Cross-Sectional Study.", "Epidemiology and Burden of Gallbladder and Biliary Diseases and the Socioeconomic Factors in the Region of Middle East and North Africa, 1990-2021: Estimates From the Global Burden of Disease 2021 Study.", "Exploring the prediction model and core genes for coronary artery disease in non-obese steatotic liver disease patients.", "Development and validation of a prediction model for in-hospital mortality in intensive care unit patients with cirrhosis and sepsis: a multicentre retrospective cohort study.", "Exploration of multi-omics liquid biopsy approaches for multi-cancer early detection: The PROMISE study.", "Precision targeting of STING: Challenges, innovations, and clinical outlook for cancer therapy.", "Tailored weight-management recommendations for obesity patients with cardiovascular-metabolic diseases.", "Outcomes Following Constipation Treatments Between Parkinson's Disease and Non-Parkinson's Disease Patients Evaluated by the Constipation Scoring System.", "Multifunctional theranostic magnetic PLGA nanoparticles encapsulating cyclosporine A: addressing challenges in pancreas transplantation for type 1 diabetes.", "Integrated single-cell and spatial transcriptomics reveal the differentiation drivers of gastric epithelial lineage progression.", "From microtubule remodeling to clinical translation: the multifaceted roles of vasohibin-1 in disease modulation.", "Extraintestinal manifestations in ulcerative colitis patients with disease phenotype: insights from a Pakistani population.", "Unmasking a Rare Genetic Puzzle: Hereditary Hemorrhagic Telangiectasia in a Black Kenyan Woman: A Case Report.", "Pelvic Radiodensities Secondary to Geophagia in a Child.", "Acute Quadriparesis From Concurrent Celiac Crisis and Giardiasis.", "Immunoglobulin G4-Related Disease-Like Gastric Lesion Presenting as Submucosal Tumor-Like Lesions.", "Rectal Arteriovenous Malformation Mimicking a Submucosal Tumor: Successful Long-Term Outcome After Transcatheter Arterial Embolization With N-Butyl-2-Cyanoacrylate-Lipiodol.", "Successful Endoscopic Ultrasound-Guided Transgastric Drainage for Intra-Abdominal Abscess Caused by Delayed Perforation After Gastric Endoscopic Mucosal Resection.", "Utility of Hybrid Endoscopy Combining Small-Bowel Capsule Endoscopy and Conventional Ileocolonoscopy in Crohn's Disease.", "dMMR killer: A conditional suicide gene that preferentially kills DNA mismatch repair-deficient cells.", "Rare co-occurrence of colon cancer and Gastrodiscoides hominis in a human host: A case report and literature review.", "Anti-oncogenic and immunological functions of ATP23 in CMS4 colon adenocarcinoma based on a machine learning computational framework.", "Establishing emergency bronchoscopy in Timor-Leste: a healthcare needs assessment-driven novel model of training.", "Multi-Scale Mapping of Gene Expression from Whole-slide Images for Identifying Phenotype-Associated Subpopulations.", "PAF Triggered Pyroptotic NETosis Aggravates Myocardial Ischemia/Reperfusion Injury.", "Disruption of Signalling Pathways Induced by HBV HBx, HCV Core, and EBV LMP1 in Gastric Cancer.", "[Eosinophilic Gastrointestinal Diseases: Diving beyond the Tip of the Iceberg].", "Presence of Autoantibodies against the Autonomic Nervous System in Primary Achalasia.", "Changes in Psychosocial Outcomes Reported in Behavioral Intervention Trials for Children and Adolescents with Overweight and Obesity: A Scoping Review.", "hnRNPA2B1 induces HBV cccDNA degradation by recruiting APOBEC3B.", "Seroprevalence of Hepatitis E Virus Infection among Blood Donors in Lebanon: A National Comparative Evaluation of Two Serological Assays.", "A Novel Approach to Complex Splenic Hilar Aneurysms: ICG-Guided Partial Spleen Preservation Combined With Distal Pancreatectomy.", "Progressive Decline in Interferon-\u03b3 Release is Associated with Cirrhosis Progression and Severity: A Prospective Preliminary Report.", "Cold snare polypectomy for 10-19\u2009mm colorectal adenomas in familial adenomatous polyposis: a prospective randomized controlled trial.", "Title-effectiveness and safety of Danshen injection for acute kidney injury in primary nephrotic syndrome.", "Gegen Qinlian decoction ameliorates experimental colitis in miceferroptosis pathway.", "Molecular analysis of the interaction between ubiquitin-specific protease 7 and large T antigen of Merkel cell polyomavirus.", "Vaccination in delivery wards leads to high timely coverage of hepatitis B birth dose vaccine in Islamabad-Pakistan, 2023.", "Comparative Efficacy of Standard-Volume Plasma Exchange Versus High-Volume Plasma Exchange in Patients With Acute-on-Chronic Liver Failure.", "The mediating role of the kynurenine pathway in longitudinal associations between dietary intake and quality of life in colorectal cancer survivors up to 12\u2009months posttreatment.", "Balancing therapeutic benefits and hidden risks of proton pump inhibitors in pediatric practice: a narrative review and update.", "Venovenous Extracorporeal Membrane Oxygenation Outcomes in Cirrhosis: An Extracorporeal Life Support Organization Registry Study.", "MetALD: A narrative review of the clinical and molecular landscape of reclassifying steatotic liver disease.", "Fitness Training for \u03b3\u03b4 T cells in mouse and human atherosclerosis takes place in plaques and artery tertiary lymphoid organs."];
-        const categoryCounts = {"\uc704\uc7a5\uad00": 5, "\uac04": 5, "\ucdcc\ub2f4\uad00": 5};
-        
         const stopWords = ["the","of","and","a","in","to","for","with","on","as","by","an","is","at","from","study","clinical","trial","patient","patients","treatment","analysis","results","using","versus","vs","comparing","compared","comparison","relation","relationship","between","among","after","during","before","diagnostic","diagnosis","probe","targeted","target","healthy","accuracy","specific","quantitative","implications","evidence","predict","predicting","predictive","takes","fractions","methodological","interpretative","considerations","retrospective","prospective","cohort","multicenter","impact","yield","survival","outcomes","outcome","associated","association","risk","factors","factor","development","validation","model","models","efficacy","safety","systematic","review","meta-analysis","disease","diseases","case","report","system","role","effect","effects","evaluation","evaluating","based","new","novel","approach","approaches","management","use","utility","changes","expression","levels","level","related","group","groups","high","low","significant","significance","increase","decreased","increased","decrease","activity","therapy","therapies","characteristics","features","human","mice","mouse","cell","cells","protein","proteins","gene","genes","pathway","pathways","mechanism","mechanisms","type","types","data","methods","method","conclusion","conclusions","background","objective","aim","introduction","through","which","that","this","these","those"];
-        
         const words = titles.join(" ").toLowerCase().replace(/[.,/#!$%^&*;:{}==_`~()?'"]/g,"").split(/\s+/);
         const freqMap = {};
         words.forEach(w => { if(w.length > 3 && !stopWords.includes(w)) freqMap[w] = (freqMap[w] || 0) + 1; });
         
-        const sortedWords = Object.entries(freqMap).sort((a,b) => b[1] - a[1]).slice(0, 10);
-        const labels = sortedWords.map(item => item[0].toUpperCase());
-        const dataValues = sortedWords.map(item => item[1]);
-
-        // 다크 모드 차트 설정
-        Chart.defaults.font.family = "'Apple SD Gothic Neo', 'Consolas', sans-serif";
+        const sortedWords = Object.entries(freqMap).sort((a,b) => b[1] - a[1]).slice(0, 5);
+        
+        Chart.defaults.font.family = "'Apple SD Gothic Neo', sans-serif";
         Chart.defaults.color = '#94a3b8';
 
         new Chart(document.getElementById('barChart'), {
             type: 'bar',
             data: {
-                labels: labels,
+                labels: sortedWords.map(item => item[0].toUpperCase()),
                 datasets: [{
-                    label: 'Frequency',
-                    data: dataValues,
-                    backgroundColor: 'rgba(56, 189, 248, 0.8)',
-                    borderColor: '#38bdf8',
-                    borderWidth: 1,
+                    data: sortedWords.map(item => item[1]),
+                    backgroundColor: 'rgba(56, 189, 248, 0.7)',
                     borderRadius: 4
                 }]
             },
             options: {
                 indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: true, maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
-                scales: { 
-                    x: { grid: { color: 'rgba(255,255,255,0.05)' } }, 
-                    y: { grid: { display: false } } 
-                }
-            }
-        });
-
-        new Chart(document.getElementById('doughnutChart'), {
-            type: 'doughnut',
-            data: {
-                labels: Object.keys(categoryCounts),
-                datasets: [{
-                    data: Object.values(categoryCounts),
-                    backgroundColor: ['#f43f5e', '#eab308', '#10b981'], 
-                    borderWidth: 0,
-                    hoverOffset: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%',
-                plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } }
+                scales: { x: { display: false }, y: { grid: { display: false } } }
             }
         });
     </script>
