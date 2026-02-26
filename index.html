@@ -1,647 +1,306 @@
 
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>GI Intelligence Terminal</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --primary: #3498db; --success: #2ecc71; --warning: #ffb300; --bg: #f5f7fa; --text: #2c3e50; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; }
-        .card { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #e0e0e0; }
-        .paper-item { background: #fff; border: 1px solid #eee; margin-bottom: 8px; border-radius: 10px; border-left: 4px solid var(--primary); overflow: hidden; list-style: none; }
-        summary { padding: 12px; cursor: pointer; outline: none; list-style: none; }
-        summary::-webkit-details-marker { display: none; }
-        .meta { font-size: 0.75rem; color: #7f8c8d; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-        .title-row { font-weight: bold; font-size: 0.95rem; line-height: 1.4; display: flex; align-items: flex-start; }
-        .arrow-icon { display: inline-block; transition: transform 0.2s; color: var(--primary); margin-right: 8px; flex-shrink: 0; }
-        details[open] .arrow-icon { transform: rotate(90deg); }
-        .badge { padding: 2px 5px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; color: #fff; }
-        .rct { background: #e74c3c; } .gl { background: var(--success); } .if { background: #8e44ad; } .endo { background: #9b59b6; }
-        .content { padding: 15px; background: #f9f9f9; border-top: 1px solid #eee; font-size: 0.9rem; }
-        .clinical-note { background: #fff8e1; border-left: 4px solid var(--warning); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 0.85rem; color: #5d4037; }
-        .btm-box { background: #ebf5ff; padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid var(--primary); font-weight: bold; }
-        .btn { flex: 1; padding: 10px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: bold; cursor: pointer; font-size: 0.85rem; border: none; color: #fff; }
-        .pub { background: var(--primary); } .shr { background: var(--success); }
-        .filter-btn { width: 100%; padding: 12px; border-radius: 20px; border: 2px solid var(--success); background: #fff; color: var(--success); font-weight: bold; cursor: pointer; margin-bottom: 15px; }
-        .filter-btn.active { background: var(--success); color: #fff; }
+        body { font-family: -apple-system, sans-serif; background:#f5f7fa; color:#2c3e50; margin:0; padding:10px; }
+        .card { background:#fff; border-radius:12px; padding:15px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:15px; border:1px solid #e0e0e0; }
+        .paper-item { background:#fff; border:1px solid #eee; margin-bottom:8px; border-radius:10px; border-left:4px solid #3498db; overflow:hidden; }
+        summary { padding:12px; cursor:pointer; list-style:none; outline:none; }
+        .title-row { font-weight:bold; font-size:0.95rem; line-height:1.4; display:flex; align-items:flex-start; }
+        .arrow-icon { display:inline-block; transition:0.2s; color:#3498db; margin-right:8px; flex-shrink:0; }
+        details[open] .arrow-icon { transform:rotate(90deg); }
+        .badge { padding:2px 5px; border-radius:4px; font-size:0.65rem; font-weight:bold; color:#fff; }
+        .rct { background:#e74c3c; } .if { background:#8e44ad; }
+        .content { padding:15px; background:#f9f9f9; border-top:1px solid #eee; font-size:0.9rem; }
+        .clinical-note { background:#fff8e1; border-left:4px solid #ffb300; padding:10px; border-radius:8px; margin-bottom:12px; font-size:0.85rem; }
+        .btn { flex:1; padding:10px; border-radius:6px; text-align:center; text-decoration:none; font-weight:bold; cursor:pointer; font-size:0.85rem; border:none; color:#fff; }
+        .pub { background:#3498db; } .shr { background:#2ecc71; }
     </style>
 </head>
 <body>
     <div class="card" style="text-align:center;">
         <h1 style="margin:0; font-size:1.6rem;">🏥 GI Intel Terminal</h1>
-        <div style="margin-top:8px;"><span style="background:#ebf5ff; color:var(--primary); padding:4px 12px; border-radius:15px; font-size:0.75rem; font-weight:bold;">Updated: 2026-02-26 14:39 KST</span></div>
+        <small>Updated: 2026-02-26 14:45 KST</small>
+    </div>
+    <div class="card" style="border-top: 4px solid #e74c3c;">
+        <h2 style="margin-top:0; font-size:1.1rem;">🔥 Weekly Top 3</h2>
+        <ul style="padding-left:18px; margin-bottom:0; font-size:0.9rem;"><li style='margin-bottom:8px;'><b>The role of endoscopic therapies for patients with metabolic dysfunction-associated steatotic liver disease (MASLD).</b> <small style='color:#3498db;'>(Expert review of gastroenterology & hepatology)</small></li><li style='margin-bottom:8px;'><b>Associations between parenteral energy or amino acid doses and clinical outcomes in fasting patients undergoing gastroenterological cancer surgery: a nationwide cohort study using real-world data.</b> <small style='color:#3498db;'>(Gastroenterology Report)</small></li><li style='margin-bottom:8px;'><b>Amivantamab plus chemotherapy versus chemotherapy for first-line treatment of participants with EGFR exon 20 insertion-mutated advanced non-small cell lung cancer: PAPILLON Asia subgroup analysis.</b> <small style='color:#3498db;'>(Lung cancer (Amsterdam, Netherlands))</small></li></ul>
     </div>
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
         <div class="card"><canvas id="c1" style="height:120px;"></canvas></div>
         <div class="card"><canvas id="c2" style="height:120px;"></canvas></div>
     </div>
-    <div class="card">
-        <button id="fBtn" class="filter-btn" onclick="toggleF()">📋 가이드라인만 보기</button>
-        <div class='sec-group'><h3>🍎 GI Track</h3>
+    <div class="card"><div class='sec-group'><h3>🍎 GI Track</h3>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Parasite (Paris, France)</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Evaluation of OvaCyte for the detection of gastrointestinal parasites in ovine and bovine animals: comparison with traditional flotation techniques.</div>
+                <div class="meta"><span class='badge if'>IF 29.4</span> <b>Expert review of gastroenterology & hepatology</b> </div>
+                <div class="title-row"><span class="arrow-icon">▶</span>The role of endoscopic therapies for patients with metabolic dysfunction-associated steatotic liver disease (MASLD).</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                
-                <div class="abs">This study aimed to evaluate the diagnostic and analytical performance of OvaCyte, an automated image-based system for the detection of gastrointestinal parasites in ruminants, against traditional flotation techniques. OvaCyte is available in two versions: OvaCyte Plus, which automates egg detection and quantification, and OvaCyte Premium, which incorporates enhanced analysis to differentiate parasite families, genera, and species within strongyles (e.g., Trichostrongylidae, Haemonchus contortus, and Nematodirus spp.). Coccidia are also classified as standard or type B, with the latter specifically including Eimeria weybridgensis, Eimeria crandallis and Eimeria ovinoidalis, based on distinct morphometrical features. The identification of Haemonchus contortus was validated using peanut agglutinin (PNA) fluorescence staining as the gold standard. Sensitivity and specificity for OvaCyte Plus, Mini-FLOTAC, and McMaster were calculated based on a consensus "true status". Limits of detection and quantification were calculated using regression analysis. OvaCyte Plus demonstrated the highest sensitivity, especially for Nematodirus (95%), coccidia (93%), strongyles (92%), and Strongyloides papillosus (90%). Mini-FLOTAC showed moderate sensitivity (63-79%), while McMaster had the lowest value (30-76%). For Moniezia spp., sensitivity was similar for OvaCyte Plus and Mini-FLOTAC (79%), but lower for McMaster (59%). Specificity was high across all techniques (92-100%). Differences in performance were attributed to varying multiplication factors: OvaCyte Plus (3 EPG), Mini-FLOTAC (7.5 EPG), and McMaster (50 EPG). Strong correlations were observed between OvaCyte Plus and manual techniques for strongyle egg counts. OvaCyte Premium exhibited the highest sensitivity across all parasites. OvaCyte Plus and Premium demonstrated performance comparable to or exceeding traditional techniques for the detection of gastrointestinal parasites in ruminants.<br><br><b style='color:#3498db;'>TITLE:</b> Évaluation d’OvaCyte pour la détection des parasites gastro-intestinaux chez les ovins et les bovins : comparaison avec les techniques de flottaison traditionnelles.<br><br><b style='color:#3498db;'>ABSTRACT:</b> Cette étude visait à évaluer les performances diagnostiques et analytiques d’OvaCyte, un système automatisé d’imagerie pour la détection des parasites gastro-intestinaux chez les ruminants, par rapport aux techniques de flottaison traditionnelles. OvaCyte est disponible en deux versions : OvaCyte Plus, qui automatise la détection et la quantification des œufs, et OvaCyte Premium, qui intègre une analyse avancée pour la différenciation des espèces et des familles de parasites, notamment parmi les strongles (par exemple Trichostrongylidae, Haemonchus contortus et Nematodirus spp.). Les coccidies sont également classées en deux types : standard et de type B, ce dernier incluant spécifiquement Eimeria weybridgensis, Eimeria crandallis et Eimeria ovinoidalis, selon des caractéristiques morphométriques distinctes. L’identification d’Haemonchus contortus a été validée par coloration fluorescente à l’agglutinine d’arachide (PNA), considérée comme la méthode de référence. La sensibilité et la spécificité des tests OvaCyte Plus, Mini-FLOTAC et McMaster ont été calculées selon un consensus sur le statut réel des parasites. Les limites de détection et de quantification ont été calculées par analyse de régression. OvaCyte Plus a démontré la plus grande sensibilité, notamment pour Nematodirus (95 %), les coccidies (93 %), les strongles (92 %) et Strongyloides papillosus (90 %). Mini-FLOTAC a montré une sensibilité modérée (63–79 %), tandis que McMaster a présenté la plus faible (30–76 %). Pour Moniezia spp., la sensibilité était similaire pour OvaCyte Plus et Mini-FLOTAC (79 %), mais inférieure pour McMaster (59 %). La spécificité était élevée pour toutes les techniques (92–100 %). Les différences de performance ont été attribuées aux différents facteurs de multiplication : OvaCyte Plus (3 œufs par gramme), Mini-FLOTAC (7,5 œufs par gramme) et McMaster (50 œufs par gramme). De fortes corrélations ont été observées entre OvaCyte Plus et les techniques manuelles pour le comptage des œufs de strongles. OvaCyte Premium a présenté la plus grande sensibilité pour tous les parasites. OvaCyte Plus et Premium ont démontré des performances comparables, voire supérieures, aux techniques traditionnelles de détection des parasites gastro-intestinaux chez les ruminants.</div>
+                <div class="abs">Metabolic dysfunction-associated steatotic liver disease (MASLD) is a major public health challenge closely linked to obesity and metabolic syndrome. Effective, durable weight-loss strategies are needed to modify its natural history, particularly in patients at high surgical risk or with limited response to pharmacotherapy.<br><br>This review summarizes current and emerging weight-loss approaches for MASLD, focusing on pharmacological therapies, bariatric surgery and endoscopic interventions. From an expert narrative perspective, we discuss key randomized and observational studies on endoscopic sleeve gastroplasty (ESG), cost-effectiveness analyses, and the limited evidence in patients with compensated advanced chronic liver disease (cACLD), who represent an unmet need.<br><br>ESG could be a promising, minimally invasive option for patients with MASLD who are ineligible for bariatric surgery or refractory to medical therapy. Early data suggest clinically meaningful weight loss, metabolic improvement, and a favorable safety profile, but long-term outcomes and direct histological benefits remain to be defined, particularly in patients with advanced fibrosis or cACLD. Combining ESG with pharmacological agents, such as GLP-1 receptor agonists, theoretically may enhance outcomes and deserves further study. Well-designed trials are required to better define the role of ESG in MASLD management and its potential integration into clinical practice.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41738613/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41738613')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41688294/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41688294')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41738613" style="display:none;">📄 [GI Intel]\n📌 Evaluation of OvaCyte for the detection of gastrointestinal parasites in ovine and bovine animals: comparison with traditional flotation techniques.\n📖 Parasite (Paris, France)\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41738613/</textarea>
+                <textarea id="s_41688294" style="display:none;">📄 GI Intel\n📌 The role of endoscopic therapies for patients with metabolic dysfunction-associated steatotic liver disease (MASLD).\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41688294/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>International journal of surgery (London, England)</b>  🔥</div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Comprehensive assessment of postoperative metachronous liver metastasis risk in colon cancer based on inflammatory indicators: a multicenter prospective study.</div>
+                <div class="meta"> <b>Lung cancer (Amsterdam, Netherlands)</b>  🔥</div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Amivantamab plus chemotherapy versus chemotherapy for first-line treatment of participants with EGFR exon 20 insertion-mutated advanced non-small cell lung cancer: PAPILLON Asia subgroup analysis.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> ✅ 기존 치료보다 우수 (우선 고려)</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>The GBM model demonstrated strong predictive performance and favorable clinical utility for identifying colon-cancer patients undergoing curative resection who are at risk of developing metachronous liver metastasis within 1 year. Multicenter model development followed by prospective validation underscored the clinical value of an integrated immunological signature. Early identification of high-risk patients permits intensified surveillance, timely intervention, and more efficient allocation of finite health care resources.</div>
-                <div class="abs"><b style='color:#3498db;'>OBJECTIVE:</b> Insidiousness is a hallmark of metachronous liver metastasis. Owing to the absence of a comprehensive machine-learning model integrating systemic inflammatory indicators for predicting metachronous liver metastasis after colon cancer surgery, and to the lack of prospective validation and interpretability, this study aimed to develop and validate a machine-learning model for predicting postoperative metachronous liver metastasis in patients with colon cancer.<br><br><b style='color:#3498db;'>METHODS:</b> The variable pool of risk factors was determined through meta-analysis combined with three distinct screening approaches. The model was developed retrospectively and validated prospectively. The retrospective cohort comprised patients who underwent radical colectomy for colon cancer at X Hospital, S Hospital, and the P Hospital between 1 January 2012 and 1 January 2023. The prospective cohort included patients at X Hospital between 1 March 2023 and 1 August 2024. In the retrospective cohort, patients were randomly allocated to a training set and an internal validation set in a 7:3 ratio. Feature selection was performed using Lasso regression, multivariable logistic regression, and the Boruta random forest algorithm. The performance of ten machine-learning models was assessed using the area under the receiver operating characteristic curve (AUC), accuracy, sensitivity, specificity, positive predictive value, negative predictive value, and F1 score. AUC, calibration curves, and decision curve analysis were employed to elucidate clinical utility. Model interpretability was achieved through SHapley Additive exPlanations. This study strictly adhered to the TRIPOD + AI statement.<br><br><b style='color:#3498db;'>RESULTS:</b> In retrospective cohort of 3938 patients, 11.2 % developed metachronous liver metastasis within 1 year; in prospective cohort of 724 patients, the corresponding proportion was 7.5 %. Following three feature-selection procedures and two multicollinearity assessments, 18 basic clinical variables and nine immune-inflammatory indices were selected for model development. Gradient boosting machine (GBM) demonstrated the highest overall performance, with an AUC of 0.964 (95 % CI: 0.944-0.983); compared with other models, decision-curve analysis revealed superior clinical utility. In the prospective cohort, the model maintained robust performance, achieving an AUC of 0.939.<br><br><b style='color:#3498db;'>CONCLUSION:</b> The GBM model demonstrated strong predictive performance and favorable clinical utility for identifying colon-cancer patients undergoing curative resection who are at risk of developing metachronous liver metastasis within 1 year. Multicenter model development followed by prospective validation underscored the clinical value of an integrated immunological signature. Early identification of high-risk patients permits intensified surveillance, timely intervention, and more efficient allocation of finite health care resources.</div>
+                <div class="abs">Amivantamab is a bispecific, epidermal growth factor receptor (EGFR) and MET-proto-oncogene (MET)-targeting antibody with immune cell-directing activity. In the global Phase 3 PAPILLON trial, amivantamab plus carboplatin-pemetrexed (amivantamab-chemotherapy) significantly improved progression-free survival (PFS) vs chemotherapy alone in previously untreated participants with locally advanced/metastatic NSCLC with EGFR exon 20 insertions (Ex20ins). We evaluated clinical outcomes in Asian participants in PAPILLON (NCT04538664).<br><br>Participants were randomized 1:1 to amivantamab-chemotherapy or chemotherapy alone. Study endpoints for this analysis were PFS by blinded independent central review (primary), objective response rate (ORR), duration of response (DoR), PFS after first subsequent therapy (PFS2), overall survival (OS), and safety (secondary). Crossover to amivantamab monotherapy was allowed when disease progressed on chemotherapy alone.<br><br>Among 186 participants in the Asian sub-cohort, 97 received amivantamab-chemotherapy and 89 received chemotherapy. At median follow-up of 16.6 months, median PFS (95% confidence interval [CI]) in the amivantamab-chemotherapy/chemotherapy groups was 11.5/5.6 months (hazard ratio [HR] 0.34; 95%CI, 0.23-0.49; nominal p < 0.0001) arms. The ORR was 70% vs 51% (odds ratio 2.2, 95%CI, 1.2-3.9; nominal p = 0.012), DoR 10.1 vs 5.5 months. Median PFS2 was not estimable vs 18.8 months (HR 0.46, 95%CI 0.26-0.83; nominal p = 0.008), and median interim OS not estimable vs 24.4 months HR 0.65, 95%CI 0.34-1.24; nominal p = 0.189), respectively, despite substantial (73%) crossover. Safety profiles for both arms were similar to the overall PAPILLON population.<br><br>Amivantamab-chemotherapy demonstrated superior PFS vs chemotherapy and represents a new standard of care for first-line treatment of Asian participants with Ex20ins-mutated NSCLC.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41738596/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41738596')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41671628/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41671628')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41738596" style="display:none;">📄 [GI Intel]\n📌 Comprehensive assessment of postoperative metachronous liver metastasis risk in colon cancer based on inflammatory indicators: a multicenter prospective study.\n📖 International journal of surgery (London, England)\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41738596/</textarea>
+                <textarea id="s_41671628" style="display:none;">📄 GI Intel\n📌 Amivantamab plus chemotherapy versus chemotherapy for first-line treatment of participants with EGFR exon 20 insertion-mutated advanced non-small cell lung cancer: PAPILLON Asia subgroup analysis.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41671628/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus</b>  🔥</div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.</div>
+                <div class="meta"> <b>Inflammatory bowel diseases</b> <span class='badge rct'>RCT</span></div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Dysplasia detection using high-definition scopes with dye vs virtual chromoendoscopy in IBD: A meta-analysis of randomized clinical trials.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> ⚠️ 기존 치료 유지 권장</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                
-                <div class="abs">The prognostic value of lymph node (LN) yield in esophageal and gastric cancer remains controversial, especially in the context of modern perioperative treatment. This multicenter Danish cohort study evaluates the association between LN yield and survival outcomes. This study included 3092 patients who underwent curative-intent resection for esophageal (n = 2402) or gastric cancer (n = 690) between 2013 and 2021 at four Danish upper GI centers. All cases were registered in the Danish Esophagogastric Cancer Group database, covering 99% of all Danish esophageal and gastric cancer cases. Patients were stratified by nodal status (pN0/pN+) and categorized into five LN yield groups. Survival analyses were performed using Kaplan-Meier curves and multivariable Cox regression. In node-negative esophageal cancer, higher LN yields (20-29, 30-39, and 40+) were significantly associated with improved survival (hazard ratio: 0.47-0.58, P < 0.001) compared with the reference group (16-19). No survival benefit was seen beyond 16-19 nodes in node-positive esophageal or gastric cancers. Perioperative chemotherapy improved survival in node-positive esophageal cancer but had no effect in node-negative esophageal and gastric cancer. Discrepancies between clinical and pathological nodal staging were frequent and influenced both survival estimates and treatment allocation. LN removal was associated with survival in esophageal and gastric cancer. Node-negative patients showed increased survival if ≥20 nodes were removed, while node-positive esophageal cancer and gastric cancer patients showed no difference in survival beyond 16-19. Lastly, discrepancies between clinical and pathological staging underscore the need for more accurate preoperative diagnostics and highlight the impact of modern perioperative chemotherapy.</div>
+                <div class="abs">This meta-analysis of 8 randomized controlled trials compares the effectiveness of using high-definition scopes with virtual chromoendoscopy vs dye chromoendoscopy for detecting dysplasia in inflammatory bowel disease patients. Overall, the odds of dysplasia detection were not significantly different between dye chromoendoscopy and virtual chromoendoscopy.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739742/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739742')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41701117/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41701117')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41739742" style="display:none;">📄 [GI Intel]\n📌 Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.\n📖 Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739742/</textarea>
+                <textarea id="s_41701117" style="display:none;">📄 GI Intel\n📌 Dysplasia detection using high-definition scopes with dye vs virtual chromoendoscopy in IBD: A meta-analysis of randomized clinical trials.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41701117/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus</b> <span class='badge endo'>Endo</span></div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</div>
+                <div class="meta"> <b>Progress in molecular biology and translational science</b>  🔥</div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Fecal microbiota transplantation in liver diseases: Therapeutic potential and associated risks.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 USG 6개월 간격 세팅</div>
         </div>
-                
-                <div class="abs">Patients with eosinophilic esophagitis (EoE) in remission require monitoring, but optimal timing for endoscopic assessment is unknown. We aimed to assess variability in time from remission to surveillance endoscopy and associations with disease outcomes. This retrospective cohort study included patients with EoE who achieved histologic remission (<15 eos/hpf) while on stable treatment and had at least one surveillance endoscopy with biopsy after remission. Time to surveillance was categorized (≤1 year, 1-2 years, >2 years) and compared to a range of EoE clinicopathologic characteristics and disease outcomes. The 91-patient cohort had substantial variability in time to first surveillance endoscopy (mean 1.3 ± 1.0 years; median/IQR 1.0/0.6-1.8; range 0.2-7.3). While most patient characteristics were not associated with time to surveillance, larger dilation size at remission correlated with longer surveillance intervals (R = 0.36, p = 0.03), and EoE Endoscopic Reference Score (EREFS) was inversely associated (R = -0.21, p = 0.07). Outcomes of EREFS, Index of Severity of EoE, and eosinophil count were similar for <1, 1-2, or 2+ years surveillance intervals. However, numerically fewer patients with endoscopy 2+ years after remission maintained histologic response (59% vs. 78% at ≤1 year and 82% at 1-2 years; p = 0.15) and had more ongoing EoE symptoms (47% vs. 34% at ≤1 year and 24% at 1-2 years; p = 0.26). Surveillance timing in EoE remission varies widely and is largely unexplained by clinical features, except for dilation size. While outcomes were similar across intervals, patients with longer surveillance (>2 years) had numerically less histologic response and more persistent symptoms, warranting further study.</div>
+                <div class="abs">Fecal microbiota transplantation (FMT) is a biologically coherent strategy to modulate the gut-liver axis by restoring ecosystem structure and function. This chapter synthesizes current evidence and practice of FMT in various liver disease conditions. In cirrhosis with recurrent hepatic encephalopathy (HE), randomized trials demonstrate adjunctive benefits of FMT, reducing recurrence and hospitalizations as well as improving cognition, with route flexibility (lower-GI infusions or oral capsules) and emerging microbiome predictors of response. In severe alcohol-associated hepatitis and ACLF, early single-center trials suggest fewer infections and short-term survival gains, warranting confirmation in multicenter, blinded studies for further outcomes. For MASLD/MASH, FMT consistently shifts intestinal permeability, bile-acid signatures, and hepatic transcriptomics, although it has not reliably improved MRI-PDFF or insulin resistance in unselected cohorts; future success likely requires phenotype enrichment and function-matched donors or defined consortia. Data in chronic hepatitis B remain exploratory, positioning FMT, if at all, as an adjunct to antivirals. Methods are standardized around rigorous donor screening, controlled manufacturing, indication-specific endpoints, and strain-resolved engraftment analytics linking mechanism to outcome. Refractory Clostridium difficile is the only FDA-approved indication of FMT. Use of FMT in hepatology use should remain protocolled and regulated. Priorities include precision donor matching, next-generation consortia, platform trials, and long-term safety registries.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739741')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41714079/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41714079')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41739741" style="display:none;">📄 [GI Intel]\n📌 Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.\n📖 Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739741/</textarea>
+                <textarea id="s_41714079" style="display:none;">📄 GI Intel\n📌 Fecal microbiota transplantation in liver diseases: Therapeutic potential and associated risks.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41714079/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Digestive diseases and sciences</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.</div>
+                <div class="meta"> <b>Radiotherapy and oncology : journal of the European Society for Therapeutic Radiology and Oncology</b>  🔥</div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Prospective Phase 2 Trial: Long-term results of a salvage brachytherapy combined with interstitial hyperthermia as Re-Irradiation for locally recurrent prostate Carcinoma.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                
-                <div class="abs"></div>
+                <div class="abs">This prospective Phase 2 trial investigates efficacy and side effects of ultrasound-guided salvage brachytherapy with interstitial hyperthermia in locally recurrent prostate cancer following previous radiation therapy.<br><br>Altogether 109 patients with locally recurrent prostate cancer after previous external beam radiation therapy were enrolled in this Phase 2, multicentric prospective trial between 2015 and 2020. Patients received either 30 Gy in three fractions 21 days apart (78.0 Gy, EQD2, α/ β = 3 Gy) using interstitial HDR-brachytherapy alone or 60 Gy in 2 sessions 28 days apart (71.5 Gy (EQD2, α/β = 3 Gy) using interstitial PDR-brachytherapy alone. We performed the interstitial brachytherapy in all patients with plastic needles. Additionally, interstitial hyperthermia treatment was executed within one hour before or during every brachytherapy fraction/series for a therapeutic time of 60 min and a target temperature of 40-41 °C, at least. The primary endpoint of this prospective phase 2 trial was rate of late Grade ≥ 3 gastrointestinal (GI) and genitourinary (GU) side effects. Treatment-related toxicity was evaluated according to the Common Toxicity Criteria for Adverse Events version 4.03 (CTCAE). Secondary endpoints were cumulative local recurrence rate, biochemical disease-free survival (bDFS), overall survival (OS), disease-free survival (DFS) and cancer-specific survival. This trial is registered with ClinicalTrials.gov number NCT03238066.<br><br>Median follow-up was 64 months. Median time between previous radiation therapy and salvage brachytherapy was 77 months (range 20.4 - 244 months). Serious late toxicity was generally low. Importantly we did not register any grade ≥ 2 of late rectal toxicities. We observed Grade 3 urinary incontinence in 8/109 patients (7.3%), with further seven patients scoring urinary incontinence Grade 1 or 2 toxicity (7/109, 6.4%). All other late urogenital side effects were only grade 1 or 2: urinary retention by 8/109 (7.2%), urinary frequency 5/109 (4.6%) and urinary urgency in 2/109 patients (1.8%). The cumulative 5 years local recurrence rate (cLRR) and cumulative lymph-node recurrence rate (cLndRR) for all patients was 29% and 6.8%, respectively. Five years-biochemical disease-free survival estimates according Kaplan-Meier were 58.9%. Five years metastases-free survival, cancer specific survival and overall survival estimates according Kaplan-Meier were 77.7%, 92.7% and 85.5%, respectively.<br><br>Salvage brachytherapy with interstitial hyperthermia in local recurrent, previously irradiated, prostate cancer is effective with very low late toxicity. Since there are no meaningful randomized comparative studies available, it remains unclear whether the additional use of interstitial hyperthermia can further improve the effectiveness of salvage brachytherapy alone.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739328/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739328')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41702454/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41702454')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41739328" style="display:none;">📄 [GI Intel]\n📌 Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.\n📖 Digestive diseases and sciences\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739328/</textarea>
+                <textarea id="s_41702454" style="display:none;">📄 GI Intel\n📌 Prospective Phase 2 Trial: Long-term results of a salvage brachytherapy combined with interstitial hyperthermia as Re-Irradiation for locally recurrent prostate Carcinoma.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41702454/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Cancer immunology, immunotherapy : CII</b>  🔥</div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Tumor-specific antibody cocktail treatment suppresses colorectal tumor growth in mice.</div>
+                <div class="meta"> <b>JAMA network open</b> <span class='badge rct'>RCT</span> 🔥</div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Adjuvant Pembrolizumab for Stage IIB or IIC Melanoma: A Secondary Analysis of a Randomized Clinical Trial.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>Our findings establish a proof-of-concept for individualized, mutation-guided antibody therapies, supporting further development of this approach to improve outcomes in patients with advanced CRC.</div>
-                <div class="abs"><b style='color:#3498db;'>BACKGROUND:</b> Colorectal cancer (CRC) remains a leading cause of cancer-related mortality, with advanced-stage disease frequently marked by treatment resistance and recurrence. Tumor heterogeneity, driven by the accumulation of somatic mutations, undermines the efficacy of conventional therapies and limits the long-term success of targeted agents. There is an urgent need for new therapeutic strategies that can exploit, rather than be constrained by, this heterogeneity.<br><br><b style='color:#3498db;'>METHODS:</b> We developed a personalized immunotherapeutic pipeline in the syngeneic CT26 murine model of CRC. Briefly, whole exome sequencing identified mutated surface proteins (MSPs) unique to these cells. Of these MSPs, we selected 10 for the generation of MSP-specific polyclonal antibodies (pAbs). These pAbs were tested for specificity and peptide binding to peptides via ELISA, tumor tissue by immunofluorescence, and tumor cells by flow cytometry. Therapeutic efficacy was evaluated in vivo using CT26 tumor-bearing mice treated with the pAb cocktail alone or in combination with anti-PD-1 immune checkpoint blockade. To assess clinical relevance, we analyzed The Cancer Genome Atlas (TCGA) whole exome sequencing data from 100 human CRC patients for MSP prevalence and inter-patient variability.<br><br><b style='color:#3498db;'>RESULTS:</b> The 10-pAb oligoclonal antibody cocktail preparations exhibited additive, high-affinity, tumor-specific binding with minimal reactivity to healthy tissues. In vivo, this pAb cocktail significantly suppressed tumor growth and, when combined with PD-1 blockade, prolonged median survival to over 90 days in treated mice compared to less than 25 days in controls. Whole exome sequence data revealed that the majority of human CRC tumors harbored 10 or more MSPs, with minimal overlap between individuals, highlighting the feasibility and necessity of personalized antibody-based therapies.<br><br><b style='color:#3498db;'>CONCLUSION:</b> Our findings establish a proof-of-concept for individualized, mutation-guided antibody therapies, supporting further development of this approach to improve outcomes in patients with advanced CRC.</div>
+                <div class="abs">Patients with melanoma are at risk of developing subsequent cutaneous malignant neoplasms, and the effect of prior immunotherapy is unknown.<br><br>To analyze new skin cancers in participants with high-risk stage II melanoma treated with adjuvant pembrolizumab or placebo.<br><br>The multicenter double-blind, phase 3 KEYNOTE-716 randomized clinical trial enrolled 976 participants 12 years or older with completely resected stage IIB or IIC cutaneous melanoma between September 23, 2018, and November 4, 2020. Follow-up was completed on February 16, 2024. This analysis was not prespecified in the trial protocol.<br><br>Participants were randomly assigned to receive intravenous pembrolizumab, 200 mg (2 mg/kg for pediatric participants), or placebo, every 3 weeks for no more than 17 cycles.<br><br>Secondary analyses of incidence and time to diagnosis of new melanoma or other cutaneous malignant neoplasm, sensitivity analysis of recurrence-free survival (RFS) with new primary melanoma counted as an event, and incidence of immune-mediated severe skin reactions.<br><br>A total of 976 participants were assigned to treatment (487 to pembrolizumab and 489 to placebo), of whom 589 (60.3%) were male (median age at diagnosis, 61 [IQR, 52-69] years). The median follow-up was 52.8 (range, 39.4-64.8) months. In the pembrolizumab group, 37 participants (7.6%) were diagnosed with new skin cancers (median time to diagnosis, 168.0 [range, 1.0-1182.0] days); 12 (2.5%) had new invasive primary melanoma, 6 (1.2%) had new primary melanoma in situ, 19 (3.9%) had basal cell carcinoma (BCC), and 9 (1.8%) had cutaneous squamous cell carcinoma (cSCC). In the placebo group, 56 participants (11.5%) were diagnosed with new skin cancers (median time to diagnosis, 177.0 [range, 1.0-1043.0] days); 9 (1.8%) had new invasive primary melanoma, 9 (1.8%) had new primary melanoma in situ, 26 (5.3%) had BCC, and 17 (3.5%) had cSCC. Median RFS with new primary melanoma counted as an event was not reached with pembrolizumab and was 59.2 months (95% CI, 53.9 months to not reached) with placebo (hazard ratio, 0.65; 95% CI, 0.52-0.80); 48-month RFS was 68.7% and 56.5%, respectively. Immune-mediated severe skin reactions occurred in 16 of 483 participants (3.3%) in the pembrolizumab group and 3 of 486 (0.6%) in the placebo group (grade 3 or 4: 14 [2.9%] vs 3 [0.6%]).<br><br>In this secondary analysis of a randomized clinical trial, the incidence of new primary melanoma was not different between groups, whereas nonmelanoma skin cancers were more common with placebo. The RFS benefit of pembrolizumab remained after accounting for new primary melanomas. Immune-mediated severe skin reactions occurred infrequently and were manageable. These findings support the use of adjuvant pembrolizumab in high-risk stage II melanoma.<br><br>ClinicalTrials.gov Identifier: NCT03553836.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739229/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739229')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41701495/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41701495')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41739229" style="display:none;">📄 [GI Intel]\n📌 Tumor-specific antibody cocktail treatment suppresses colorectal tumor growth in mice.\n📖 Cancer immunology, immunotherapy : CII\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739229/</textarea>
+                <textarea id="s_41701495" style="display:none;">📄 GI Intel\n📌 Adjuvant Pembrolizumab for Stage IIB or IIC Melanoma: A Secondary Analysis of a Randomized Clinical Trial.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41701495/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Annals of medicine</b>  🔥</div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Comparative burden and projections of chewing tobacco-attributable lip/oral cavity and esophageal cancers: global and China-specific trends, 2000-2036.</div>
+                <div class="meta"> <b>Radiation oncology (London, England)</b>  🔥</div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Magnetic resonance-guided simultaneous multi-fo​cal adaptive radiotherapy for prostate, pElvis & metastases (MRgSMART-PEM) in prostate cancer: a prospective phase II study.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>Chewing tobacco-attributable lip and oral cavity cancer burden in China has risen markedly and is projected to increase further, particularly among males and working-age populations, whereas esophageal cancer burden continues to decline. Integrated prevention strategies are needed to sustain progress and reduce the growing burden.</div>
-                <div class="abs"><b style='color:#3498db;'>BACKGROUND:</b> Smokeless tobacco (SLT), particularly chewing tobacco, is an underrecognized public health concern. Its long-term burden and trends, especially in China, remain incompletely quantified.<br><br><b style='color:#3498db;'>METHODS:</b> Using Global Burden of Disease (GBD) 2021 data, we estimated chewing tobacco-attributable deaths, disability-adjusted life years (DALYs), and age-standardized mortality and DALY rates for lip and oral cavity cancer and esophageal cancer (2000-2021), globally and in China. Analyses were stratified by year, sex, and age. Decomposition, age-period-cohort (APC), and Bayesian age-period-cohort (BAPC) models assessed drivers and project trends.<br><br><b style='color:#3498db;'>RESULTS:</b> From 2000 to 2021, chewing tobacco-attributable lip and oral cavity cancer deaths and DALYs nearly doubled globally and in China, with modest rises in age-standardized rates. Esophageal cancer showed slight absolute increases but declining standardized rates. For both cancers, DALYs peaked earlier than deaths. Compared with global patterns, China experienced a steeper increase in age-standardized lip and oral cavity cancer burden, particularly among males, and a larger decline in esophageal cancer burden, especially among females, leading to increasing male predominance. Globally, changes mainly reflected population growth and aging, whereas population growth predominated in China. Projections indicate continued increases in lip and oral cavity cancer burden and further declines in esophageal cancer burden.<br><br><b style='color:#3498db;'>CONCLUSIONS:</b> Chewing tobacco-attributable lip and oral cavity cancer burden in China has risen markedly and is projected to increase further, particularly among males and working-age populations, whereas esophageal cancer burden continues to decline. Integrated prevention strategies are needed to sustain progress and reduce the growing burden.</div>
+                <div class="abs">To evaluate the safety, feasibility, and patient-reported outcomes of magnetic resonance-guided simultaneous multi-focal adaptive radiotherapy for the prostate, pelvis, and metastases (MRgSMART-PEM) in patients with high-risk, very-high-risk, or oligometastatic prostate cancer.<br><br>In this prospective single-arm phase II study, 35 patients with pathologically confirmed prostate cancer (11 localized, 8 pelvic nodal, 16 oligometastatic) were treated with MRgSMART-PEM on a 1.5-T MR-Linac between June 2021 and March 2025. Radiotherapy was delivered in five alternate-day fractions using an Adapt-to-Shape workflow. The primary endpoint was clinician-reported acute grade ≥ 2 genitourinary (GU) and gastrointestinal (GI) toxicity within 12 weeks. Secondary endpoints included late toxicity, quality of life (QoL), and survival outcomes.<br><br>Median follow-up was 17.2 months (range, 4.3–49.3). The median on-couch time was 59 min (range, 35–80). Acute grade ≥ 2 GU and GI toxicities occurred in 5.7% of patients each, including one grade 3 GI event; all resolved within 8 weeks. No late grade ≥ 2 toxicities were observed, and no grade 1 events persisted beyond 18 months. QoL scores declined at 2 weeks post-treatment but returned to baseline by 3 months. At 2 years, biochemical and clinical progression-free survival rates were both 87.4%, and in-field control was 100%.<br><br>MRgSMART-PEM is feasible, safe, and well tolerated in patients with high-risk, very-high-risk, and oligometastatic prostate cancer, achieving excellent local control with minimal toxicity and recovery of QoL. These results support further evaluation of MRgSMART-PEM in randomized trials.<br><br>NCT05183074 (Chinese Academy of Medical Sciences, First Posted 2022-01-10).<br><br>The online version contains supplementary material available at 10.1186/s13014-026-02799-9.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739173/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739173')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41689033/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41689033')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41739173" style="display:none;">📄 [GI Intel]\n📌 Comparative burden and projections of chewing tobacco-attributable lip/oral cavity and esophageal cancers: global and China-specific trends, 2000-2036.\n📖 Annals of medicine\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739173/</textarea>
+                <textarea id="s_41689033" style="display:none;">📄 GI Intel\n📌 Magnetic resonance-guided simultaneous multi-fo​cal adaptive radiotherapy for prostate, pElvis & metastases (MRgSMART-PEM) in prostate cancer: a prospective phase II study.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41689033/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Avian diseases</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Trends in Necrotic Enteritis and Coccidiosis Control Practices in Canadian Poultry Flocks, 2018-2023.</div>
+                <div class="meta"> <b>Trials</b> <span class='badge rct'>RCT</span> ⚠️</div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Surgical Techniques: Robotic versus conventional Laparoscopic cholecystectomy IN benign Gallbladder disease: a randomized controlled, open, parallel, non-inferiority, single-center trial (STaRLING trial).</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> ⚠️ 기존 유지 권장</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                
-                <div class="abs">Necrotic enteritis (NE) and coccidiosis continue to be diagnosed in poultry in Canada. Since 2013, the Canadian Integrated Program for Antimicrobial Resistance Surveillance (CIPARS) has been collecting data on antimicrobial use (AMU) and antimicrobial resistance (AMR) in broiler chicken and turkey flocks, with layer flocks added to surveillance in 2021. This study describes enteric disease control strategies utilized in poultry production from 2018 to 2023, based on farm data reported to CIPARS. In broiler chickens, 85% (51.7 mg/kg broiler chicken biomass) of the total quantity of medically important antimicrobials was used for NE control, compared to 51% (28.1 mg/kg turkey biomass) in turkeys and 74% (16 mg/kg layer biomass) in layers. Since 2019, antimicrobial classes used for NE control have decreased following the voluntary elimination of preventive use of macrolides, penicillins, and streptogramins. Bacitracin remained the most frequently used antimicrobial for NE control across all poultry. For coccidiosis control, ionophores were used more frequently than chemical coccidiostats, with a 2.5:1 ratio in broiler chickens (ionophores: 2892.9 kg; chemical coccidiostats: 1126.6 kg) and a 2.4:1 ratio in turkeys (ionophores: 1840.2 kg; chemical coccidiostats: 749.9 kg). Layer flocks used exclusively monensin (39.3 kg) and amprolium (31.6 kg). Over the surveillance time frame, the diversity of coccidiostats used in broiler chickens and turkeys remained stable. Shuttle/dual-control programs (58%) were commonly used in broiler chickens, whereas continuous/straight programs (51%) were predominant in turkeys. Notably, alternative disease control strategies such as vaccination are emerging or continuing. <br><br>Tendencias en las prácticas de control de la enteritis necrótica y la coccidiosis en las explotaciones avícolas de Canadá, 2018-2023. La enteritis necrótica (EN) y la coccidiosis continúan siendo diagnosticadas en la avicultura de Canadá. Desde 2013, el Programa Integrado Canadiense de Vigilancia de la Resistencia a los Antimicrobianos (CIPARS) recopila datos sobre el uso de antimicrobianos y la resistencia a los mismos en explotaciones de pollos de engorde y pavos, y desde 2021 también incluye a las explotaciones de ponedoras. Este estudio describe las estrategias de control de enfermedades entéricas utilizadas en la producción avícola entre 2018 y 2023, basándose en los datos de las granjas reportados a CIPARS. En pollos de engorde, el 85% (51.7 mg/kg de biomasa) del total de antimicrobianos de importancia médica se utilizó para el control de la enteritis necrótica, frente al 51% (28.1 mg/kg de biomasa) en pavos y el 74% (16 mg/kg de biomasa) en aves de postura. Desde 2019, la utilización de clases de antimicrobianos para el control de la enteritis necrótica ha disminuido tras la eliminación voluntaria del uso preventivo de macrólidos, penicilinas y estreptograminas. La bacitracina se mantuvo como el antimicrobiano más utilizado para el control de la enteritis necrótica en todas las especies. Para el control de la coccidiosis, los ionóforos se utilizaron con mayor frecuencia que los coccidiostáticos químicos, en una proporción de 2.5:1 en pollos de engorde (ionóforos: 2892.9 kg; coccidiostáticos químicos: 1126.6 kg) y de 2.4:1 en pavos (ionóforos: 1840.2 kg; coccidiostáticos químicos: 749.9 kg). Las explotaciones de aves de postura utilizaron exclusivamente monensina (39.3 kg) y amprolio (31.6 kg). Durante el periodo de vigilancia, la diversidad de coccidiostáticos utilizados en pollos de engorde y pavos se mantuvo estable. Los programas de control alterno/dual (58%) se utilizaron comúnmente en pollos de engorde, mientras que los programas continuos/directos (51%) predominaron en pavos. Cabe destacar que están surgiendo o se están implementando estrategias alternativas de control de enfermedades, como la vacunación. La vacuna contra </div>
+                <div class="abs">Robotic surgery is increasingly being adopted for gallbladder removal, despite the absence of randomized trials comparing its safety and patient outcomes to the current gold standard, laparoscopic cholecystectomy (LC). Existing literature reviews have found several case series showing no significant differences in postoperative complications or recovery between robotic cholecystectomy (RC) and LC. This trial aims to evaluate whether RC is non-inferior to conventional LC.<br><br>This is a prospective single-center, randomized controlled, parallel, non-inferiority trial. All adult patients with benign gallbladder disease with an indication for cholecystectomy will be assessed for eligibility and included after obtaining informed consent. A total of 276 patients will be randomized to undergo either RC or LC. The primary endpoint will be the incidence and severity of postoperative complications within 30 days after surgery. Secondary endpoints include perioperative outcomes, total health care utilization, health-related quality of life (HR-QoL) as assessed by patient-reported outcome measures, and cost-effectiveness. Follow-up assessments will be conducted at 7 and 30 days postoperatively.<br><br>This is the first randomized controlled trial designed to compare RC with LC in the treatment of benign gallbladder disease. The trial aims to evaluate the safety and non-inferiority of RC relative to LC, providing important evidence to guide the progress and adoption of robotic surgery in clinical practice.<br><br>This trial was registered on 14 July 2025 at ClinicalTrials.gov with the identifier NCT07119203, https://clinicaltrials.gov/study/NCT07119203.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41738850/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41738850')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41731509/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41731509')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41738850" style="display:none;">📄 [GI Intel]\n📌 Trends in Necrotic Enteritis and Coccidiosis Control Practices in Canadian Poultry Flocks, 2018-2023.\n📖 Avian diseases\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41738850/</textarea>
-            </div>
-        </details></div><div class='sec-group'><h3>🍺 Liver Track</h3>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Digestive diseases and sciences</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Epidemiology and Treatment of Inflammatory Bowel Disease in Pregnancy: Results from a Retrospective, Observational Study.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 Biologics Escalation 고려</div>
-        </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>Patients with vs. without IBD had lower rates of pregnancy. Treatment patterns in recent years reflect current guidelines for IBD management during pregnancy. Pre-conception counselling should be emphasized.</div>
-                <div class="abs"><b style='color:#3498db;'>BACKGROUND:</b> Inflammatory bowel disease (IBD) can adversely affect conception and pregnancy outcomes. Disease management must balance the benefits and risks for both mother and foetus.<br><br><b style='color:#3498db;'>AIM:</b> To investigate real-world pregnancy incidence and treatment patterns among women with IBD.<br><br><b style='color:#3498db;'>METHODS:</b> This retrospective, observational study used data from the Merative<br><br><b style='color:#3498db;'>RESULTS:</b> Among 59,652 patients with CD and 50,452 patients with UC, pregnancy incidence was lower for patients with IBD vs. non-IBD matched controls (incidence rate ratio [95% confidence interval]: CD, 0.78 [0.76, 0.80]; UC, 0.76 [0.74, 0.78]). Treatment patterns were assessed among 3862 and 3269 pregnancies from 3235 and 2785 patients with CD and UC, respectively. Medication use was generally lower during pregnancy vs. before or after pregnancy. The most common medications were biologics for CD (23.6-34.1% across trimesters) and aminosalicylates for UC (25.0-34.9%). Pre-conception counselling and IBD-related surgery/hospitalisation were associated with increased biologic use during pregnancy.<br><br><b style='color:#3498db;'>CONCLUSIONS:</b> Patients with vs. without IBD had lower rates of pregnancy. Treatment patterns in recent years reflect current guidelines for IBD management during pregnancy. Pre-conception counselling should be emphasized.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739324/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739324')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41739324" style="display:none;">📄 [GI Intel]\n📌 Epidemiology and Treatment of Inflammatory Bowel Disease in Pregnancy: Results from a Retrospective, Observational Study.\n📖 Digestive diseases and sciences\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739324/</textarea>
+                <textarea id="s_41731509" style="display:none;">📄 GI Intel\n📌 Surgical Techniques: Robotic versus conventional Laparoscopic cholecystectomy IN benign Gallbladder disease: a randomized controlled, open, parallel, non-inferiority, single-center trial (STaRLING trial).\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731509/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Journal of proteome research</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.</div>
+                <div class="meta"> <b>The Cochrane database of systematic reviews</b> </div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Financial arrangements for rehabilitation services in health systems: an overview of systematic reviews.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 Biologics Escalation 고려</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                
-                <div class="abs">Mitochondria play a central role in liver physiology by regulating key metabolic processes. Consequently, mitochondrial dysfunction is a hallmark of multiple liver diseases, including steatosis, steatohepatitis, and liver failure following hepatectomy. Subcellular fractionation is widely used to isolate mitochondria from liver cells or tissue; however, the enrichment and purity of isolated fractions are critical to ensure reliable downstream functional and proteomic analyses. Conventional validation methods, such as immunoblotting of organelle-specific markers, are limited by low throughput, restricted sensitivity, and variability. In this study, we present a targeted proteomics strategy based on parallel reaction monitoring (PRM) to quantitatively assess the enrichment of cytosolic, mitochondrial, and nuclear fractions obtained from liver samples using commercial isolation kits. PRM analyses demonstrated robust and compartment-specific enrichment in both PLC/PRF/5 cells and mouse liver tissue. In PLC/PRF/5 cells, high nuclear/cytosolic enrichment was observed for Prelamin A/C, while mitochondrial markers such as ATPase showed strong mitochondrial/cytosolic ratios. Cytosolic markers consistently displayed enrichment in the cytosolic fraction. Similar trends were observed in mouse liver tissue, confirming applicability across biological systems. Overall, these results highlight PRM as a sensitive, reproducible, and cost-effective alternative to immunodetection approaches for evaluating subcellular fraction purity, supporting high-quality mitochondrial preparations for translational hepatology studies.</div>
+                <div class="abs">Cochrane Rehabilitation and the World Health Organization (WHO) Rehabilitation Programme have collaborated to produce four Cochrane overviews of systematic reviews that synthesize current available evidence from health policy and systems research (HPSR) in rehabilitation. Each overview focuses on one of the four pillars of HPSR as identified by the Cochrane Effective Practice and Organisation of Care (EPOC) taxonomy: delivery arrangements, financial arrangements, governance arrangements, and implementation strategies. This overview focuses on financial arrangements, which Cochrane EPOC defines as changes in how funds are collected, how insurance schemes are structured, how services are purchased, and the use of targeted financial incentives or disincentives.<br><br>This overview aimed to synthesize the current evidence on financial arrangements in rehabilitation from a health policy and systems research (HPSR) perspective. Our series of four overviews, incorporating evidence on governance arrangements, delivery arrangements, financial arrangements, and implementation strategies, have the following overarching objectives. • To offer a broad synthesis of the existing evidence on health policy and systems interventions' effects. • To direct end-users, including policymakers, towards systematic reviews that may address their health policy questions. • To identify current research gaps and set priorities for future primary HPSR. • To pinpoint the needs and priorities for new evidence syntheses where no reliable, up-to-date systematic reviews currently exist.<br><br>We searched the Epistemonikos database, the Health Systems Evidence database, and EPOC Group systematic reviews to identify reviews published between 1 January 2015 and 17 November 2024. We applied no language limitations. We included Cochrane and non-Cochrane systematic reviews of randomized controlled trials (RCTs) and non-randomized studies of interventions (NRSIs) that evaluated the effectiveness of health policy and systems interventions for rehabilitation in health systems, specifically related to financial arrangements as defined in the EPOC taxonomy. All four overview teams collaborated to screen reviews and extract data. We used AMSTAR 2 to critically appraise the quality of the reviews. Reviews with ratings of high-to-moderate confidence are reported separately from low-confidence reviews.<br><br>We identified two non-Cochrane systematic reviews relevant to rehabilitation and the EPOC category of financial arrangements. We excluded one review from the synthesis due to low methodological quality. The other review included 18 primary studies, but only one study reported data relevant to rehabilitation. This study, conducted in a single country (China), compared insured and uninsured children aged birth to 17 years with intellectual disabilities, focusing on the likelihood of receiving at least one rehabilitation service. The review reported that, based on this single study, enrollment in social health insurance, national health insurance, or community-based health insurance schemes may be ⁠⁠⁠⁠⁠⁠⁠associated with increased utilization of mental health services, including outpatient rehabilitation. However, due to the complexity and variability of mental health service utilization across contexts, the review authors noted that it was difficult to draw definitive conclusions about the overall impact of insurance enrollment on mental health outcomes and services.<br><br>We identified two non-Cochrane systematic reviews aligned with the EPOC classification of financial arrangements that addressed rehabilitation. One review including one single-center study on rehabilitation offered low-certainty evidence on insurance schemes and access to rehabilitation services. As a result, this overview cannot provide a clear understanding of the effects of financial arrangements for rehabilitation or offer meaningful signposts to end-users, including policymakers. Future Cochrane overviews in HPSR should broaden their scope to include qualitative and mixed-methods study designs. Robust primary studies and inclusive systematic reviews are urgently needed to guide financial policy decisions that integrate rehabilitation into resilient and equitable health systems.<br><br>PC, CK, and SN were supported and funded by the Italian Ministry of Health (Ricerca Corrente). The funder played no role in the study design, data collection and analysis, decision to publish, or preparation of the manuscript.<br><br>Protocol (2025): DOI 10.23736/S1973-9087.24.08833-6.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41740191/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41740191')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41700590/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41700590')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41740191" style="display:none;">📄 [GI Intel]\n📌 Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.\n📖 Journal of proteome research\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41740191/</textarea>
+                <textarea id="s_41700590" style="display:none;">📄 GI Intel\n📌 Financial arrangements for rehabilitation services in health systems: an overview of systematic reviews.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41700590/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Rhode Island medical journal (2013)</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Sigmoid Volvulus in a Healthy Adolescent Male.</div>
+                <div class="meta"> <b>The Lancet. Oncology</b>  🔥</div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Vibostolimab coformulated with pembrolizumab versus pembrolizumab alone as adjuvant therapy for high-risk stage IIB-IV melanoma (KEYVIBE-010): a randomised, double-blind, phase 3 study.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                
-                <div class="abs">We report the case of a 15-year-old previously healthy male who presented with several days of progressive abdominal pain, vomiting, and anorexia. On arrival to the emergency department, he was hemodynamically stable. Patient's abdominal exam revealed a soft, benign abdomen with right-sided greater than left-sided tenderness. Cross-sectional imaging demonstrated sigmoid volvulus without evidence of pneumatosis, perforation, or free air. He underwent multidisciplinary evaluation by pediatric surgery and gastroenterology, and urgent endoscopic detorsion was performed. Pediatric sigmoid volvulus is rare, accounting for a small minority of large bowel obstructions in this age group. Symptoms may be nonspecific, and exam findings can appear reassuring despite the presence of a high-risk surgical emergency. This case highlights the importance of maintaining a broad differential diagnosis in adolescents presenting with abdominal pain and underscores the role of imaging and multidisciplinary collaboration in timely recognition and management.</div>
+                <div class="abs">Combination therapy with vibostolimab plus pembrolizumab has previously shown promising antitumor activity in melanoma. We aimed to evaluate the efficacy and safety of vibostolimab coformulated with pembrolizumab as adjuvant therapy for high-risk resected melanoma.<br><br>This randomised, double-blind, phase 3 study was done at 205 global sites (hospitals and cancer centres). Participants aged 12 years or older with surgically resected, stage IIB-IV cutaneous melanoma per the American Joint Committee on Cancer Cancer Staging Manual 2017 (8th edition), with no evidence of metastatic disease after resection, were randomly assigned (1:1) to receive vibostolimab 200 mg coformulated with pembrolizumab 200 mg or pembrolizumab 200 mg alone intravenously every 3 weeks. Randomisation was done using an interactive response technology system and was stratified by risk-based staging and geographical region. Participants, investigators, and site staff were masked to group assignment. The primary endpoint was recurrence-free survival assessed in the intention-to-treat population. Safety was assessed in all participants who received at least one dose of the study treatment. The protocol-prespecified first interim analysis was an event-driven nonbinding futility analysis of recurrence-free survival that was planned for when 111 events had occurred (futility bar of observed HR 0·95). This study is registered with ClinicalTrials.gov (NCT05665595), and is closed to recruitment.<br><br>Between Jan 19, 2023, and March 6, 2024, 1402 participants were randomly assigned to receive coformulated vibostolimab-pembrolizumab (n=701) or pembrolizumab (n=701). At the first interim analysis, median study follow-up, defined as time from randomisation to data cutoff, was 4·2 months (IQR 1·9-6·7). The median age was 61·0 years (IQR 51·0-70·0), 829 (59%) of 1402 participants were male and 573 (41%) were female. 1107 (79%) of participants were White, 273 (19%) were Asian, and 22 (2%) were of other race or race was missing. At the time of the first interim analysis, a total of 119 (8%) of 1402 participants had had a recurrence-free survival event, including 67 (10%) of 701 in the vibostolimab-pembrolizumab group and 52 (7%) of 701 in the pembrolizumab alone group. The median recurrence-free survival was not reached in either group; the hazard ratio for recurrence-free survival in the vibostolimab-pembrolizumab group versus pembrolizumab alone group was 1·25 (95% CI 0·9-1·8). The most common (occurred in more than five participants) grade 3 or higher treatment-related adverse events were adrenal insufficiency in 13 (2%) participants, hepatitis in 11 (2%) participants, rash in 9 (1%) participants, maculopapular rash in 7 (1%) participants, and pruritus in 6 (1%) participants in the vibostolimab-pembrolizumab group and increased alanine aminotransferase in 7 (1%) participants in the pembrolizumab alone group. Treatment-related serious adverse events occurred in 74 (11%) participants and 30 (4%) participants, respectively. Treatment-related adverse events led to death in two (<1%) participants in the vibostolimab-pembrolizumab group (myasthenia gravis and myocarditis) and one participant (<1%) in the pembrolizumab group (myositis). The external data monitoring committee decided to discontinue the study according to prespecified futility criteria.<br><br>Vibostolimab coformulated with pembrolizumab did not provide additional clinical benefit versus pembrolizumab as adjuvant therapy in participants with resected stage IIB-IV melanoma. Pembrolizumab monotherapy remains a standard of care for resected high-risk melanoma.<br><br>Merck Sharp & Dohme, a subsidiary of Merck & Co.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41740171/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41740171')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41698381/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41698381')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41740171" style="display:none;">📄 [GI Intel]\n📌 Sigmoid Volvulus in a Healthy Adolescent Male.\n📖 Rhode Island medical journal (2013)\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41740171/</textarea>
+                <textarea id="s_41698381" style="display:none;">📄 GI Intel\n📌 Vibostolimab coformulated with pembrolizumab versus pembrolizumab alone as adjuvant therapy for high-risk stage IIB-IV melanoma (KEYVIBE-010): a randomised, double-blind, phase 3 study.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41698381/</textarea>
+            </div>
+        </details></div><div class='sec-group'><h3>🍺 Liver Track</h3></div><div class='sec-group'><h3>🧬 Biliary/Pancreas</h3>
+        <details class="paper-item">
+            <summary>
+                <div class="meta"><span class='badge if'>IF 29.4</span> <b>Gastroenterology Report</b> </div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Associations between parenteral energy or amino acid doses and clinical outcomes in fasting patients undergoing gastroenterological cancer surgery: a nationwide cohort study using real-world data.</div>
+            </summary>
+            <div class="content">
+                
+        <div class='clinical-note'>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        </div>
+                <div class="abs">This study aimed to investigate the associations between parenteral energy/amino acid doses and clinical outcomes in patients who were fasting after gastroenterological cancer surgery.<br><br>Patients who were fasting for ≥ 7 days after gastroenterological cancer surgery between 2011 and 2022 were identified in a Japanese medical claims database. The associations between parenteral energy/amino acid doses which are supplied to patients via the peripheral or central vein and clinical adverse events were investigated. Low- (< 0.8 g/kg/day) and high- (≥ 0.8 g/kg/day) amino acid dose groups were compared using propensity score matching (PSM). The primary outcome was clinical adverse events, and secondary outcomes were in-hospital mortality, postoperative complications, decline in activities of daily living, rehospitalization, length of hospital stay, and hospitalization costs.<br><br>Of 18,294 eligible patients, no association was found between clinical adverse events and energy doses (Wald test, <br><br>Parenteral amino acid dosing may play an important role in improving clinical outcomes in patients after gastroenterological cancer surgery, particularly in those who are fasting for 7 days or longer.</div>
+                <div class="btns">
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41737807/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41737807')" class="btn shr">📤 공유</button>
+                </div>
+                <textarea id="s_41737807" style="display:none;">📄 GI Intel\n📌 Associations between parenteral energy or amino acid doses and clinical outcomes in fasting patients undergoing gastroenterological cancer surgery: a nationwide cohort study using real-world data.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737807/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus</b> <span class='badge endo'>Endo</span></div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.</div>
+                <div class="meta"> <b>Pharmacogenomics and Personalized Medicine</b>  🔥</div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Bioinformatic Identification and Preliminary Validation of TP53, TGFB1, and NFE2L2 as Potential Ferroptosis-Related Regulators in Pancreatic Adenocarcinoma.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                
-                <div class="abs">Patients with eosinophilic esophagitis (EoE) in remission require monitoring, but optimal timing for endoscopic assessment is unknown. We aimed to assess variability in time from remission to surveillance endoscopy and associations with disease outcomes. This retrospective cohort study included patients with EoE who achieved histologic remission (<15 eos/hpf) while on stable treatment and had at least one surveillance endoscopy with biopsy after remission. Time to surveillance was categorized (≤1 year, 1-2 years, >2 years) and compared to a range of EoE clinicopathologic characteristics and disease outcomes. The 91-patient cohort had substantial variability in time to first surveillance endoscopy (mean 1.3 ± 1.0 years; median/IQR 1.0/0.6-1.8; range 0.2-7.3). While most patient characteristics were not associated with time to surveillance, larger dilation size at remission correlated with longer surveillance intervals (R = 0.36, p = 0.03), and EoE Endoscopic Reference Score (EREFS) was inversely associated (R = -0.21, p = 0.07). Outcomes of EREFS, Index of Severity of EoE, and eosinophil count were similar for <1, 1-2, or 2+ years surveillance intervals. However, numerically fewer patients with endoscopy 2+ years after remission maintained histologic response (59% vs. 78% at ≤1 year and 82% at 1-2 years; p = 0.15) and had more ongoing EoE symptoms (47% vs. 34% at ≤1 year and 24% at 1-2 years; p = 0.26). Surveillance timing in EoE remission varies widely and is largely unexplained by clinical features, except for dilation size. While outcomes were similar across intervals, patients with longer surveillance (>2 years) had numerically less histologic response and more persistent symptoms, warranting further study.</div>
+                <div class="abs">Pancreatic adenocarcinoma (PAAD) is a highly malignant tumor with very poor prognosis for patients. Ferroptosis, as a novel cell death mechanism, brings a new direction for PAAD therapeutic research.<br><br>Ferroptosis-related differentially expressed genes were identified by bioinformatic analysis of the FerrDb, TCGA, and GTEx databases. A series of analyses, including functional enrichment, protein-protein interaction (PPI) networking, survival analysis, and immune infiltration profiling, were performed to screen for and characterize hub genes. Subsequently, the expression of key hubs—NFE2L2 (NRF2), TGFB1, and TP53—was validated in PDAC patient tissues and cell lines using qRT-PCR and Western blot. Their biological functions were investigated via shRNA-mediated knockdown in BxPC-3 cells, followed by assays for cell migration (wound healing, transwell) and ferroptosis (ROS, MDA, GSH/GSSG).<br><br>Bioinformatic analysis identified 221 ferroptosis-related DEGs. NFE2L2, TGFB1, and TP53 emerged as core hub genes whose high expression correlated with poor patient survival and specific immune infiltration patterns. Experimental validation confirmed that NRF2, TGFβ1, and TP53 proteins were significantly upregulated in PDAC tissues compared to adjacent normal tissues. Functionally, knockdown of NFE2L2 and TGFB1 suppressed PDAC cell migration, whereas TP53 knockdown enhanced it. Inversely, NFE2L2 knockdown promoted ferroptosis (increased ROS and MDA, decreased GSH), while knockdown of both TGFB1 and TP53 inhibited ferroptosis.<br><br>TP53, TGFB1, and NRF2 are key ferroptosis-related regulators in PAAD, influencing tumor progression, ferroptosis sensitivity, and immune contexture. These findings provide new insights and potential targets for ferroptosis-based therapies in PAAD.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739741/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739741')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41737899/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41737899')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41739741" style="display:none;">📄 [GI Intel]\n📌 Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.\n📖 Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739741/</textarea>
+                <textarea id="s_41737899" style="display:none;">📄 GI Intel\n📌 Bioinformatic Identification and Preliminary Validation of TP53, TGFB1, and NFE2L2 as Potential Ferroptosis-Related Regulators in Pancreatic Adenocarcinoma.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737899/</textarea>
             </div>
         </details>
         <details class="paper-item">
             <summary>
-                <div class="meta">  <b>Inflammatory bowel diseases</b>  🔥</div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.</div>
+                <div class="meta"> <b>Journal of Hepatocellular Carcinoma</b> </div>
+                <div class="title-row"><span class="arrow-icon">▶</span>Analyses of the Coexpression of Lactate Metabolism- and Ferroptosis-Related Genes in Hepatocellular Carcinoma.</div>
             </summary>
             <div class="content">
                 
         <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> ✅ 기존 치료보다 우수 (우선 고려)</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
+            <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+            <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+            <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
         </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>TPUS provides clinically relevant, noninvasive assessment of rectal inflammation in UC. While microconvex TPUS offers technical advantages-particularly axial-plane assessment of posterior wall thickness with favorable diagnostic trends-no single probe demonstrated uniform superiority. These findings highlight the complementary roles of linear and microconvex probes and support ongoing standardization of TPUS.</div>
-                <div class="abs"><b style='color:#3498db;'>BACKGROUND AND AIMS:</b> Prior studies have reported variable diagnostic accuracy of transperineal ultrasound (TPUS) in ulcerative colitis (UC) using linear and/or microconvex probes. This study directly compared these probes for predicting rectal histoendoscopic activity.<br><br><b style='color:#3498db;'>METHODS:</b> Adults with UC prospectively underwent transabdominal ultrasound (TAS) with TPUS using linear followed by microconvex probes by blinded operators. Rectal total wall thickness (TWT), vascularity (Modified Limberg score [MLS]), and Milan ultrasound criteria (MUC) were recorded. Receiver operating characteristic analysis determined area under the curve (AUC) for endoscopic (Ulcerative Colitis Endoscopic Index of Severity >1) and histologic (Nancy Index >1) activity, with paired AUC comparisons.<br><br><b style='color:#3498db;'>RESULTS:</b> Ninety-seven patients (32% female; age 18-70 years) were included. For endoscopic activity, TPUS outperformed TAS. Microconvex TPUS showed numerically higher AUCs for selected parameters (TWT: 0.77; vascularity: 0.78; MUC: 0.81) compared with linear TPUS (TWT: 0.75; vascularity: 0.71; MUC: 0.77), although head-to-head differences were not consistently statistically significant. For histologic activity, microconvex and linear TPUS demonstrated comparable performance (AUC range 0.66-0.80). Axial-plane posterior wall thickness assessment with the microconvex probe showed favorable trends over longitudinal measurements (endoscopic: ΔAUC -0.071, P = .074; histologic: ΔAUC 0.081, P = .08). Vascularity-based metrics were consistently superior on TPUS compared with TAS, irrespective of probe type.<br><br><b style='color:#3498db;'>CONCLUSION:</b> TPUS provides clinically relevant, noninvasive assessment of rectal inflammation in UC. While microconvex TPUS offers technical advantages-particularly axial-plane assessment of posterior wall thickness with favorable diagnostic trends-no single probe demonstrated uniform superiority. These findings highlight the complementary roles of linear and microconvex probes and support ongoing standardization of TPUS.<br><br>This study compared two ultrasound probes for assessing rectal inflammation in ulcerative colitis. Transperineal ultrasound enabled accurate, noninvasive monitoring, with the microconvex probe showing slightly better visualization and diagnostic trends, while overall performance was comparable between probes.</div>
+                <div class="abs">Lactate has been shown to protect cells against oxidative stress both in vitro and in vivo. Ferroptosis is a form of regulated cell death driven by oxidative stress, characterized by glutathione depletion and elevated lipid peroxidation. It is hypothesized that lactate may modulate the ferroptotic process in hepatocellular carcinoma (HCC) cells.<br><br>In this study, the Molecular Signatures Database was leveraged to identify key differentially expressed HCC-related lactate metabolism-related genes (LMRGs) and ferroptosis-related genes (FRGs). The functions and interactions of these genes were analyzed through Cytoscape network analyses, biological process annotation, and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway enrichment. A prognostic risk model based on these genes was constructed utilizing Weighted Gene Co-expression Network Analysis (WGCNA) and Least Absolute Shrinkage and Selection Operator (LASSO) regression. The ESTIMATE and CIBERSORT algorithms were used to assess immune infiltration in individual samples.<br><br>Comprehensive analysis revealed that LMRGs and FRGs are co-involved in processes such as the regulation of reactive oxygen species (ROS) and antioxidant detoxification. Based on the expression profiles of these genes, HCC patients were stratified into four distinct subgroups. These subgroups exhibited significant heterogeneity in gene expression profiles, immunological characteristics, metabolic activity patterns, mutational landscapes, immune microenvironment features, and drug sensitivity levels. tRNA mitochondrial 2-thiouridylase (TRMU) was identified as a highly expressed LMRG in HCC. Knockdown of TRMU inhibited HCC cell proliferation and migration, accompanied by elevated malondialdehyde (MDA) levels and depleted glutathione (GSH) levels, indicating that TRMU silencing induces oxidative stress and facilitates ferroptosis.<br><br>An interplay exists between lactate metabolism and ferroptosis pathways in HCC, and the constructed risk model demonstrates predictive value for patient prognosis. As a critical gene, TRMU promotes HCC progression and suppresses ferroptosis through its high expression, suggesting it serves as a potential therapeutic target for HCC treatment.<br><br>1. The present results highlight the crosstalk between lactate metabolism and ferroptosis pathways in HCC cells. 2. Further studies of the regulatory interplay between these two important pathways may ultimately lead to the design of novel treatments for HCC. 3. Moreover, the LMRG tRNA mitochondrial 2-thiouridylase (TRMU) was found to be upregulated in HCC tissue samples and cell lines. Knocking down this gene was sufficient to suppress the proliferative and migratory activity of these HCC cells while driving oxidative stress induction and ferroptotic death therein.</div>
                 <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739522/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739522')" class="btn shr">📤 카톡공유</button>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/41737777/" target="_blank" class="btn pub">🔗 PubMed</a>
+                    <button onclick="copyShare('41737777')" class="btn shr">📤 공유</button>
                 </div>
-                <textarea id="s_41739522" style="display:none;">📄 [GI Intel]\n📌 Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.\n📖 Inflammatory bowel diseases\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739522/</textarea>
+                <textarea id="s_41737777" style="display:none;">📄 GI Intel\n📌 Analyses of the Coexpression of Lactate Metabolism- and Ferroptosis-Related Genes in Hepatocellular Carcinoma.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737777/</textarea>
             </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>International journal of clinical pharmacy</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 Anti-TNF 유지 및 TDM 고려</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 Biologics Escalation 고려</div>
-        </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>The proposed LASSO-logistic regression model demonstrates promising predictive performance for identifying subtherapeutic IFX exposure in CD patients. By leveraging readily available clinical data, it enables early risk stratification and individualized therapeutic decision-making, thereby facilitating more effective treatment optimization.</div>
-                <div class="abs"><b style='color:#3498db;'>BACKGROUND:</b> Infliximab (IFX), a monoclonal antibody that neutralizes tumor necrosis factor-α, is widely used as a biologic treatment for Crohn's disease (CD). Despite its established efficacy, a substantial proportion of patients develop subtherapeutic IFX trough concentrations (< 3 μg/mL), leading to diminished clinical response and treatment failure. Early identification of high-risk individuals remains challenging due to the multifactorial nature of IFX pharmacokinetics.<br><br><b style='color:#3498db;'>AIM:</b> This study integrated Least Absolute Shrinkage and Selection Operator (LASSO)-based variable selection with multivariable logistic regression to identify CD patients at risk for subtherapeutic IFX trough levels during induction.<br><br><b style='color:#3498db;'>METHOD:</b> A total of 347 patients diagnosed with CD who commenced IFX induction therapy at the Sixth Affiliated Hospital of Sun Yat-sen University from January to December 2023 were retrospectively reviewed in this study. Comprehensive demographic, clinical, and biochemical data were retrieved from electronic records. Variable selection was performed using the Least Absolute Shrinkage and Selection Operator (LASSO), after which a multivariable logistic model was developed. Model discrimination, calibration and clinical usefulness were assessed through the area under the receiver operating characteristic curve (AUC), calibration curves, decision curve analysis (DCA) and clinical impact curves (CIC).<br><br><b style='color:#3498db;'>RESULTS:</b> Of the 347 participants, 148 (42.7%) exhibited subtherapeutic IFX trough concentrations. LASSO and multivariable logistic analyses identified four independent predictors: older age at diagnosis (> 40 years), elevated anti-drug antibody levels, higher erythrocyte sedimentation rate and reduced albumin (P < 0.05). The model demonstrated an AUC of 0.737 (95% CI 0.684-0.790), with a bootstrap-adjusted AUC of 0.726 (95% CI 0.697-0.739) based on 1000 resamples. Calibration demonstrated close alignment with observed outcomes, validated by a non-significant Hosmer-Lemeshow test (χ<br><br><b style='color:#3498db;'>CONCLUSION:</b> The proposed LASSO-logistic regression model demonstrates promising predictive performance for identifying subtherapeutic IFX exposure in CD patients. By leveraging readily available clinical data, it enables early risk stratification and individualized therapeutic decision-making, thereby facilitating more effective treatment optimization.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739409/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739409')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41739409" style="display:none;">📄 [GI Intel]\n📌 Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.\n📖 International journal of clinical pharmacy\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739409/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>International journal of clinical pharmacy</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 Anti-TNF 유지 및 TDM 고려</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> ⚠️ 기존 치료 유지 권장</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>In patients with Crohn's disease, oral low-dose methotrexate combined with infliximab was associated with significantly improved endoscopic remission at week 26 compared to infliximab monotherapy, without a statistically significant increase in adverse events.</div>
-                <div class="abs"><b style='color:#3498db;'>INTRODUCTION:</b> The effectiveness of infliximab in Crohn's disease is often compromised by immunogenicity. Oral low-dose methotrexate may offer a promising strategy to optimize infliximab therapy, yet its real-world effectiveness and safety remain uncertain.<br><br><b style='color:#3498db;'>AIM:</b> This study aimed to compare the effectiveness and safety of infliximab plus oral low-dose methotrexate versus infliximab monotherapy.<br><br><b style='color:#3498db;'>METHOD:</b> In this single-center retrospective cohort study, 119 patients with Crohn's disease received either infliximab monotherapy (n = 99) or combination therapy with oral low-dose methotrexate (10-15 mg/week; n = 20). The primary outcome was endoscopic remission (Simple Endoscopic Score for Crohn's Disease ≤ 2) at week 26. Propensity score methods, including nearest-neighbor matching and inverse probability of treatment weighting, were used to adjust for confounding. Conditional and weighted logistic regression were used to estimate treatment effects.<br><br><b style='color:#3498db;'>RESULTS:</b> After propensity score adjustment, combination therapy was associated with a significantly higher rate of endoscopic remission (aOR 3.70, 95% CI 1.16-11.75; P = 0.027). No significant differences were observed in endoscopic response or clinical outcomes. In a pharmacokinetic subgroup, combination therapy resulted in numerically higher infliximab trough concentrations and no detectable anti-drug antibodies (0% vs. 16.7%). Higher trough concentrations were associated with endoscopic remission (P = 0.033). The incidence of elevated liver enzymes was higher in the combination group (20.0% vs. 4.0%), but this difference was not statistically significant after adjustment (P = 0.058).<br><br><b style='color:#3498db;'>CONCLUSION:</b> In patients with Crohn's disease, oral low-dose methotrexate combined with infliximab was associated with significantly improved endoscopic remission at week 26 compared to infliximab monotherapy, without a statistically significant increase in adverse events.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739407/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739407')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41739407" style="display:none;">📄 [GI Intel]\n📌 Oral low-dose methotrexate improves infliximab pharmacokinetics, immunogenicity, and endoscopic outcomes in Crohn's disease: a propensity score-adjusted real-world study.\n📖 International journal of clinical pharmacy\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739407/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Digestive diseases and sciences</b> <span class='badge endo'>Endo</span></div>
-                <div class="title-row"><span class="arrow-icon">▶</span>External Validation of an AI-Based Colonoscopy Quality Assessment Tool in Japanese Clinical Practice: A Pilot Study.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 용종 크기/개수에 따른 1~3년 뒤 추적</div>
-        </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>AI-CQ demonstrated feasibility for measuring colonoscopy quality metrics in Japanese practice, though with reduced correlation compared to US validation. Given the pilot nature of this study, these findings should be interpreted as exploratory. Novel metrics like HQ-WT showed promising associations with procedural quality indicators, warranting further validation in larger cohorts.</div>
-                <div class="abs"><b style='color:#3498db;'>BACKGROUND:</b> While AI-assisted polyp detection has advanced significantly, comprehensive AI-based colonoscopy quality assessment tools remain limited. This study aimed to externally validate an AI-based colonoscopy quality assessment tool (AI-CQ) in Japanese clinical practice.<br><br><b style='color:#3498db;'>METHODS:</b> This retrospective study analyzed 40 screening colonoscopy procedures at a tertiary endoscopy hospital in Japan. All videos were recorded using Olympus equipment from anal insertion to complete withdrawal. AI-CQ measurements were compared with manual assessments by a certified endoscopist. Metrics evaluated included insertion time (IT), withdrawal time (WT), withdrawal time minus polypectomy time, and high-quality withdrawal time (HQ-WT).<br><br><b style='color:#3498db;'>RESULTS:</b> AI-CQ successfully identified cecal intubation in 97.5% of cases. Correlations between manual and AI measurements were moderate for IT (ρ = 0.48, p = 0.0025) and strong for WT (ρ = 0.70, p < 0.001). HQ-WT differed significantly by endoscopist experience (388 vs. 273 s, p = 0.025) and polyp detection status (497 vs. 298 s, p < 0.001). These associations remained significant even after adjusting for manual polyp observation time.<br><br><b style='color:#3498db;'>CONCLUSION:</b> AI-CQ demonstrated feasibility for measuring colonoscopy quality metrics in Japanese practice, though with reduced correlation compared to US validation. Given the pilot nature of this study, these findings should be interpreted as exploratory. Novel metrics like HQ-WT showed promising associations with procedural quality indicators, warranting further validation in larger cohorts.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739329/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739329')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41739329" style="display:none;">📄 [GI Intel]\n📌 External Validation of an AI-Based Colonoscopy Quality Assessment Tool in Japanese Clinical Practice: A Pilot Study.\n📖 Digestive diseases and sciences\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739329/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Digestive diseases and sciences</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs"></div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739328/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739328')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41739328" style="display:none;">📄 [GI Intel]\n📌 Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.\n📖 Digestive diseases and sciences\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739328/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Digestive diseases and sciences</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Combined Peroral Endoscopic Myotomy (POEM) and Diverticular POEM (D-POEM) for Type II Achalasia with a Large Epiphrenic Diverticulum.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs"></div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739326/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739326')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41739326" style="display:none;">📄 [GI Intel]\n📌 Combined Peroral Endoscopic Myotomy (POEM) and Diverticular POEM (D-POEM) for Type II Achalasia with a Large Epiphrenic Diverticulum.\n📖 Digestive diseases and sciences\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739326/</textarea>
-            </div>
-        </details></div><div class='sec-group'><h3>🧬 Biliary/Pancreas</h3>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Pancreatology : official journal of the International Association of Pancreatology (IAP) ... [et al.]</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Location Matters in IPMN: Clinicopathological differences, malignancy risk and oncological outcomes for lesions located in head vs body and tail of the pancreas.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>Ventral IPMNs are more commonly resected and show higher rates of intestinal epithelium and malignancy compared with dorsal lesions. A MPD size > 5 mm in IPMNs of the dorsal pancreas is associated with a substantial risk of malignancy.</div>
-                <div class="abs"><b style='color:#3498db;'>BACKGROUND:</b> The clinico-pathological characteristics and accuracy of the current International Association of Pancreatology guidelines for IPMN in relation to its location within the pancreas has not been investigated.<br><br><b style='color:#3498db;'>METHODS:</b> 751 patients who underwent pancreatic resection for IPMN in two tertiary referral centers were retrospectively categorized into subgroups according to location within the pancreas. Likelihood of worrisome features, high-risk stigmata (HRS), clinico-pathological features and presence of malignancy were compared.<br><br><b style='color:#3498db;'>RESULTS:</b> 480 (64%) patients had IPMN in the ventral pancreas (i.e. head, uncinate process and neck), and 271(36%) in the dorsal gland (i.e. body/tail). Malignancy was present in 54% (n = 259) of patients with ventral IPMN and in 39% (n = 107) of those with dorsal lesions (p < 0.0001). There was a significantly higher proportion of intestinal epithelium in ventral IPMNs when compared to those in the dorsal pancreas, both in the general cohort and in invasive cancer group (27% vs 15%, OR: 1.94 95%CI:1.16-3.24 p = 0.006 and 31% vs 22% OR 1.52 95%CI: 0.77-3, p = 0.24 respectively). Patients with ventral IPMN more frequently presented with HRS (49%vs 37%, p < 0.001), while dorsal IPMN often showed only worrisome features (54%vs 43%, p = 0.06). ROC curve analysis identified optimal cut-off values for main pancreatic duct diameter of 9 mm in ventral IPMNs and 5 mm in dorsal IPMNs for malignancy prediction.<br><br><b style='color:#3498db;'>CONCLUSIONS:</b> Ventral IPMNs are more commonly resected and show higher rates of intestinal epithelium and malignancy compared with dorsal lesions. A MPD size > 5 mm in IPMNs of the dorsal pancreas is associated with a substantial risk of malignancy.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41735113/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41735113')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41735113" style="display:none;">📄 [GI Intel]\n📌 Location Matters in IPMN: Clinicopathological differences, malignancy risk and oncological outcomes for lesions located in head vs body and tail of the pancreas.\n📖 Pancreatology : official journal of the International Association of Pancreatology (IAP) ... [et al.]\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41735113/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>JAMA surgery</b>  🔥</div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Contemporary Outcomes of Cholecystectomy.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs"><b style='color:#3498db;'>IMPORTANCE:</b> Cholecystectomy is among the most common surgical procedures in the US, yet as patient complexity has increased and surgical techniques have evolved, contemporary trends in complication rates remain understudied.<br><br><b style='color:#3498db;'>OBJECTIVE:</b> To evaluate changes in postoperative outcomes and complication rates following minimally invasive cholecystectomy among Medicare beneficiaries between 2011 and 2021.<br><br><b style='color:#3498db;'>DESIGN, SETTING, AND PARTICIPANTS:</b> This cohort study used Medicare fee-for-service claims data from 2011 to 2021 to identify beneficiaries undergoing inpatient minimally invasive (laparoscopic or robotic) cholecystectomy. Risk-adjusted outcomes were estimated using multivariable logistic regression with marginal effects, adjusting for demographics, comorbidities, biliary diagnosis, admission type, and year. Adjusted estimates for length of stay were estimated using multivariable Poisson regression with marginal effects, adjusting for the same covariates. Data were analyzed between March and August 2025.<br><br><b style='color:#3498db;'>MAIN OUTCOMES AND MEASURES:</b> Key outcomes included length of stay, 30-day readmission, complications, serious complications, 30-day mortality, and in-hospital mortality. Specific complications, such as intraoperative hemorrhage, bile duct injury, transfusion, percutaneous drainage, urinary tract infection, and deep venous thrombosis, were also assessed.<br><br><b style='color:#3498db;'>RESULTS:</b> Among 516 372 Medicare fee-for-service beneficiaries (mean [SD] age, 74.8 [9.8] years; 52.4% female), the proportion who had unplanned (vs elective) admissions for cholecystectomy increased from 78.8% in 2011 to 90.1% in 2021 (P < .001), alongside increases in Elixhauser comorbidity burden. Risk-adjusted rates of overall complications decreased from 21.5% (95% CI, 21.3%-21.7%) in 2011 to 16.5% (95% CI, 16.4%-16.7%) in 2021 (P < .001), and serious complications declined from 12.3% (95% CI, 12.2%-12.5%) to 7.0% (95% CI, 6.9%-7.1%) (P < .001). Specific complications also improved, including intraoperative hemorrhage (1.07% [95% CI, 1.01%-1.13%] to 0.54% [95% CI, 0.50%-0.58%]), blood transfusion (5.47% [95% CI, 5.34%-5.60%] to 1.87% [95% CI, 1.80%-1.94%]), and bile duct injury (0.19% [95% CI, 0.16%-0.21%] to 0.12% [95% CI, 0.11%-0.14%]) (all P < .001). However, rates of postoperative percutaneous drainage increased from 1.32% (95% CI, 1.26%-1.37%) to 2.91% (95% CI, 2.81%-3.01%) (P < .001).<br><br><b style='color:#3498db;'>CONCLUSIONS AND RELEVANCE:</b> In this study of Medicare beneficiaries undergoing inpatient minimally invasive cholecystectomy, surgical complication rates, including bile duct injury, declined substantially from 2011 to 2021 despite increasing patient complexity. These improvements may reflect improved technique, overcoming the initial learning curve, or the cumulative influence of quality improvement efforts. The increasing use of drainage may reflect evolving surgical practice rather than declining quality, which underscores the need for continued investigation and surveillance.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41739485/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41739485')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41739485" style="display:none;">📄 [GI Intel]\n📌 Contemporary Outcomes of Cholecystectomy.\n📖 JAMA surgery\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41739485/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Zoological science</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs">Deuterostomes generally share a functional digestive system involving the sequential steps of ingestion, digestion, absorption, and elimination along their one-way gut. Previous gene expression studies on pancreas-related exocrine digestive enzymes (XDEs), pancreas-related transcription factors (TFs), and ParaHox genes in the ascidian </div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41738869/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41738869')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41738869" style="display:none;">📄 [GI Intel]\n📌 Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.\n📖 Zoological science\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41738869/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Frontiers in immunology</b>  🔥</div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Prognostic value of PD-L1 expression on tumor-infiltrating immune cells and neutrophil-to-lymphocyte ratio in patients with biliary tract cancer.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                <div class='btm-box'><b>💡 Bottom Line</b><br>PD-L1 expression on TIICs and dynamic NLR may be indicative of prognosis in BTC and could provide insights into immune status and response to immunotherapy after recurrence. These findings highlight the potential value of integrating local immune contexture with systemic inflammatory markers, but further validation in larger and prospective cohorts is warranted.</div>
-                <div class="abs"><b style='color:#3498db;'>BACKGROUND:</b> The expression of Programmed Death-Ligand 1 (PD-L1) on tumor-infiltrating immune cells (TIICs), plays a crucial role in tumor progression and immune evasion, impacting both the natural immune response and immune-targeted therapeutic strategies. The neutrophil-to-lymphocyte ratio (NLR) has also gained attention as a potential predictive biomarker for immunotherapy efficacy, as it may correlate with treatment outcomes.<br><br><b style='color:#3498db;'>OBJECTIVE:</b> To examine the expression of PD-L1 on TIICs and assess the influence of PD-L1 and NLR on immunotherapy outcomes following biliary tract cancers (BTC) recurrence.<br><br><b style='color:#3498db;'>METHODS:</b> From January 1, 2017, to January 1, 2020, this study enrolled 239 patients from the Department of Pancreaticobiliary Surgery at Sun Yat-sen University Cancer Center. Immunohistochemical analysis of PD-L1 on TIICs was conducted on pathological tissue sections from these patients. Clinical data, including overall survival (OS), disease-free survival (DFS), and pathological findings, were collected during follow-up. Statistical analyses were performed to assess outcomes related to the study objectives. Furthermore, data from The Cancer Genome Atlas (TCGA) were utilized to examine PD-L1 expression profiles and related information.<br><br><b style='color:#3498db;'>RESULTS:</b> Tumor stage did not differ significantly (P = 0.173), while metastasis stage approached significance (P = 0.093), with a higher proportion of M0 cases in the PD-L1 low group. Univariate analysis revealed vascular tumor thrombus, tumor differentiation, node stage, and preoperative CA199 levels as factors associated with DFS. Notably, vascular tumor thrombus (HR = 1.791, P = 0.002), moderate tumor differentiation (HR = 0.537, P = 0.002), and elevated preoperative CA199 levels (>35, HR = 1.624, P = 0.009) emerged as significant risk factors. Elevated NLR demonstrated a significant association with reduced DFS (HR = 1.54, p = 0.017 one week prior; HR = 1.70, p = 0.007 one month after) and diminished OS (HR = 2.30, p < 0.001 one week prior; HR = 1.94, p = 0.005 one month after). Exploratory analysis in a limited immunotherapy subgroup (n=35) suggested patients exhibiting high PD-L1 levels on TIICs may be associated with worse OS following immunotherapy after recurrence (HR = 3.03, p = 0.036). High NLR, both one month before recurrence (HR = 2.23, p = 0.015) and one month after recurrence (HR = 2.10, p = 0.027), correlated with decreased OS.<br><br><b style='color:#3498db;'>CONCLUSION:</b> PD-L1 expression on TIICs and dynamic NLR may be indicative of prognosis in BTC and could provide insights into immune status and response to immunotherapy after recurrence. These findings highlight the potential value of integrating local immune contexture with systemic inflammatory markers, but further validation in larger and prospective cohorts is warranted.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41737495/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41737495')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41737495" style="display:none;">📄 [GI Intel]\n📌 Prognostic value of PD-L1 expression on tumor-infiltrating immune cells and neutrophil-to-lymphocyte ratio in patients with biliary tract cancer.\n📖 Frontiers in immunology\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737495/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Innovation (Cambridge (Mass.))</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Exploration of multi-omics liquid biopsy approaches for multi-cancer early detection: The PROMISE study.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs">Although circulating cell-free DNA (cfDNA) methylation has emerged as the mainstream approach in multi-cancer detection blood tests (MCDBTs), the potential of integrating proteins and mutations, to enhance its performance remains unclear. The PROMISE study (NCT04972201) was conducted to investigate the feasibility of a multi-omics integration strategy in MCDBTs across nine types of cancers in head and neck (excluding nasopharynx), esophagus, lung, stomach, liver, biliary tract, pancreas, colorectum, and ovary. Blood samples were prospectively collected from 1,706 participants (840 non-cancer; 866 cancer) and then randomly divided into training and validation sets. The complementarity between various omics were investigated, and specific omics features were carefully selected for further multimodal model construction. The methylation-based classifier outperformed both the mutation-based and protein-based classifiers. As 95.0% of cancer cases detected by the mutation-based classifier were simultaneously identified by the methylation-based classifier, while 14.0% of the protein-positive samples were missed, protein markers may provide complementary value to the methylation-based classifier. Compared with the methylation-based classifier, the multimodal classifier combining methylation and protein features exhibited an improved sensitivity of 75.1% (95% confidence interval [CI], 69.3%-80.3%) at the same specificity of 98.8% with the accuracy of top predicted origin (TPO1) of 73.1% (95% CI, 66.2%-79.2%). Notably, the TPO1 accuracy reached 100% in liver and ovarian cancers with negative results of the methylation-based classifier. Collectively, these data suggest that the integration of protein markers in the multimodal classifier can offer additional benefits to the methylation-based classifier, particularly in identifying liver and ovarian cancers.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41737326/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41737326')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41737326" style="display:none;">📄 [GI Intel]\n📌 Exploration of multi-omics liquid biopsy approaches for multi-cancer early detection: The PROMISE study.\n📖 Innovation (Cambridge (Mass.))\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737326/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Frontiers in immunology</b>  🔥</div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Multifunctional theranostic magnetic PLGA nanoparticles encapsulating cyclosporine A: addressing challenges in pancreas transplantation for type 1 diabetes.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs">Type 1 Diabetes (T1D) is a high-incidence chronic autoimmune disease, with patients requiring lifelong insulin therapy. In the most severe cases, pancreas transplantation (PTA) arises as the first choice of treatment for these patients in the hope of achieving insulin independence. However, the long-term success of PTA is hindered by ischemia-reperfusion injury (IRI) and immune rejection, both of which limit graft survival. To address these challenges, we have developed multifunctional theranostic nanoparticles (t-PLGA NPs) co-encapsulating Fe</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41737232/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41737232')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41737232" style="display:none;">📄 [GI Intel]\n📌 Multifunctional theranostic magnetic PLGA nanoparticles encapsulating cyclosporine A: addressing challenges in pancreas transplantation for type 1 diabetes.\n📖 Frontiers in immunology\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737232/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>The American surgeon</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>A Novel Approach to Complex Splenic Hilar Aneurysms: ICG-Guided Partial Spleen Preservation Combined With Distal Pancreatectomy.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs">BackgroundSplenic hilar aneurysms exceeding 2 cm in diameter typically warrant surgical intervention given their elevated risk of fatal rupture. While complete splenectomy has historically been the conventional approach to mitigate operative complexity, this procedure carries significant postoperative concerns including compromised immune function and increased thrombotic risks associated with splenic absence.Case presentationIn two cases of splenic artery aneurysms (SAAs) deeply embedded within the pancreatic tail at the splenic hilar region, we performed laparoscopic resection of the splenic artery aneurysm and distal pancreas. Intraoperative indocyanine green (ICG) fluorescence imaging was employed to map perfusion patterns of the spleen, demonstrating sequential greening and subsequent fading of the splenic upper pole. This confirmed preserved arterial inflow and venous drainage, thus confirming maintained vascularization following splenic artery ligation. The patients achieved an uneventful recovery and were discharged without complications.ConclusionsWe described the first use of a technique that integrates distal pancreatectomy with ICG-guided partial splenic preservation for complex splenic hilar aneurysms. This strategy facilitates precise resection of the aneurysm and non-viable spleen, thereby maximizing functional preservation and establishing itself as a promising option for managing these challenging lesions.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41736514/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41736514')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41736514" style="display:none;">📄 [GI Intel]\n📌 A Novel Approach to Complex Splenic Hilar Aneurysms: ICG-Guided Partial Spleen Preservation Combined With Distal Pancreatectomy.\n📖 The American surgeon\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41736514/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Molecular aspects of medicine</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Metabolic dysregulation: Its role in diabetes mellitus and cancers.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs">Diabetes mellitus (DM) is a significant risk factor for several cancers, particularly cancers of the liver, pancreas, and endometrium. This review aims to understand the connections between diabetic pathophysiology and cancer biology. We synthesize how core metabolic disturbances-hyperinsulinemia, hyperglycemia, and inflammation-promote tumorigenesis by dysregulating canonical oncogenic pathways such as IGF-1 signaling, DNA damage repair, and immunometabolism. Subsequently, we focus on how key molecular integrators-such as p38 MAPK, Wnt/β-catenin, and the AGEs-RAGE axis-mediate metabolic stress to confer proliferative and invasive advantages to tumor cells. However, a direct translational application of these mechanisms, particularly in the context of repurposing antidiabetic drugs for cancer therapy, remains challenging due to inconsistent clinical outcomes. To address this gap, we suggest that a fundamental shift in approach is required. We propose that future research must move beyond simple pathway categorization and instead utilize spatial analysis techniques to reveal how diabetic metabolites reshape the tumor microenvironment (TME). By integrating single-cell and spatial omics technologies, the field can begin to map the precise cellular niches within tumors where diabetic metabolites exacerbate malignant progression and foster treatment resistance. This perspective is essential for developing targeted strategies to mitigate cancer risk and improve outcomes for the expanding population of patients with DM and cancer.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41734405/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41734405')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41734405" style="display:none;">📄 [GI Intel]\n📌 Metabolic dysregulation: Its role in diabetes mellitus and cancers.\n📖 Molecular aspects of medicine\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41734405/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>Medecine sciences : M/S</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>[Cross-regulation between olfaction and energy homeostasis in obesity and type 2 diabetes: from mouse models to humans].</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs">This review highlights the crucial role of olfaction in regulating energy homeostasis. Neurons in the olfactory system stimulate the limbic and hedonic pathways involved in food-related behaviors. These neurons are modulated by the body's energy metabolism status, which they, in turn, help to regulate. Olfactory sensitivity is reduced in obesity, while bariatric surgery restores olfactory function. In type 2 diabetes, the onset of olfactory dysfunction is predictive of cognitive decline. Finally, in a mouse model of obesity, local activation of glucagon-like peptide 1 (GLP-1) and its receptors in the olfactory bulb -the main brain structure responsible for encoding odorsleads to improved glycemic control and regulation of food intake. Activation of this new neurometabolic pathway connecting the olfactory system to the pancreas leads to increased insulin secretion and sensitivity to this hormone.<br><br><b style='color:#3498db;'>TITLE:</b> Interrégulations entre olfaction et métabolisme énergétique dans l’obésité et le diabète de type 2 - Des modèles murins aux humains.<br><br><b style='color:#3498db;'>ABSTRACT:</b> Cette synthèse présente le rôle crucial de l’olfaction dans la régulation de l’homéostasie énergétique. Les neurones du système olfactif stimulent les aires cérébrales impliquées dans les émotions, la mémoire et le plaisir, et qui sont liées à l’alimentation. Ils sont modulés par le niveau du métabolisme énergétique corporel, qu’ils régulent en retour. La sensibilité olfactive diminue dans l’obésité et la chirurgie bariatrique la rétablit. Dans le diabète de type 2, l’apparition de troubles olfactifs peut prédire les troubles cognitifs. Enfin, dans un modèle murin de l’obésité, l’activation locale du système glucagon-like peptide-1 (GLP-1) dans le bulbe olfactif, première structure cérébrale codant les odeurs, induit une meilleure régulation de la glycémie et de la prise alimentaire. Le recrutement de cette nouvelle voie neurométabolique menant jusqu’au pancréas provoque une augmentation de la libération d’insuline et de la sensibilité à cette hormone.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41734319/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41734319')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41734319" style="display:none;">📄 [GI Intel]\n📌 [Cross-regulation between olfaction and energy homeostasis in obesity and type 2 diabetes: from mouse models to humans].\n📖 Medecine sciences : M/S\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41734319/</textarea>
-            </div>
-        </details>
-        <details class="paper-item">
-            <summary>
-                <div class="meta">  <b>MedScience</b> </div>
-                <div class="title-row"><span class="arrow-icon">▶</span>Paligenosis: dual potential of mature cell plasticity in regeneration and tumorigenesis.</div>
-            </summary>
-            <div class="content">
-                
-        <div class='clinical-note'>
-            <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 개별 임상 판단 필요</div>
-            <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 데이터 추가 확인 필요</div>
-            <div><b>📌 Order:</b> 📌 처방 추가 판단 필요</div>
-        </div>
-                
-                <div class="abs">Paligenosis is an emerging model of mature cell plasticity that enables terminally differentiated cells to re-enter the cell cycle and contribute to tissue regeneration following injury. This tightly regulated process involves an initial phase of autophagy-mediated organelle clearance coupled with mechanistic target of rapamycin complex 1 (mTORC1) suppression, followed by mTORC1 reactivation and stemness gene induction that establishes regenerative competence, ultimately culminating in proliferation and lineage restoration. While paligenosis provides an adaptive mechanism to rapidly replenish lost cells in tissues such as the stomach and pancreas, persistent activation under chronic stress or oncogenic signals may drive metaplasia and tumor initiation. Recent evidence further implicates paligenosis-like programs in cancer progression, metastasis, and therapy resistance, underscoring its dual roles in regeneration and disease. Ongoing investigation into the molecular circuitry of paligenosis-including metabolic rewiring, canonical signaling, and epigenetic remodeling-may yield new insights into both tissue repair and oncogenic transformation, offering novel opportunities for therapeutic targeting.</div>
-                <div class="btns">
-                    <a href="https://pubmed.ncbi.nlm.nih.gov/41733879/" target="_blank" class="btn pub">🔗 PubMed</a>
-                    <button onclick="copyShare('41733879')" class="btn shr">📤 카톡공유</button>
-                </div>
-                <textarea id="s_41733879" style="display:none;">📄 [GI Intel]\n📌 Paligenosis: dual potential of mature cell plasticity in regeneration and tumorigenesis.\n📖 MedScience\n⚡ Action: 🧐 데이터 추가 확인 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41733879/</textarea>
-            </div>
-        </details></div>
-    </div>
-    <footer style="text-align:center; padding:20px; color:#95a5a6; font-size:0.8rem;">🚀 Project: MedProductive - Advanced Clinical Terminal</footer>
+        </details></div></div>
     <script>
-        function toggleF() {
-            const btn = document.getElementById('fBtn'); btn.classList.toggle('active');
-            const isF = btn.classList.contains('active');
-            document.querySelectorAll('.paper-item').forEach(p => {
-                p.style.display = isF ? (p.querySelector('.badge-guideline') ? 'block' : 'none') : 'block';
-            });
-        }
         function copyShare(id) {
             const el = document.getElementById('s_'+id);
-            navigator.clipboard.writeText(el.value.replace(/\\n/g, '\n')).then(() => alert("✅ 임상 판단 포함 텍스트 복사 완료!"));
+            navigator.clipboard.writeText(el.value.replace(/\\n/g, '\n')).then(() => alert("✅ 복사 완료!"));
         }
-        new Chart(document.getElementById('c1'), { type:'bar', data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[8, 10, 10], backgroundColor:'#3498db'}] }, options:{indexAxis:'y', plugins:{legend:{display:false}}} });
-        new Chart(document.getElementById('c2'), { type:'doughnut', data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[8, 10, 10], backgroundColor:['#e74c3c','#f1c40f','#2ecc71']}] }, options:{plugins:{legend:{position:'bottom'}}} });
+        new Chart(document.getElementById('c1'), { type:'bar', data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[10, 0, 3], backgroundColor:'#3498db'}] }, options:{indexAxis:'y', plugins:{legend:{display:false}}} });
+        new Chart(document.getElementById('c2'), { type:'doughnut', data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[10, 0, 3], backgroundColor:['#e74c3c','#f1c40f','#2ecc71']}] }, options:{plugins:{legend:{position:'bottom'}}} });
     </script>
 </body>
 </html>
