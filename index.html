@@ -8,11 +8,8 @@
         :root { --primary: #3498db; --success: #2ecc71; --warning: #ffb300; --bg: #f5f7fa; --text: #2c3e50; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 8px; }
         .card { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 12px; border: 1px solid #e0e0e0; }
-        
-        /* 📊 도표 나란히 배치용 그리드 */
         .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-        .chart-card { background: #fff; border-radius: 12px; padding: 8px; border: 1px solid #e0e0e0; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
-        
+        .chart-card { background: #fff; border-radius: 12px; padding: 8px; border: 1px solid #e0e0e0; height: 120px; }
         .paper-item { margin-bottom: 8px; border-radius: 10px; overflow: hidden; list-style: none; border: 1px solid #eee; }
         summary { padding: 12px; cursor: pointer; outline: none; list-style: none; }
         summary::-webkit-details-marker { display: none; }
@@ -21,163 +18,67 @@
         .arrow-icon { display: inline-block; transition: transform 0.2s; color: var(--primary); margin-right: 6px; flex-shrink: 0; }
         details[open] .arrow-icon { transform: rotate(90deg); }
         .badge { padding: 1px 4px; border-radius: 3px; font-size: 0.6rem; font-weight: bold; color: #fff; }
-        .rct { background: #e74c3c; } .if { background: #8e44ad; }
+        .rct { background: #e74c3c; } .gl { background: var(--success); } .if { background: #8e44ad; }
         .content { padding: 12px; background: #f9f9f9; border-top: 1px solid #eee; font-size: 0.85rem; }
         .clinical-note { background: #fff8e1; border-left: 3px solid var(--warning); padding: 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.8rem; color: #5d4037; }
         .btm-box { background: #ebf5ff; padding: 10px; border-radius: 6px; margin-bottom: 10px; border-left: 3px solid var(--primary); font-weight: bold; }
         .btn { flex: 1; padding: 8px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: bold; cursor: pointer; font-size: 0.8rem; border: none; color: #fff; }
         .pub { background: var(--primary); } .shr { background: var(--success); }
-        .filter-btn { width: 100%; padding: 10px; border-radius: 20px; border: 1px solid var(--success); background: #fff; color: var(--success); font-weight: bold; cursor: pointer; margin-bottom: 12px; font-size: 0.85rem; }
-        .filter-btn.active { background: var(--success); color: #fff; }
         h3 { font-size: 1.1rem; margin: 15px 0 10px 0; border-bottom: 2px solid #eee; padding-bottom: 5px; }
     </style>
 </head>
 <body>
     <div class="card" style="text-align:center;">
         <h1 style="margin:0; font-size:1.4rem;">🏥 GI Intel Terminal</h1>
-        <small style="font-size:0.75rem;">Updated: 2026-02-26 14:59 KST</small>
+        <small style="font-size:0.75rem;">Updated: 2026-02-26 15:04 KST</small>
     </div>
     
     <div class="card" style="border-top: 5px solid #e74c3c;">
-        <h2 style="margin-top:0; font-size:1rem; color:#e74c3c;">🔥 Weekly Top 3 Analysis</h2>
+        <h2 style="margin-top:0; font-size:1rem; color:#e74c3c;">🔥 Weekly Top 3 (Practice-Changing)</h2>
         
-    <details class="paper-item" style="border-left: 5px solid #e74c3c; background: #fffafa;">
+    <details class="paper-item" style="border-left:5px solid #e74c3c;background:#fffafa;">
         <summary>
-            <div class="meta"><span class='badge if'>IF 29.4</span> <b>Therapeutic advances in gastroenterology</b>  🔥</div>
-            <div class="title-row"><span class="arrow-icon">▶</span>EUS-guided pancreatic duct drainage-technical tips and outcomes: narrative review.</div>
+            <div class="meta"> <b>Journal of Arrhythmia</b> </div>
+            <div class="title-row"><span class="arrow-icon">▶</span>Contemporary Perspectives on J‐Wave Syndromes: An Expert Consensus Statement.</div>
         </summary>
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>Endoscopic ultrasound-guided pancreatic duct drainage (EUS-PDD) is becoming an alternative treatment in patients with difficult retrograde access to the pancreatic duct due to difficulty in cannulation or surgically altered anatomy. This is narrative review for technical tips and outcomes for EUS-PD</div>
-            <div class="abs">Endoscopic ultrasound-guided pancreatic duct drainage (EUS-PDD) is becoming an alternative treatment in patients with difficult retrograde access to the pancreatic duct due to difficulty in cannulation or surgically altered anatomy. This is narrative review for technical tips and outcomes for EUS-PDD. EUS-PDD is performed via one of two approaches: EUS-guided rendezvous and EUS-guided transmural drainage and involves the insertion of plastic or metal stents. While the use of plastic has been extensively described, fully covered self-expandable metal stents were reported in only six studies, and with a small number of patients. A meta-analysis including 27 trials and 902 patients reported technical success, clinical success, and adverse event (AE) rates of 89%, 88%, and 17%, respectively. The most common AE for post-EUS-PDD was acute pancreatitis, which occurred at a rate of 3%. The cumulative rates of bleeding, perforation, pancreatic leak, and infection were 2%, 2%, 1%, and 1%, respectively. The re-intervention rate due to stent dislocation, occlusion, or other reasons was 19%. In cases of surgically altered anatomy, the EUS-guided approach is significantly superior to the enteroscopy-guided approach with regard to pancreatic duct opacification (87% vs 30%; </div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>J‐wave syndromes (JWS)—comprising Brugada syndrome (BrS) and early repolarization syndrome (ERS)—are important causes of malignant ventricular arrhythmias and sudden cardiac death in patients whose hearts appear structurally normal. Since the 2016 consensus, advances in genetics, pathophysiology, and therapy have redefined both understanding and management. BrS, once viewed as a purely electrical disorder, is now recognized along a microstructural–electrical continuum, with sodium‐channel dysfunction and subtle epicardial fibrosis of the right ventricular outflow tract as key contributors. Likewise, ERS—historically considered benign—carries significant risk when inferolateral J‐waves coexist with arrhythmic events. Genetically, SCN5A remains the sole gene with definitive disease association, while polygenic susceptibility materially modulates risk, underscoring complex inheritance. Risk stratification remains challenging: patients with prior cardiac arrest or arrhythmic syncope are highest risk, whereas asymptomatic individuals warrant multiparametric assessment integrating clinical features, ECG markers, electrophysiologic studies, and genetics. For decades, treatment centered on implantable cardioverter‐defibrillators and quinidine, both limited by availability, tolerance, and device complications. More recently, epicardial substrate ablation has emerged as a transformative therapy, with large registries and randomized trials demonstrating durable suppression of ventricular fibrillation and acceptable safety. This APHRS‐organized international consensus updates and extends the 2016 Expert Consensus and the 2022 ESC Guidelines, providing contemporary diagnostic frameworks, pragmatic risk‐stratification tools, and treatment algorithms for BrS and ERS. It emphasizes JWS as a microstructural–electrical disease spectrum and elevates substrate ablation as a major therapeutic advance, while outlining priorities for genetics, risk‐stratification and treatment algorithms.</div>
+            <div class="abs">J‐wave syndromes (JWS)—comprising Brugada syndrome (BrS) and early repolarization syndrome (ERS)—are important causes of malignant ventricular arrhythmias and sudden cardiac death in patients whose hearts appear structurally normal. Since the 2016 consensus, advances in genetics, pathophysiology, and therapy have redefined both understanding and management. BrS, once viewed as a purely electrical disorder, is now recognized along a microstructural–electrical continuum, with sodium‐channel dysfunction and subtle epicardial fibrosis of the right ventricular outflow tract as key contributors. Likewise, ERS—historically considered benign—carries significant risk when inferolateral J‐waves coexist with arrhythmic events. Genetically, SCN5A remains the sole gene with definitive disease association, while polygenic susceptibility materially modulates risk, underscoring complex inheritance. Risk stratification remains challenging: patients with prior cardiac arrest or arrhythmic syncope are highest risk, whereas asymptomatic individuals warrant multiparametric assessment integrating clinical features, ECG markers, electrophysiologic studies, and genetics. For decades, treatment centered on implantable cardioverter‐defibrillators and quinidine, both limited by availability, tolerance, and device complications. More recently, epicardial substrate ablation has emerged as a transformative therapy, with large registries and randomized trials demonstrating durable suppression of ventricular fibrillation and acceptable safety. This APHRS‐organized international consensus updates and extends the 2016 Expert Consensus and the 2022 ESC Guidelines, providing contemporary diagnostic frameworks, pragmatic risk‐stratification tools, and treatment algorithms for BrS and ERS. It emphasizes JWS as a microstructural–electrical disease spectrum and elevates substrate ablation as a major therapeutic advance, while outlining priorities for genetics, risk‐stratification and treatment algorithms.</div>
             <div class="btns">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41732329/" target="_blank" class="btn pub">🔗 PubMed</a>
-                <button onclick="copyShare('41732329')" class="btn shr">📤 공유</button>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41738055/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41738055')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41732329" style="display:none;">📄 GI Intel\n📌 EUS-guided pancreatic duct drainage-technical tips and outcomes: narrative review.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41732329/</textarea>
+            <textarea id="s_41738055" style="display:none;">📄 GI Intel\n📌 Contemporary Perspectives on J‐Wave Syndromes: An Expert Consensus Statement.\n🏥 Journal of Arrhythmia\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41738055/</textarea>
         </div>
     </details>
-    <details class="paper-item" style="border-left: 5px solid #e74c3c; background: #fffafa;">
+    <details class="paper-item" style="border-left:5px solid #e74c3c;background:#fffafa;">
         <summary>
-            <div class="meta"> <b>Frontiers in Oncology</b> </div>
+            <div class="meta"> <b>Frontiers in Oncology</b> <span class='badge gl badge-guideline'>GL</span></div>
             <div class="title-row"><span class="arrow-icon">▶</span>Guideline-concordant cancer screening among Deaf, DeafBlind, and Hard of Hearing (DDBHH) Puerto Ricans who use American Sign Language.</div>
         </summary>
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>Puerto Ricans who are Deaf, DeafBlind, and Hard of Hearing (DDBHH) and use sign language are excluded from cancer screening surveillance systems that are conducted primarily in English or Spanish. This exclusion resulted in limited data on screening behaviors among this population.<br><br>We adminis</div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>This first assessment of cancer screening behaviors among Deaf, DeafBlind, and Hard of Hearing Puerto Rican sign language users demonstrates that accessible research methods can successfully reach some of excluded populations and documents screening adherence within this population for the first time, while highlighting critical needs to implement evidence-based sign language-fluent health navigation services in Puerto Rico to achieve screening targets and reach Puerto Rican Sign Language-dominant users.</div>
             <div class="abs">Puerto Ricans who are Deaf, DeafBlind, and Hard of Hearing (DDBHH) and use sign language are excluded from cancer screening surveillance systems that are conducted primarily in English or Spanish. This exclusion resulted in limited data on screening behaviors among this population.<br><br>We administered a brief National Cancer Institute’s Health Information National Trends Survey (HINTS) to age-eligible Puerto Rican adults through deaf Puerto Rican team members. This survey included items that asked about cancer screenings in American Sign Language (ASL) and English.<br><br>Screening adherence was 69% for cervical cancer, 80% for breast cancer, and 64% for colorectal cancer. These rates exceed the colorectal cancer screening rate reported for the general Puerto Rican population (55%).<br><br>This first assessment of cancer screening behaviors among Deaf, DeafBlind, and Hard of Hearing Puerto Rican sign language users demonstrates that accessible research methods can successfully reach some of excluded populations and documents screening adherence within this population for the first time, while highlighting critical needs to implement evidence-based sign language-fluent health navigation services in Puerto Rico to achieve screening targets and reach Puerto Rican Sign Language-dominant users.</div>
             <div class="btns">
                 <a href="https://pubmed.ncbi.nlm.nih.gov/41737482/" target="_blank" class="btn pub">🔗 PubMed</a>
                 <button onclick="copyShare('41737482')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41737482" style="display:none;">📄 GI Intel\n📌 Guideline-concordant cancer screening among Deaf, DeafBlind, and Hard of Hearing (DDBHH) Puerto Ricans who use American Sign Language.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737482/</textarea>
+            <textarea id="s_41737482" style="display:none;">📄 GI Intel\n📌 Guideline-concordant cancer screening among Deaf, DeafBlind, and Hard of Hearing (DDBHH) Puerto Ricans who use American Sign Language.\n🏥 Frontiers in Oncology\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737482/</textarea>
         </div>
     </details>
-    <details class="paper-item" style="border-left: 5px solid #e74c3c; background: #fffafa;">
-        <summary>
-            <div class="meta"> <b>JHEP Reports</b>  🔥</div>
-            <div class="title-row"><span class="arrow-icon">▶</span>HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.</div>
-        </summary>
-        <div class="content">
-            
-    <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 HCC surveillance 재설정</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
-    </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>Liver transplantation (LT) for hepatocellular carcinoma (HCC) is performed worldwide, with 5-year survival rates of approximately 70%. However, post-transplant HCC recurrence occurs in 15-20% of recipients. We aimed to evaluate, for the first time, long-term recurrence-free survival in a large inter</div>
-            <div class="abs">Liver transplantation (LT) for hepatocellular carcinoma (HCC) is performed worldwide, with 5-year survival rates of approximately 70%. However, post-transplant HCC recurrence occurs in 15-20% of recipients. We aimed to evaluate, for the first time, long-term recurrence-free survival in a large international cohort of patients undergoing LT for HCC using grafts treated with hypothermic oxygenated machine perfusion (HOPE).<br><br>This observational <br><br>The overall HCC recurrence rate in the HOPE-REAL cohort was 6.9% (41/599), with no significant difference between DBD and DCD liver transplants (7.1% [25/350] <br><br>HCC recurrence was rare after transplantation of livers treated with HOPE. Long-term survival in HOPE-treated HCC recipients was significantly better than in those receiving non-perfused livers, and comparable to outcomes in non-HCC recipients. These findings warrant validation in a randomized clinical trial.<br><br>This <br><br>NCT05520320<br><br>[Figure: see text]<br><br>• HOPE treatment was identified as an independent significant protective factor against HCC recurrence. • Among patients with HCC, 5-year suvival and recurrence -free survival was higher in matched recipients of HOPE treated DBD grafts than non-perfused DBD grafts (84% vs. 74% and 77 vs. 67%, respectively). • In contrast, survival was not different between HOPE treated HCC recipients and matched non HCC recipients ( 82% vs 84% at 5 years).</div>
-            <div class="btns">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41737541/" target="_blank" class="btn pub">🔗 PubMed</a>
-                <button onclick="copyShare('41737541')" class="btn shr">📤 공유</button>
-            </div>
-            <textarea id="s_41737541" style="display:none;">📄 GI Intel\n📌 HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737541/</textarea>
-        </div>
-    </details>
-    </div>
-
-    <div class="chart-grid">
-        <div class="chart-card"><canvas id="c1" style="height:100px; width:100%;"></canvas></div>
-        <div class="chart-card"><canvas id="c2" style="height:100px; width:100%;"></canvas></div>
-    </div>
-
-    <div class="card">
-        <button id="fBtn" class="filter-btn" onclick="toggleF()">📋 가이드라인만 보기</button>
-        <div class='sec-group'><h3>🍎 GI Track</h3>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
-        <summary>
-            <div class="meta"> <b>Frontiers in Oncology</b> </div>
-            <div class="title-row"><span class="arrow-icon">▶</span>Guideline-concordant cancer screening among Deaf, DeafBlind, and Hard of Hearing (DDBHH) Puerto Ricans who use American Sign Language.</div>
-        </summary>
-        <div class="content">
-            
-    <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
-    </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>Puerto Ricans who are Deaf, DeafBlind, and Hard of Hearing (DDBHH) and use sign language are excluded from cancer screening surveillance systems that are conducted primarily in English or Spanish. This exclusion resulted in limited data on screening behaviors among this population.<br><br>We adminis</div>
-            <div class="abs">Puerto Ricans who are Deaf, DeafBlind, and Hard of Hearing (DDBHH) and use sign language are excluded from cancer screening surveillance systems that are conducted primarily in English or Spanish. This exclusion resulted in limited data on screening behaviors among this population.<br><br>We administered a brief National Cancer Institute’s Health Information National Trends Survey (HINTS) to age-eligible Puerto Rican adults through deaf Puerto Rican team members. This survey included items that asked about cancer screenings in American Sign Language (ASL) and English.<br><br>Screening adherence was 69% for cervical cancer, 80% for breast cancer, and 64% for colorectal cancer. These rates exceed the colorectal cancer screening rate reported for the general Puerto Rican population (55%).<br><br>This first assessment of cancer screening behaviors among Deaf, DeafBlind, and Hard of Hearing Puerto Rican sign language users demonstrates that accessible research methods can successfully reach some of excluded populations and documents screening adherence within this population for the first time, while highlighting critical needs to implement evidence-based sign language-fluent health navigation services in Puerto Rico to achieve screening targets and reach Puerto Rican Sign Language-dominant users.</div>
-            <div class="btns">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41737482/" target="_blank" class="btn pub">🔗 PubMed</a>
-                <button onclick="copyShare('41737482')" class="btn shr">📤 공유</button>
-            </div>
-            <textarea id="s_41737482" style="display:none;">📄 GI Intel\n📌 Guideline-concordant cancer screening among Deaf, DeafBlind, and Hard of Hearing (DDBHH) Puerto Ricans who use American Sign Language.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737482/</textarea>
-        </div>
-    </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
-        <summary>
-            <div class="meta"> <b>Frontiers in Surgery</b> <span class='badge rct'>RCT</span></div>
-            <div class="title-row"><span class="arrow-icon">▶</span>A short-term, exploratory randomized controlled trial on the safety and feasibility of intraoperative raltitrexed peritoneal chemotherapy in laparoscopic radical resection for advanced colorectal cancer.</div>
-        </summary>
-        <div class="content">
-            
-    <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
-    </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>Patients with advanced colorectal cancer (CRC) with primary tumor stage T3 or T4 are at increased risk of peritoneal metastasis. The safety and feasibility of combining radical resection with intraoperative intraperitoneal perfusion chemotherapy (IPC) using raltitrexed in this population warrant fur</div>
-            <div class="abs">Patients with advanced colorectal cancer (CRC) with primary tumor stage T3 or T4 are at increased risk of peritoneal metastasis. The safety and feasibility of combining radical resection with intraoperative intraperitoneal perfusion chemotherapy (IPC) using raltitrexed in this population warrant further investigation.<br><br>In this single-center, exploratory randomized controlled trial, 60 patients with advanced CRC (T3, T4) scheduled for laparoscopic radical resection were randomly assigned to receive either intraoperative raltitrexed IPC (<br><br>The IPC procedure was successfully completed in all assigned patients, confirming procedural feasibility. No significant between-group differences were observed in postoperative hematological toxicity, nephrotoxicity, or complication rates. Transaminase elevations (ALT/AST) on postoperative day seven were transient and mild in both cohorts, with a more marked yet clinically manageable increase in the IPC group. At the three-month follow-up, no significant between-group differences were found in tumor marker levels or recurrence rates. Within-group analyses, however, demonstrated a significant decrease in CEA in the IPC group [mean change: −2.23 ± 4.68 ng/mL (95% CI: 0.48–3.98); <br><br>For patients with advanced CRC (T3/T4), laparoscopic radical resection combined with intraoperative raltitrexed IPC is feasible and exhibits an acceptable short-term safety profile. Observed short-term changes in tumor markers are considered exploratory findings and require validation in subsequent, large-scale prospective studies with extended follow-up periods.</div>
-            <div class="btns">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41737519/" target="_blank" class="btn pub">🔗 PubMed</a>
-                <button onclick="copyShare('41737519')" class="btn shr">📤 공유</button>
-            </div>
-            <textarea id="s_41737519" style="display:none;">📄 GI Intel\n📌 A short-term, exploratory randomized controlled trial on the safety and feasibility of intraoperative raltitrexed peritoneal chemotherapy in laparoscopic radical resection for advanced colorectal cancer.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737519/</textarea>
-        </div>
-    </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
-        <summary>
-            <div class="meta"> <b>Frontiers in Immunology</b> </div>
-            <div class="title-row"><span class="arrow-icon">▶</span>Discordance between radiological and pathological response to neoadjuvant immunotherapy in mismatch repair-deficient/microsatellite instability-high colorectal cancer: a meta-analysis.</div>
-        </summary>
-        <div class="content">
-            
-    <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
-    </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>Mismatch repair deficiency (dMMR) and microsatellite instability (MSI-H) cancers exhibit high immunogenicity and are highly responsive to immune checkpoint inhibitors. In patients with locally advanced dMMR/MSI-H colorectal cancer (CRC), neoadjuvant immunotherapy (NIT) has demonstrated unprecedented</div>
-            <div class="abs">Mismatch repair deficiency (dMMR) and microsatellite instability (MSI-H) cancers exhibit high immunogenicity and are highly responsive to immune checkpoint inhibitors. In patients with locally advanced dMMR/MSI-H colorectal cancer (CRC), neoadjuvant immunotherapy (NIT) has demonstrated unprecedented pathological complete response (pCR) rates, suggesting nonoperative management strategies may be possible. There remains a discrepancy between radiological assessment and pathological responses to NIT in CRC.<br><br>We conducted a systematic review and meta-analysis of studies published between February 2015 and February 2025 to determine if radiological and pathological assessments following neoadjuvant immune checkpoint inhibitor therapy (NIT) were consistent in patients with non-metastatic dMMR/MSI-H CRC. Using PubMed, Embase, and Web of Science, the literature was retrieved, with inclusion criteria focusing on studies that reported both imaging data and pathological results. A random-effects model was used to calculate pooled odds ratios (ORs) and 95% confidence intervals (CIs). Subgroup analyses were conducted based on tumor location (colon versus rectum) and type of response (cCR versus pCR).<br><br>In 12 studies, 396 patients were included. A total rate of 59.6% discordance was found between radiological and pathological responses. Compared to rectal cancer patients (34.9%), colon cancer patients exhibited a significantly higher rate of discordance (64.2%). A total of 238 patients with confirmed pCR were incorrectly diagnosed as having residual disease on radiological assessment (OR = 61.41; 95% CI: 10.05–375.27;P < 0.00001). A high level of heterogeneity was observed across studies (I2 = 85%), but no publication bias was observed.<br><br>In dMMR/MSI-H CRC, radiologic assessment alone cannot reliably assess the efficacy of NIT, particularly in colon cancer. It should be integrated with additional modalities—such as endoscopic evaluation and biomarker analysis—to ensure an accurate appraisal of treatment efficacy.</div>
-            <div class="btns">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41737205/" target="_blank" class="btn pub">🔗 PubMed</a>
-                <button onclick="copyShare('41737205')" class="btn shr">📤 공유</button>
-            </div>
-            <textarea id="s_41737205" style="display:none;">📄 GI Intel\n📌 Discordance between radiological and pathological response to neoadjuvant immunotherapy in mismatch repair-deficient/microsatellite instability-high colorectal cancer: a meta-analysis.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737205/</textarea>
-        </div>
-    </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
+    <details class="paper-item" style="border-left:5px solid #e74c3c;background:#fffafa;">
         <summary>
             <div class="meta"> <b>NEJM evidence</b>  🔥</div>
             <div class="title-row"><span class="arrow-icon">▶</span>Trifluridine-Tipiracil with and without Bevacizumab in Colorectal Cancer.</div>
@@ -185,62 +86,156 @@
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>In the phase 3 SUNLIGHT trial (Study of Trifluridine/Tipiracil With and Without Bevacizumab in Refractory Metastatic Colorectal Cancer Patients), trifluridine-tipiracil+bevacizumab (FTD-TPI+bev) improved the overall survival of patients with metastatic colorectal cancer (mCRC) compared with trifluri</div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>This U.S.-based real-world observational study found that FTD-TPI+bev was associated with longer rwOS compared with FTD-TPI in patients with mCRC. These findings align with the results of the SUNLIGHT clinical trial. (Funded by Taiho Oncology, Inc. and others.).</div>
             <div class="abs">In the phase 3 SUNLIGHT trial (Study of Trifluridine/Tipiracil With and Without Bevacizumab in Refractory Metastatic Colorectal Cancer Patients), trifluridine-tipiracil+bevacizumab (FTD-TPI+bev) improved the overall survival of patients with metastatic colorectal cancer (mCRC) compared with trifluridine-tipiracil (FTD-TPI) monotherapy. We investigated the real-world outcomes of FTD-TPI+bev compared with FTD-TPI for patients with mCRC.<br><br>We analyzed U.S.-based electronic medical records and claims in the ConcertAI RWD360 dataset. Adults with mCRC were grouped by first exposure to FTD-TPI versus FTD-TPI+bev. Propensity score matching was used to balance the cohorts based on patient characteristics. Kaplan-Meier analyses were used to describe the real-world overall survival (rwOS, the primary outcome), time to treatment discontinuation (rwTTD), and time to next treatment or death (rwTTNTD).<br><br>This cohort included 3151 patients treated with FTD-TPI and 529 patients treated with FTD-TPI+bev. After propensity score matching, 472 patients were included in each cohort with balanced patient characteristics. The median rwOS was 8.9 months (95% confidence interval [CI], 7.8 to 10.1) for FTD-TPI+bev and 5.8 months (95% CI, 4.9 to 6.7) for FTD-TPI (P<0.001). The median rwTTD was 3.5 months (95% CI, 3.2 to 3.8) in the FTD-TPI+bev group and 2.2 months (95% CI, 1.9 to 2.5) in the FTD-TPI group. The median rwTTNTD among the FTD-TPI+bev group was 4.9 months (95% CI, 4.5 to 5.4) and in the FTD-TPI group it was 3.5 months (95% CI, 3.1 to 3.7).<br><br>This U.S.-based real-world observational study found that FTD-TPI+bev was associated with longer rwOS compared with FTD-TPI in patients with mCRC. These findings align with the results of the SUNLIGHT clinical trial. (Funded by Taiho Oncology, Inc. and others.).</div>
             <div class="btns">
                 <a href="https://pubmed.ncbi.nlm.nih.gov/41733397/" target="_blank" class="btn pub">🔗 PubMed</a>
                 <button onclick="copyShare('41733397')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41733397" style="display:none;">📄 GI Intel\n📌 Trifluridine-Tipiracil with and without Bevacizumab in Colorectal Cancer.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41733397/</textarea>
+            <textarea id="s_41733397" style="display:none;">📄 GI Intel\n📌 Trifluridine-Tipiracil with and without Bevacizumab in Colorectal Cancer.\n🏥 NEJM evidence\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41733397/</textarea>
         </div>
     </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
+    </div>
+
+    <div class="chart-grid">
+        <div class="chart-card"><canvas id="c1"></canvas></div>
+        <div class="chart-card"><canvas id="c2"></canvas></div>
+    </div>
+
+    <div class="card">
+        <button id="fBtn" onclick="toggleF()" style="width:100%; padding:10px; border-radius:20px; border:1px solid var(--success); background:#fff; color:var(--success); font-weight:bold; cursor:pointer;">📋 가이드라인만 보기</button>
+        <div class='sec-group'><h3>🍎 GI Track</h3>
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
         <summary>
-            <div class="meta"> <b>Molecular oncology</b> </div>
-            <div class="title-row"><span class="arrow-icon">▶</span>Interrogating the immune landscape of microsatellite stable RAS-mutated colon cancer.</div>
+            <div class="meta"> <b>Frontiers in Oncology</b> <span class='badge gl badge-guideline'>GL</span></div>
+            <div class="title-row"><span class="arrow-icon">▶</span>Guideline-concordant cancer screening among Deaf, DeafBlind, and Hard of Hearing (DDBHH) Puerto Ricans who use American Sign Language.</div>
         </summary>
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>To explore the immune microenvironment of RAS-mutated (RASmt) microsatellite stable (MSS) colon cancer (CC), we retrospectively performed whole exome sequencing, RNA sequencing, and robust digital pathology analyses and studied immune markers in a cohort of 161 patients treated with standard-of-care</div>
-            <div class="abs">To explore the immune microenvironment of RAS-mutated (RASmt) microsatellite stable (MSS) colon cancer (CC), we retrospectively performed whole exome sequencing, RNA sequencing, and robust digital pathology analyses and studied immune markers in a cohort of 161 patients treated with standard-of-care therapies with early stage disease (both fresh frozen and formalin-fixed paraffin-embedded [FFPE] samples) or 121 patients with metastatic setting (primary tumor FFPE samples). Only a small proportion of cases exhibited a highly infiltrated immune microenvironment, with a strong association between Immunoscore</div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>This first assessment of cancer screening behaviors among Deaf, DeafBlind, and Hard of Hearing Puerto Rican sign language users demonstrates that accessible research methods can successfully reach some of excluded populations and documents screening adherence within this population for the first time, while highlighting critical needs to implement evidence-based sign language-fluent health navigation services in Puerto Rico to achieve screening targets and reach Puerto Rican Sign Language-dominant users.</div>
+            <div class="abs">Puerto Ricans who are Deaf, DeafBlind, and Hard of Hearing (DDBHH) and use sign language are excluded from cancer screening surveillance systems that are conducted primarily in English or Spanish. This exclusion resulted in limited data on screening behaviors among this population.<br><br>We administered a brief National Cancer Institute’s Health Information National Trends Survey (HINTS) to age-eligible Puerto Rican adults through deaf Puerto Rican team members. This survey included items that asked about cancer screenings in American Sign Language (ASL) and English.<br><br>Screening adherence was 69% for cervical cancer, 80% for breast cancer, and 64% for colorectal cancer. These rates exceed the colorectal cancer screening rate reported for the general Puerto Rican population (55%).<br><br>This first assessment of cancer screening behaviors among Deaf, DeafBlind, and Hard of Hearing Puerto Rican sign language users demonstrates that accessible research methods can successfully reach some of excluded populations and documents screening adherence within this population for the first time, while highlighting critical needs to implement evidence-based sign language-fluent health navigation services in Puerto Rico to achieve screening targets and reach Puerto Rican Sign Language-dominant users.</div>
             <div class="btns">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41733106/" target="_blank" class="btn pub">🔗 PubMed</a>
-                <button onclick="copyShare('41733106')" class="btn shr">📤 공유</button>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41737482/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41737482')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41733106" style="display:none;">📄 GI Intel\n📌 Interrogating the immune landscape of microsatellite stable RAS-mutated colon cancer.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41733106/</textarea>
+            <textarea id="s_41737482" style="display:none;">📄 GI Intel\n📌 Guideline-concordant cancer screening among Deaf, DeafBlind, and Hard of Hearing (DDBHH) Puerto Ricans who use American Sign Language.\n🏥 Frontiers in Oncology\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737482/</textarea>
         </div>
-    </details></div><div class='sec-group'><h3>🍺 Liver Track</h3><p style='padding:15px; color:#7f8c8d;'>최근 논문이 없습니다.</p></div><div class='sec-group'><h3>🧬 Biliary/Pancreas</h3>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
+    </details>
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
         <summary>
-            <div class="meta"><span class='badge if'>IF 29.4</span> <b>Therapeutic advances in gastroenterology</b>  🔥</div>
-            <div class="title-row"><span class="arrow-icon">▶</span>EUS-guided pancreatic duct drainage-technical tips and outcomes: narrative review.</div>
+            <div class="meta"> <b>Frontiers in Immunology</b> </div>
+            <div class="title-row"><span class="arrow-icon">▶</span>Discordance between radiological and pathological response to neoadjuvant immunotherapy in mismatch repair-deficient/microsatellite instability-high colorectal cancer: a meta-analysis.</div>
         </summary>
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>Endoscopic ultrasound-guided pancreatic duct drainage (EUS-PDD) is becoming an alternative treatment in patients with difficult retrograde access to the pancreatic duct due to difficulty in cannulation or surgically altered anatomy. This is narrative review for technical tips and outcomes for EUS-PD</div>
-            <div class="abs">Endoscopic ultrasound-guided pancreatic duct drainage (EUS-PDD) is becoming an alternative treatment in patients with difficult retrograde access to the pancreatic duct due to difficulty in cannulation or surgically altered anatomy. This is narrative review for technical tips and outcomes for EUS-PDD. EUS-PDD is performed via one of two approaches: EUS-guided rendezvous and EUS-guided transmural drainage and involves the insertion of plastic or metal stents. While the use of plastic has been extensively described, fully covered self-expandable metal stents were reported in only six studies, and with a small number of patients. A meta-analysis including 27 trials and 902 patients reported technical success, clinical success, and adverse event (AE) rates of 89%, 88%, and 17%, respectively. The most common AE for post-EUS-PDD was acute pancreatitis, which occurred at a rate of 3%. The cumulative rates of bleeding, perforation, pancreatic leak, and infection were 2%, 2%, 1%, and 1%, respectively. The re-intervention rate due to stent dislocation, occlusion, or other reasons was 19%. In cases of surgically altered anatomy, the EUS-guided approach is significantly superior to the enteroscopy-guided approach with regard to pancreatic duct opacification (87% vs 30%; </div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>In dMMR/MSI-H CRC, radiologic assessment alone cannot reliably assess the efficacy of NIT, particularly in colon cancer. It should be integrated with additional modalities—such as endoscopic evaluation and biomarker analysis—to ensure an accurate appraisal of treatment efficacy.</div>
+            <div class="abs">Mismatch repair deficiency (dMMR) and microsatellite instability (MSI-H) cancers exhibit high immunogenicity and are highly responsive to immune checkpoint inhibitors. In patients with locally advanced dMMR/MSI-H colorectal cancer (CRC), neoadjuvant immunotherapy (NIT) has demonstrated unprecedented pathological complete response (pCR) rates, suggesting nonoperative management strategies may be possible. There remains a discrepancy between radiological assessment and pathological responses to NIT in CRC.<br><br>We conducted a systematic review and meta-analysis of studies published between February 2015 and February 2025 to determine if radiological and pathological assessments following neoadjuvant immune checkpoint inhibitor therapy (NIT) were consistent in patients with non-metastatic dMMR/MSI-H CRC. Using PubMed, Embase, and Web of Science, the literature was retrieved, with inclusion criteria focusing on studies that reported both imaging data and pathological results. A random-effects model was used to calculate pooled odds ratios (ORs) and 95% confidence intervals (CIs). Subgroup analyses were conducted based on tumor location (colon versus rectum) and type of response (cCR versus pCR).<br><br>In 12 studies, 396 patients were included. A total rate of 59.6% discordance was found between radiological and pathological responses. Compared to rectal cancer patients (34.9%), colon cancer patients exhibited a significantly higher rate of discordance (64.2%). A total of 238 patients with confirmed pCR were incorrectly diagnosed as having residual disease on radiological assessment (OR = 61.41; 95% CI: 10.05–375.27;P < 0.00001). A high level of heterogeneity was observed across studies (I2 = 85%), but no publication bias was observed.<br><br>In dMMR/MSI-H CRC, radiologic assessment alone cannot reliably assess the efficacy of NIT, particularly in colon cancer. It should be integrated with additional modalities—such as endoscopic evaluation and biomarker analysis—to ensure an accurate appraisal of treatment efficacy.</div>
             <div class="btns">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41732329/" target="_blank" class="btn pub">🔗 PubMed</a>
-                <button onclick="copyShare('41732329')" class="btn shr">📤 공유</button>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41737205/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41737205')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41732329" style="display:none;">📄 GI Intel\n📌 EUS-guided pancreatic duct drainage-technical tips and outcomes: narrative review.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41732329/</textarea>
+            <textarea id="s_41737205" style="display:none;">📄 GI Intel\n📌 Discordance between radiological and pathological response to neoadjuvant immunotherapy in mismatch repair-deficient/microsatellite instability-high colorectal cancer: a meta-analysis.\n🏥 Frontiers in Immunology\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737205/</textarea>
         </div>
     </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
+        <summary>
+            <div class="meta"> <b>NEJM evidence</b>  🔥</div>
+            <div class="title-row"><span class="arrow-icon">▶</span>Trifluridine-Tipiracil with and without Bevacizumab in Colorectal Cancer.</div>
+        </summary>
+        <div class="content">
+            
+    <div class='clinical-note'>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
+    </div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>This U.S.-based real-world observational study found that FTD-TPI+bev was associated with longer rwOS compared with FTD-TPI in patients with mCRC. These findings align with the results of the SUNLIGHT clinical trial. (Funded by Taiho Oncology, Inc. and others.).</div>
+            <div class="abs">In the phase 3 SUNLIGHT trial (Study of Trifluridine/Tipiracil With and Without Bevacizumab in Refractory Metastatic Colorectal Cancer Patients), trifluridine-tipiracil+bevacizumab (FTD-TPI+bev) improved the overall survival of patients with metastatic colorectal cancer (mCRC) compared with trifluridine-tipiracil (FTD-TPI) monotherapy. We investigated the real-world outcomes of FTD-TPI+bev compared with FTD-TPI for patients with mCRC.<br><br>We analyzed U.S.-based electronic medical records and claims in the ConcertAI RWD360 dataset. Adults with mCRC were grouped by first exposure to FTD-TPI versus FTD-TPI+bev. Propensity score matching was used to balance the cohorts based on patient characteristics. Kaplan-Meier analyses were used to describe the real-world overall survival (rwOS, the primary outcome), time to treatment discontinuation (rwTTD), and time to next treatment or death (rwTTNTD).<br><br>This cohort included 3151 patients treated with FTD-TPI and 529 patients treated with FTD-TPI+bev. After propensity score matching, 472 patients were included in each cohort with balanced patient characteristics. The median rwOS was 8.9 months (95% confidence interval [CI], 7.8 to 10.1) for FTD-TPI+bev and 5.8 months (95% CI, 4.9 to 6.7) for FTD-TPI (P<0.001). The median rwTTD was 3.5 months (95% CI, 3.2 to 3.8) in the FTD-TPI+bev group and 2.2 months (95% CI, 1.9 to 2.5) in the FTD-TPI group. The median rwTTNTD among the FTD-TPI+bev group was 4.9 months (95% CI, 4.5 to 5.4) and in the FTD-TPI group it was 3.5 months (95% CI, 3.1 to 3.7).<br><br>This U.S.-based real-world observational study found that FTD-TPI+bev was associated with longer rwOS compared with FTD-TPI in patients with mCRC. These findings align with the results of the SUNLIGHT clinical trial. (Funded by Taiho Oncology, Inc. and others.).</div>
+            <div class="btns">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41733397/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41733397')" class="btn shr">📤 공유</button>
+            </div>
+            <textarea id="s_41733397" style="display:none;">📄 GI Intel\n📌 Trifluridine-Tipiracil with and without Bevacizumab in Colorectal Cancer.\n🏥 NEJM evidence\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41733397/</textarea>
+        </div>
+    </details>
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
+        <summary>
+            <div class="meta"> <b>Health technology assessment (Winchester, England)</b> </div>
+            <div class="title-row"><span class="arrow-icon">▶</span>Intravenous lidocaine for gastrointestinal recovery after colorectal surgery: the ALLEGRO placebo-controlled randomised trial and cost-effectiveness analysis.</div>
+        </summary>
+        <div class="content">
+            
+    <div class='clinical-note'>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
+    </div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>Surgery to remove part of the large bowel is a common operation in United Kingdom hospitals, usually for colon cancer. Modern keyhole techniques mean that most patients are out of bed with minimal pain in a couple of days after surgery but bowel recovery (being able to eat food without nausea, and passing stool or wind) takes longer and keeps patients in hospital until it happens. Previous studies have suggested that giving patients an additional anaesthetic drug called lidocaine while they are having surgery may speed up bowel recovery after surgery. In the ALLEGRO study, we tested whether giving patients intravenous lidocaine (into a vein) while they were having ‘keyhole’ colorectal surgery improved bowel function recovery. We found that intravenous lidocaine did not improve bowel recovery. Bowel function had not recovered 3 days after surgery in 40% of patients. There was also no effect of lidocaine on pain, quality of life, other measures of recovery or on the amount of health service used after surgery. We found no harm caused by lidocaine. The results from our study show that: There is no benefit to patients of giving them lidocaine while they are having bowel surgery. Delayed recovery of bowel function is common even with keyhole surgery.</div>
+            <div class="abs">Delayed return of gut function after colonic resection is a common impediment to early postoperative recovery. Small clinical studies, combined into meta-analyses, have suggested that intravenous lidocaine can improve return of gut function after colorectal surgery.<br><br>To determine the clinical effectiveness and cost-effectiveness of perioperative intravenous lidocaine infusion compared with placebo in return of gut function after elective minimally invasive colonic resection.<br><br>Multicentre, pragmatic, placebo-controlled, randomised trial with cost-effectiveness analysis.<br><br>Twenty-seven hospital sites across the United Kingdom. Adult patients scheduled for elective minimally invasive colon resection were randomised in 1 : 1 ratio to treatment or control groups using a web-based portal, stratified by age, sex and trial site.<br><br>A sterile solution of 2% lidocaine (made isotonic with sodium chloride) and matching placebo (a sterile solution of 0.9% sodium chloride). Participants received an intravenous bolus of study drug/placebo at induction of anaesthesia (1.5 mg/kg ideal body weight) given over 20 minutes, followed by intravenous infusion of 1.5 mg/hour/kg ideal body weight with a maximum rate of 120 mg/hour (6 ml/hour) for a minimum of 6 hours up to a maximum of 12 hours. The planned duration of infusion was determined by the participating unit's availability of postoperative continuous cardiac monitoring.<br><br>Primary outcome: return of gut function at 72 hours postoperatively measured by 'GI-3 recovery' (defined as tolerating diet and passage of flatus or stool). Other outcomes were GI-2 recovery, prolonged postoperative ileus, patient-reported measures of quality of life, recovery and pain, 30- and 90-day mortality, unplanned re-admissions, adverse events, serious adverse events and cost per quality-adjusted life-year at 30 days. Participants, care givers and those assessing the outcomes were blinded to group assignment.<br><br>The trial enrolled 590 patients (295 interventions, 295 control); after 33 post-randomisation exclusions, 557 patients were included (279 interventions, 278 control). There was no statistically significant or clinically meaningful difference in GI-3 recovery at 72 hours after surgery [160/279 patients (57.3%) for intravenous lidocaine versus 164/278 patients (59%) for placebo (absolute difference 1.9% (-8.0 to 4.2), odds ratio 0.97 (0.88 to 1.07), <br><br>For pragmatic reasons, relatively short durations of infusion were delivered in the ALLEGRO trial - we cannot discount the possibility that longer durations might be effective.<br><br>We found no evidence for benefit from perioperative intravenous lidocaine on return of gut function, nor any other objective patient-reported outcome measure, nor cost-efficiency.<br><br>There remains a need for an effective, acceptable, safe and affordable intervention to improve recovery of gut function after minimally invasive colonic surgery.<br><br>This synopsis presents independent research funded by the National Institute for Health and Care Research (NIHR) Health Technology Assessment programme as award number 15/130/95.<br><br>Surgery to remove part of the large bowel is a common operation in United Kingdom hospitals, usually for colon cancer. Modern keyhole techniques mean that most patients are out of bed with minimal pain in a couple of days after surgery but bowel recovery (being able to eat food without nausea, and passing stool or wind) takes longer and keeps patients in hospital until it happens. Previous studies have suggested that giving patients an additional anaesthetic drug called lidocaine while they are having surgery may speed up bowel recovery after surgery. In the ALLEGRO study, we tested whether giving patients intravenous lidocaine (into a vein) while they were having ‘keyhole’ colorectal surgery improved bowel function recovery. We found that intravenous lidocaine did not improve bowel recovery. Bowel function had not recovered 3 days after surgery in 40% of patients. There was also no effect of lidocaine on pain, quality of life, other measures of recovery or on the amount of health service used after surgery. We found no harm caused by lidocaine. The results from our study show that: There is no benefit to patients of giving them lidocaine while they are having bowel surgery. Delayed recovery of bowel function is common even with keyhole surgery.</div>
+            <div class="btns">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41731962/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41731962')" class="btn shr">📤 공유</button>
+            </div>
+            <textarea id="s_41731962" style="display:none;">📄 GI Intel\n📌 Intravenous lidocaine for gastrointestinal recovery after colorectal surgery: the ALLEGRO placebo-controlled randomised trial and cost-effectiveness analysis.\n🏥 Health technology assessment (Winchester, England)\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731962/</textarea>
+        </div>
+    </details>
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
+        <summary>
+            <div class="meta"> <b>Biochemistry and biophysics reports</b> </div>
+            <div class="title-row"><span class="arrow-icon">▶</span>The emerging role of machine learning-based methods in cancer classification using microRNA.</div>
+        </summary>
+        <div class="content">
+            
+    <div class='clinical-note'>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
+    </div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>Early detection and accurate classification of cancer are crucial to improving patient outcomes. Diagnosis and classification of tumors using conventional methods remains challenging. MicroRNAs (miRNAs) are potential biomarkers for accurate tumor classification and differentiation of tumor subtypes. In cancer progression, miRNAs act as oncogenes or tumor suppressors to regulate gene expression. As a result of their stability in bodily fluids such as blood, urine, and saliva, they are ideal for non-invasive diagnostic procedures. Machine learning (ML) models can identify discriminative miRNAs for various cancers, such as breast, lung, colorectal, and kidney cancers. The integration of ML with miRNA data has demonstrated significant potential for differentiating cancerous tissues from normal tissues and identifying clinically relevant biomarkers. For instance, techniques such as feature engineering and selection, including recursive ensemble selection and miRNA-mRNA network analysis, have been shown to enhance both model accuracy and interpretability. Methods based on Random Forest (RF) and Support Vector Machines (SVM) have successfully classified breast cancer subtypes, and miRNA signatures from fecal samples have been highly effective in diagnosing colorectal cancer. Furthermore, deep learning and neuro-fuzzy systems support kidney cancer analysis, highlighting miRNA-driven ML's role in cancer diagnostics and personalized treatment. This review illustrates the transformative potential of miRNA-driven ML models for advancing cancer diagnostics and enabling personalized treatment strategies.</div>
+            <div class="abs">Early detection and accurate classification of cancer are crucial to improving patient outcomes. Diagnosis and classification of tumors using conventional methods remains challenging. MicroRNAs (miRNAs) are potential biomarkers for accurate tumor classification and differentiation of tumor subtypes. In cancer progression, miRNAs act as oncogenes or tumor suppressors to regulate gene expression. As a result of their stability in bodily fluids such as blood, urine, and saliva, they are ideal for non-invasive diagnostic procedures. Machine learning (ML) models can identify discriminative miRNAs for various cancers, such as breast, lung, colorectal, and kidney cancers. The integration of ML with miRNA data has demonstrated significant potential for differentiating cancerous tissues from normal tissues and identifying clinically relevant biomarkers. For instance, techniques such as feature engineering and selection, including recursive ensemble selection and miRNA-mRNA network analysis, have been shown to enhance both model accuracy and interpretability. Methods based on Random Forest (RF) and Support Vector Machines (SVM) have successfully classified breast cancer subtypes, and miRNA signatures from fecal samples have been highly effective in diagnosing colorectal cancer. Furthermore, deep learning and neuro-fuzzy systems support kidney cancer analysis, highlighting miRNA-driven ML's role in cancer diagnostics and personalized treatment. This review illustrates the transformative potential of miRNA-driven ML models for advancing cancer diagnostics and enabling personalized treatment strategies.</div>
+            <div class="btns">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41732418/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41732418')" class="btn shr">📤 공유</button>
+            </div>
+            <textarea id="s_41732418" style="display:none;">📄 GI Intel\n📌 The emerging role of machine learning-based methods in cancer classification using microRNA.\n🏥 Biochemistry and biophysics reports\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41732418/</textarea>
+        </div>
+    </details></div><div class='sec-group'><h3>🍺 Liver Track</h3>
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
+        <summary>
+            <div class="meta"> <b>Journal of Arrhythmia</b> </div>
+            <div class="title-row"><span class="arrow-icon">▶</span>Contemporary Perspectives on J‐Wave Syndromes: An Expert Consensus Statement.</div>
+        </summary>
+        <div class="content">
+            
+    <div class='clinical-note'>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
+    </div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>J‐wave syndromes (JWS)—comprising Brugada syndrome (BrS) and early repolarization syndrome (ERS)—are important causes of malignant ventricular arrhythmias and sudden cardiac death in patients whose hearts appear structurally normal. Since the 2016 consensus, advances in genetics, pathophysiology, and therapy have redefined both understanding and management. BrS, once viewed as a purely electrical disorder, is now recognized along a microstructural–electrical continuum, with sodium‐channel dysfunction and subtle epicardial fibrosis of the right ventricular outflow tract as key contributors. Likewise, ERS—historically considered benign—carries significant risk when inferolateral J‐waves coexist with arrhythmic events. Genetically, SCN5A remains the sole gene with definitive disease association, while polygenic susceptibility materially modulates risk, underscoring complex inheritance. Risk stratification remains challenging: patients with prior cardiac arrest or arrhythmic syncope are highest risk, whereas asymptomatic individuals warrant multiparametric assessment integrating clinical features, ECG markers, electrophysiologic studies, and genetics. For decades, treatment centered on implantable cardioverter‐defibrillators and quinidine, both limited by availability, tolerance, and device complications. More recently, epicardial substrate ablation has emerged as a transformative therapy, with large registries and randomized trials demonstrating durable suppression of ventricular fibrillation and acceptable safety. This APHRS‐organized international consensus updates and extends the 2016 Expert Consensus and the 2022 ESC Guidelines, providing contemporary diagnostic frameworks, pragmatic risk‐stratification tools, and treatment algorithms for BrS and ERS. It emphasizes JWS as a microstructural–electrical disease spectrum and elevates substrate ablation as a major therapeutic advance, while outlining priorities for genetics, risk‐stratification and treatment algorithms.</div>
+            <div class="abs">J‐wave syndromes (JWS)—comprising Brugada syndrome (BrS) and early repolarization syndrome (ERS)—are important causes of malignant ventricular arrhythmias and sudden cardiac death in patients whose hearts appear structurally normal. Since the 2016 consensus, advances in genetics, pathophysiology, and therapy have redefined both understanding and management. BrS, once viewed as a purely electrical disorder, is now recognized along a microstructural–electrical continuum, with sodium‐channel dysfunction and subtle epicardial fibrosis of the right ventricular outflow tract as key contributors. Likewise, ERS—historically considered benign—carries significant risk when inferolateral J‐waves coexist with arrhythmic events. Genetically, SCN5A remains the sole gene with definitive disease association, while polygenic susceptibility materially modulates risk, underscoring complex inheritance. Risk stratification remains challenging: patients with prior cardiac arrest or arrhythmic syncope are highest risk, whereas asymptomatic individuals warrant multiparametric assessment integrating clinical features, ECG markers, electrophysiologic studies, and genetics. For decades, treatment centered on implantable cardioverter‐defibrillators and quinidine, both limited by availability, tolerance, and device complications. More recently, epicardial substrate ablation has emerged as a transformative therapy, with large registries and randomized trials demonstrating durable suppression of ventricular fibrillation and acceptable safety. This APHRS‐organized international consensus updates and extends the 2016 Expert Consensus and the 2022 ESC Guidelines, providing contemporary diagnostic frameworks, pragmatic risk‐stratification tools, and treatment algorithms for BrS and ERS. It emphasizes JWS as a microstructural–electrical disease spectrum and elevates substrate ablation as a major therapeutic advance, while outlining priorities for genetics, risk‐stratification and treatment algorithms.</div>
+            <div class="btns">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41738055/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41738055')" class="btn shr">📤 공유</button>
+            </div>
+            <textarea id="s_41738055" style="display:none;">📄 GI Intel\n📌 Contemporary Perspectives on J‐Wave Syndromes: An Expert Consensus Statement.\n🏥 Journal of Arrhythmia\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41738055/</textarea>
+        </div>
+    </details>
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
         <summary>
             <div class="meta"> <b>JHEP Reports</b>  🔥</div>
             <div class="title-row"><span class="arrow-icon">▶</span>HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.</div>
@@ -248,20 +243,41 @@
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 HCC surveillance 재설정</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 HCC surveillance 재설정</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>Liver transplantation (LT) for hepatocellular carcinoma (HCC) is performed worldwide, with 5-year survival rates of approximately 70%. However, post-transplant HCC recurrence occurs in 15-20% of recipients. We aimed to evaluate, for the first time, long-term recurrence-free survival in a large inter</div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>• HOPE treatment was identified as an independent significant protective factor against HCC recurrence. • Among patients with HCC, 5-year suvival and recurrence -free survival was higher in matched recipients of HOPE treated DBD grafts than non-perfused DBD grafts (84% vs. 74% and 77 vs. 67%, respectively). • In contrast, survival was not different between HOPE treated HCC recipients and matched non HCC recipients ( 82% vs 84% at 5 years).</div>
             <div class="abs">Liver transplantation (LT) for hepatocellular carcinoma (HCC) is performed worldwide, with 5-year survival rates of approximately 70%. However, post-transplant HCC recurrence occurs in 15-20% of recipients. We aimed to evaluate, for the first time, long-term recurrence-free survival in a large international cohort of patients undergoing LT for HCC using grafts treated with hypothermic oxygenated machine perfusion (HOPE).<br><br>This observational <br><br>The overall HCC recurrence rate in the HOPE-REAL cohort was 6.9% (41/599), with no significant difference between DBD and DCD liver transplants (7.1% [25/350] <br><br>HCC recurrence was rare after transplantation of livers treated with HOPE. Long-term survival in HOPE-treated HCC recipients was significantly better than in those receiving non-perfused livers, and comparable to outcomes in non-HCC recipients. These findings warrant validation in a randomized clinical trial.<br><br>This <br><br>NCT05520320<br><br>[Figure: see text]<br><br>• HOPE treatment was identified as an independent significant protective factor against HCC recurrence. • Among patients with HCC, 5-year suvival and recurrence -free survival was higher in matched recipients of HOPE treated DBD grafts than non-perfused DBD grafts (84% vs. 74% and 77 vs. 67%, respectively). • In contrast, survival was not different between HOPE treated HCC recipients and matched non HCC recipients ( 82% vs 84% at 5 years).</div>
             <div class="btns">
                 <a href="https://pubmed.ncbi.nlm.nih.gov/41737541/" target="_blank" class="btn pub">🔗 PubMed</a>
                 <button onclick="copyShare('41737541')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41737541" style="display:none;">📄 GI Intel\n📌 HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737541/</textarea>
+            <textarea id="s_41737541" style="display:none;">📄 GI Intel\n📌 HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.\n🏥 JHEP Reports\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737541/</textarea>
+        </div>
+    </details></div><div class='sec-group'><h3>🧬 Biliary/Pancreas</h3>
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
+        <summary>
+            <div class="meta"> <b>JHEP Reports</b>  🔥</div>
+            <div class="title-row"><span class="arrow-icon">▶</span>HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.</div>
+        </summary>
+        <div class="content">
+            
+    <div class='clinical-note'>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 HCC surveillance 재설정</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
+    </div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>• HOPE treatment was identified as an independent significant protective factor against HCC recurrence. • Among patients with HCC, 5-year suvival and recurrence -free survival was higher in matched recipients of HOPE treated DBD grafts than non-perfused DBD grafts (84% vs. 74% and 77 vs. 67%, respectively). • In contrast, survival was not different between HOPE treated HCC recipients and matched non HCC recipients ( 82% vs 84% at 5 years).</div>
+            <div class="abs">Liver transplantation (LT) for hepatocellular carcinoma (HCC) is performed worldwide, with 5-year survival rates of approximately 70%. However, post-transplant HCC recurrence occurs in 15-20% of recipients. We aimed to evaluate, for the first time, long-term recurrence-free survival in a large international cohort of patients undergoing LT for HCC using grafts treated with hypothermic oxygenated machine perfusion (HOPE).<br><br>This observational <br><br>The overall HCC recurrence rate in the HOPE-REAL cohort was 6.9% (41/599), with no significant difference between DBD and DCD liver transplants (7.1% [25/350] <br><br>HCC recurrence was rare after transplantation of livers treated with HOPE. Long-term survival in HOPE-treated HCC recipients was significantly better than in those receiving non-perfused livers, and comparable to outcomes in non-HCC recipients. These findings warrant validation in a randomized clinical trial.<br><br>This <br><br>NCT05520320<br><br>[Figure: see text]<br><br>• HOPE treatment was identified as an independent significant protective factor against HCC recurrence. • Among patients with HCC, 5-year suvival and recurrence -free survival was higher in matched recipients of HOPE treated DBD grafts than non-perfused DBD grafts (84% vs. 74% and 77 vs. 67%, respectively). • In contrast, survival was not different between HOPE treated HCC recipients and matched non HCC recipients ( 82% vs 84% at 5 years).</div>
+            <div class="btns">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41737541/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41737541')" class="btn shr">📤 공유</button>
+            </div>
+            <textarea id="s_41737541" style="display:none;">📄 GI Intel\n📌 HCC recurrence in liver transplants treated with hypothermic oxygenated machine perfusion: An international matched cohort study.\n🏥 JHEP Reports\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41737541/</textarea>
         </div>
     </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
         <summary>
             <div class="meta"> <b>Annals of surgery</b>  🔥</div>
             <div class="title-row"><span class="arrow-icon">▶</span>Long Term and Oncologic Outcomes for Patients Receiving Piperacillin-Tazobactam or Cefoxitin as Antibiotic Prophylaxis for Pancreatoduodenectomy.</div>
@@ -269,41 +285,62 @@
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>To examine long-term and oncologic outcomes of broad-spectrum perioperative antimicrobial prophylaxis, compared with standard care antibiotics, in patients undergoing pancreatoduodenectomy.<br><br>A registry-linked randomized clinical trial demonstrated a reduction in surgical site infection (SSI) i</div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>While patients experiencing an SSI had poorer survival, piperacillin-tazobactam prophylaxis did not significantly affect oncologic care delivery. These results cement the long-term implications of perioperative complications in patients with cancer and highlight leveraging cancer registries for clinical trial data analysis.</div>
             <div class="abs">To examine long-term and oncologic outcomes of broad-spectrum perioperative antimicrobial prophylaxis, compared with standard care antibiotics, in patients undergoing pancreatoduodenectomy.<br><br>A registry-linked randomized clinical trial demonstrated a reduction in surgical site infection (SSI) in patients undergoing pancreatoduodenectomy who received piperacillin-tazobactam as perioperative prophylaxis compared to cefoxitin. However, long-term outcomes remain undefined.<br><br>Participant records from the American College of Surgeons National Surgical Quality Improvement Program database were matched to the National Cancer Database. Associations between treatment arm, perioperative complications, and oncologic outcomes were assessed. Logistic regression models investigated associations with oncologic outcomes. Survival analyses used Kaplan Meier and Cox proportional hazard modeling.<br><br>Of 778 patients, 471 (60.5%) were treated at Commission on Cancer accredited hospitals and eligible for linkage. Of those, 426 (90.4%) were matched in the NCDB including 203 (47.7%) treated with piperacillin-tazobactam and 223 (52.3%) with cefoxitin. Among patients with indications for chemotherapy, chemotherapy omission rates were similar between the treatment arms (9.4% in piperacillin-tazobactam vs 15.4% in cefoxitin; P=0.097). There was no association between the receipt of indicated adjuvant chemotherapy and receipt of piperacillin-tazobactam (OR 1.49; 95% CI 0.56-3.95) or presence of SSI (OR 0.58; 95% CI 0.21-1.65). Postoperative SSI was associated with poorer 3-year overall survival (HR 1.69, 95% CI 1.20-2.38).<br><br>While patients experiencing an SSI had poorer survival, piperacillin-tazobactam prophylaxis did not significantly affect oncologic care delivery. These results cement the long-term implications of perioperative complications in patients with cancer and highlight leveraging cancer registries for clinical trial data analysis.</div>
             <div class="btns">
                 <a href="https://pubmed.ncbi.nlm.nih.gov/41731645/" target="_blank" class="btn pub">🔗 PubMed</a>
                 <button onclick="copyShare('41731645')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41731645" style="display:none;">📄 GI Intel\n📌 Long Term and Oncologic Outcomes for Patients Receiving Piperacillin-Tazobactam or Cefoxitin as Antibiotic Prophylaxis for Pancreatoduodenectomy.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731645/</textarea>
+            <textarea id="s_41731645" style="display:none;">📄 GI Intel\n📌 Long Term and Oncologic Outcomes for Patients Receiving Piperacillin-Tazobactam or Cefoxitin as Antibiotic Prophylaxis for Pancreatoduodenectomy.\n🏥 Annals of surgery\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731645/</textarea>
         </div>
     </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
         <summary>
-            <div class="meta"> <b>Resuscitation plus</b> </div>
-            <div class="title-row"><span class="arrow-icon">▶</span>The role of insulin resistance in hyperglycemia following cardiopulmonary resuscitation in rats.</div>
+            <div class="meta"><span class='badge if'>IF 9.3</span> <b>Surgical endoscopy</b> <span class='badge rct'>RCT</span></div>
+            <div class="title-row"><span class="arrow-icon">▶</span>Efficacy of intravenous parecoxib in preventing post-endoscopic retrograde cholangiopancreatography pancreatitis: a randomized controlled trial.</div>
         </summary>
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>In-hospital hyperglycemia is common among patients after cardiac arrest (CA) and cardiopulmonary resuscitation (CPR). It is not clear whether insulin resistance contributes to this condition. This study investigates the changing patterns of blood glucose levels in rats after CA/CPR and the possible </div>
-            <div class="abs">In-hospital hyperglycemia is common among patients after cardiac arrest (CA) and cardiopulmonary resuscitation (CPR). It is not clear whether insulin resistance contributes to this condition. This study investigates the changing patterns of blood glucose levels in rats after CA/CPR and the possible mechanisms of action.<br><br>Twenty Sprague-Dawley (SD) rats were randomly divided into the SHAM operation group (SHAM group) and the experimental group (CA/CPR group) according to the random number table method, with 10 rats in each group. In the SHAM group, CA was not induced except for general surgeries, and intraperitoneal glucose tolerance tests (IPGTT) were conducted after the operation. CA was induced in the experimental group via asphyxiation. CPR was performed 6 min later, and intraperitoneal glucose tolerance test was conducted 10 min after the restoration of spontaneous circulation (ROSC). The blood glucose and serum insulin levels were measured at fasting, 0.5 h, 1 h, 2 h and 3 h. Area under the curve of insulin/area under the curve of glucose (AUC-insulin/AUC-glucose) was calculated for both groups to assess insulin sensitivity. Rat pancreatic tissues were taken for HE staining to observe the islet morphology and analyze the number of islet β cells.<br><br>Compared with the SHAM group, the fasting blood glucose in the CA/CPR group increased, and the post-glucose loading blood glucose significantly increased (all <br><br>Rats developed hyperglycemia following CA/CPR, which was mediated by insulin resistance.</div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>Intravenous parecoxib was effective in reducing post-ERCP abdominal pain and showed a trend toward a lower incidence of post-ERCP pancreatitis (PEP) in both unselected and high-risk patients, without any serious adverse events. Therefore, intravenous parecoxib may represent a viable alternative for PEP prevention in settings where rectal nonsteroidal anti-inflammatory drugs are unavailable.</div>
+            <div class="abs">This study aimed to evaluate the efficacy of intravenous (IV) parecoxib in preventing post-endoscopic retrograde cholangiopancreatography (ERCP) pancreatitis and clinically significant post-ERCP abdominal pain in patients undergoing their first ERCP.<br><br>Participants undergoing ERCP with a native papilla were randomly assigned to receive intravenous parecoxib plus standard IV fluid or standard IV fluid alone. Data on patient characteristics, initial serum bilirubin levels, procedural techniques, papilla type, and endoscopic risk factors were collected. The incidence rates of post-ERCP pancreatitis, hyperamylasemia, and post-ERCP abdominal pain were compared between the groups.<br><br>A total of 83 and 82 patients were included in the parecoxib and control groups, respectively. There were no significant between-group differences in comorbidities, pre-procedure risks, or baseline laboratory results. The most common diagnosis after ERCP was bile duct stones (62%). The incidence of post-ERCP pancreatitis was 2.4% in the parecoxib group and 11.0% in the control group (p = 0.058). The incidence of post-ERCP abdominal pain was significantly lower in the parecoxib group than in the control group at both 4 h (26.5% vs. 52.4%, p = 0.001) and 24 h (6.0% vs. 20.7%, p = 0.011) after the procedure.<br><br>Intravenous parecoxib was effective in reducing post-ERCP abdominal pain and showed a trend toward a lower incidence of post-ERCP pancreatitis (PEP) in both unselected and high-risk patients, without any serious adverse events. Therefore, intravenous parecoxib may represent a viable alternative for PEP prevention in settings where rectal nonsteroidal anti-inflammatory drugs are unavailable.</div>
             <div class="btns">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41732494/" target="_blank" class="btn pub">🔗 PubMed</a>
-                <button onclick="copyShare('41732494')" class="btn shr">📤 공유</button>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41731141/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41731141')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41732494" style="display:none;">📄 GI Intel\n📌 The role of insulin resistance in hyperglycemia following cardiopulmonary resuscitation in rats.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41732494/</textarea>
+            <textarea id="s_41731141" style="display:none;">📄 GI Intel\n📌 Efficacy of intravenous parecoxib in preventing post-endoscopic retrograde cholangiopancreatography pancreatitis: a randomized controlled trial.\n🏥 Surgical endoscopy\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731141/</textarea>
         </div>
     </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
+        <summary>
+            <div class="meta"> <b>iScience</b> </div>
+            <div class="title-row"><span class="arrow-icon">▶</span>Deficiency of Werner RecQ-type DNA helicase causes premature malnutrition in zebrafish.</div>
+        </summary>
+        <div class="content">
+            
+    <div class='clinical-note'>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
+    </div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>Werner syndrome is a genetic progeria characterized by premature aging symptoms, but its early-onset pathology remains unclear. We generated </div>
+            <div class="abs">Werner syndrome is a genetic progeria characterized by premature aging symptoms, but its early-onset pathology remains unclear. We generated </div>
+            <div class="btns">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/41732282/" target="_blank" class="btn pub">🔗 PubMed</a>
+                <button onclick="copyShare('41732282')" class="btn shr">📤 공유</button>
+            </div>
+            <textarea id="s_41732282" style="display:none;">📄 GI Intel\n📌 Deficiency of Werner RecQ-type DNA helicase causes premature malnutrition in zebrafish.\n🏥 iScience\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41732282/</textarea>
+        </div>
+    </details>
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
         <summary>
             <div class="meta"> <b>Medicine</b> </div>
             <div class="title-row"><span class="arrow-icon">▶</span>Exploring dietary habits strongly associated with pancreatic cancer from the perspective of Mendelian randomization.</div>
@@ -311,20 +348,20 @@
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>While some retrospective studies have reported that certain dietary habits may affect pancreatic cancer, the variety of dietary habits studied has been limited. A 2-sample Mendelian randomization (MR) analysis was performed using exposure data from the UK Biobank data (n = 10,019,305) and outcome da</div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>While some retrospective studies have reported that certain dietary habits may affect pancreatic cancer, the variety of dietary habits studied has been limited. A 2-sample Mendelian randomization (MR) analysis was performed using exposure data from the UK Biobank data (n = 10,019,305) and outcome data from the FinnGen database (731 pancreatic cancer cases and 314,193 controls). Instrumental variables were selected based on genome-wide significance, followed by linkage disequilibrium clumping. Sensitivity analyses, including Steiger filtering and MR-PRESSO, were conducted to ensure the robustness of the causal inferences. Following this process, we extracted and filtered the data, ultimately selecting 30 dietary phenotypes from the original 231. Our findings revealed that alcohol intake frequency (raw P-value =.002, odds ratio (OR) = 1.090, 95% CI: 1.032-1.151) and average weekly spirits intake (raw P-value = .005, OR = 1.793, 95% CI: 1.196-2.688) were risk factors for pancreatic cancer using data from 706 single nucleotide polymorphisms derived from FinnGen database. Notably, cooked vegetable intake (raw P-value = .029, OR = 0.704, 95% CI: 0.514-0.965) was found to have a protective effect against pancreatic cancer. Our MR analysis provides evidence that specific dietary habits significantly influence pancreatic cancer risk, highlighting the potential of dietary interventions within public health strategies for pancreatic cancer management.</div>
             <div class="abs">While some retrospective studies have reported that certain dietary habits may affect pancreatic cancer, the variety of dietary habits studied has been limited. A 2-sample Mendelian randomization (MR) analysis was performed using exposure data from the UK Biobank data (n = 10,019,305) and outcome data from the FinnGen database (731 pancreatic cancer cases and 314,193 controls). Instrumental variables were selected based on genome-wide significance, followed by linkage disequilibrium clumping. Sensitivity analyses, including Steiger filtering and MR-PRESSO, were conducted to ensure the robustness of the causal inferences. Following this process, we extracted and filtered the data, ultimately selecting 30 dietary phenotypes from the original 231. Our findings revealed that alcohol intake frequency (raw P-value =.002, odds ratio (OR) = 1.090, 95% CI: 1.032-1.151) and average weekly spirits intake (raw P-value = .005, OR = 1.793, 95% CI: 1.196-2.688) were risk factors for pancreatic cancer using data from 706 single nucleotide polymorphisms derived from FinnGen database. Notably, cooked vegetable intake (raw P-value = .029, OR = 0.704, 95% CI: 0.514-0.965) was found to have a protective effect against pancreatic cancer. Our MR analysis provides evidence that specific dietary habits significantly influence pancreatic cancer risk, highlighting the potential of dietary interventions within public health strategies for pancreatic cancer management.</div>
             <div class="btns">
                 <a href="https://pubmed.ncbi.nlm.nih.gov/41731762/" target="_blank" class="btn pub">🔗 PubMed</a>
                 <button onclick="copyShare('41731762')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41731762" style="display:none;">📄 GI Intel\n📌 Exploring dietary habits strongly associated with pancreatic cancer from the perspective of Mendelian randomization.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731762/</textarea>
+            <textarea id="s_41731762" style="display:none;">📄 GI Intel\n📌 Exploring dietary habits strongly associated with pancreatic cancer from the perspective of Mendelian randomization.\n🏥 Medicine\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731762/</textarea>
         </div>
     </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
+    <details class="paper-item" style="border-left:4px solid #3498db;background:#fff;">
         <summary>
             <div class="meta"> <b>Physiological reports</b> </div>
             <div class="title-row"><span class="arrow-icon">▶</span>Salivary vascular growth factor responses to prolonged and interrupted sitting in young, healthy adults.</div>
@@ -332,48 +369,29 @@
         <div class="content">
             
     <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
+        <div><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
+        <div><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
+        <div><b>📌 Order:</b> 📌 환자 맞춤 판단</div>
     </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>We aimed to determine salivary vascular endothelial growth factor (VEGF), epidermal growth factor (EGF), and angiogenin responses to prolonged and interrupted sitting in young, healthy adults. Each participant completed 4 h of prolonged sitting and two interrupted-sitting sessions incorporating 3-mi</div>
+            <div class='btm-box'><b>💡 Conclusion</b><br>We aimed to determine salivary vascular endothelial growth factor (VEGF), epidermal growth factor (EGF), and angiogenin responses to prolonged and interrupted sitting in young, healthy adults. Each participant completed 4 h of prolonged sitting and two interrupted-sitting sessions incorporating 3-min walking breaks every 27 min at 35% or 50% of heart rate reserve, in random order. Saliva was collected immediately before and after each session and analyzed using enzyme-linked immunosorbent assays. VEGF decreased from pre to post across all conditions (Pre: 0.63 ± 0.63; Post: 0.53 ± 0.67; p = 0.0013; partial η</div>
             <div class="abs">We aimed to determine salivary vascular endothelial growth factor (VEGF), epidermal growth factor (EGF), and angiogenin responses to prolonged and interrupted sitting in young, healthy adults. Each participant completed 4 h of prolonged sitting and two interrupted-sitting sessions incorporating 3-min walking breaks every 27 min at 35% or 50% of heart rate reserve, in random order. Saliva was collected immediately before and after each session and analyzed using enzyme-linked immunosorbent assays. VEGF decreased from pre to post across all conditions (Pre: 0.63 ± 0.63; Post: 0.53 ± 0.67; p = 0.0013; partial η</div>
             <div class="btns">
                 <a href="https://pubmed.ncbi.nlm.nih.gov/41731350/" target="_blank" class="btn pub">🔗 PubMed</a>
                 <button onclick="copyShare('41731350')" class="btn shr">📤 공유</button>
             </div>
-            <textarea id="s_41731350" style="display:none;">📄 GI Intel\n📌 Salivary vascular growth factor responses to prolonged and interrupted sitting in young, healthy adults.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731350/</textarea>
-        </div>
-    </details>
-    <details class="paper-item" style="border-left: 4px solid #3498db; background: #fff;">
-        <summary>
-            <div class="meta"> <b>Naunyn-Schmiedeberg's archives of pharmacology</b> </div>
-            <div class="title-row"><span class="arrow-icon">▶</span>Design, synthesis, and mechanistic evaluation of propargylated salicylaldehyde derivatives as dual apoptosis-autophagy modulator for pancreatic cancer.</div>
-        </summary>
-        <div class="content">
-            
-    <div class='clinical-note'>
-        <div style='margin-bottom:6px;'><b>👨‍⚕️ Clinical:</b> 👉 임상 판단 필요</div>
-        <div style='margin-bottom:6px;'><b>⚡ Action:</b> 🧐 추가 판단 필요</div>
-        <div><b>📌 Order:</b> 📌 환자 맞춤형 판단</div>
-    </div>
-            <div class='btm-box'><b>💡 Conclusion</b><br>In this study, eight novel propargylated salicylaldehyde derivatives and one propargylated indole derivative were successfully synthesized and evaluated for their cytotoxic activities against the human pancreatic cancer cell line PANC-1. Among the nine tested molecules, molecules 4 and 6 exhibited t</div>
-            <div class="abs">In this study, eight novel propargylated salicylaldehyde derivatives and one propargylated indole derivative were successfully synthesized and evaluated for their cytotoxic activities against the human pancreatic cancer cell line PANC-1. Among the nine tested molecules, molecules 4 and 6 exhibited the most pronounced cytotoxic effects, with IC</div>
-            <div class="btns">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/41731168/" target="_blank" class="btn pub">🔗 PubMed</a>
-                <button onclick="copyShare('41731168')" class="btn shr">📤 공유</button>
-            </div>
-            <textarea id="s_41731168" style="display:none;">📄 GI Intel\n📌 Design, synthesis, and mechanistic evaluation of propargylated salicylaldehyde derivatives as dual apoptosis-autophagy modulator for pancreatic cancer.\n⚡ Action: 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731168/</textarea>
+            <textarea id="s_41731350" style="display:none;">📄 GI Intel\n📌 Salivary vascular growth factor responses to prolonged and interrupted sitting in young, healthy adults.\n🏥 Physiological reports\n⚡ 🧐 추가 판단 필요\n🔗 https://pubmed.ncbi.nlm.nih.gov/41731350/</textarea>
         </div>
     </details></div>
     </div>
 
-    <footer style="text-align:center; padding:15px; color:#95a5a6; font-size:0.75rem;">🚀 MedProductive Clinical Terminal</footer>
+    <footer style="text-align:center; padding:15px; color:#95a5a6; font-size:0.75rem;">🚀 Project: MedProductive Clinical AI</footer>
 
     <script>
         function toggleF() {
             const btn = document.getElementById('fBtn'); btn.classList.toggle('active');
             const isF = btn.classList.contains('active');
+            btn.style.background = isF ? 'var(--success)' : '#fff';
+            btn.style.color = isF ? '#fff' : 'var(--success)';
             document.querySelectorAll('.paper-item').forEach(p => {
                 p.style.display = isF ? (p.querySelector('.badge-guideline') ? 'block' : 'none') : 'block';
             });
@@ -383,24 +401,9 @@
             navigator.clipboard.writeText(el.value.replace(/\\n/g, '\n')).then(() => alert("✅ 복사 완료!"));
         }
         
-        // 차트 폰트 및 설정 모바일 최적화
-        const chartOptions = {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { enabled: false } },
-            scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 9 } } } }
-        };
-
-        new Chart(document.getElementById('c1'), { 
-            type:'bar', 
-            data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[5, 0, 7], backgroundColor:'#3498db'}] }, 
-            options: chartOptions
-        });
-        
-        new Chart(document.getElementById('c2'), { 
-            type:'doughnut', 
-            data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[5, 0, 7], backgroundColor:['#e74c3c','#f1c40f','#2ecc71']}] }, 
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } 
-        });
+        const config = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
+        new Chart(document.getElementById('c1'), { type:'bar', data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[5, 2, 6], backgroundColor:'#3498db'}] }, options: config });
+        new Chart(document.getElementById('c2'), { type:'doughnut', data:{ labels:["GI", "Liver", "Biliary/Pancreas"], datasets:[{data:[5, 2, 6], backgroundColor:['#e74c3c','#f1c40f','#2ecc71']}] }, options: { ...config, plugins: { legend: { display: false } } } });
     </script>
 </body>
 </html>
