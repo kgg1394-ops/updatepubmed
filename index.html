@@ -14,8 +14,12 @@
         .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 25px; }
         h1 { margin:0; font-size:2.2em; color:#2c3e50; }
         h2 { color:#2c3e50; font-size:1.2em; margin-top:0; border-bottom: 2px solid #f0f4f7; padding-bottom: 12px; }
+        
+        /* 🐛 수정된 부분: 오직 화살표 아이콘만 회전하도록 CSS 변경 */
         details > summary::-webkit-details-marker { display: none; }
-        details[open] summary span:first-child { transform: rotate(90deg); display: inline-block; transition: 0.2s; }
+        .arrow-icon { display: inline-block; transition: transform 0.2s; }
+        details[open] summary .arrow-icon { transform: rotate(90deg); }
+        
         @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -24,7 +28,7 @@
         <header class="card">
             <h1>🏥 GI Intelligence Terminal</h1>
             <p style="color:#7f8c8d; font-size:1.1em; margin-top:5px;">의료 현장을 위한 초고속 논문 스캐너 & 트렌드 분석기</p>
-            <div style="margin-top:15px;"><span style="background:#ebf5ff; color:#3498db; padding:6px 18px; border-radius:20px; font-weight:bold; font-size:0.9em;">Update: 2026-02-26 13:07 (KST)</span></div>
+            <div style="margin-top:15px;"><span style="background:#ebf5ff; color:#3498db; padding:6px 18px; border-radius:20px; font-weight:bold; font-size:0.9em;">Update: 2026-02-26 13:27 (KST)</span></div>
         </header>
 
         <div class="grid">
@@ -49,7 +53,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Lymph node yield and its impact on survival outcomes: a retrospective multicenter cohort study from Denmark.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -74,7 +78,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -99,7 +103,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Digestive diseases and sciences</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Methodological and Interpretative Considerations in Onishi et al.'s Study of Rebleeding Risk in Suspected Small Bowel Bleeding.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -124,7 +128,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Cancer immunology, immunotherapy : CII</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Tumor-specific antibody cocktail treatment suppresses colorectal tumor growth in mice.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Tumor-specific antibody cocktail treatment suppresses colorectal tumor growth in mice.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -154,7 +158,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Annals of medicine</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Comparative burden and projections of chewing tobacco-attributable lip/oral cavity and esophageal cancers: global and China-specific trends, 2000-2036.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Comparative burden and projections of chewing tobacco-attributable lip/oral cavity and esophageal cancers: global and China-specific trends, 2000-2036.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -184,7 +188,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Journal of proteome research</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Targeted Quantitative Analysis of Specific Proteins in Cytosolic, Mitochondrial, and Nuclear Fractions Using PRM.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -209,7 +213,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Rhode Island medical journal (2013)</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Sigmoid Volvulus in a Healthy Adolescent Male.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Sigmoid Volvulus in a Healthy Adolescent Male.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -234,7 +238,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Diseases of the esophagus : official journal of the International Society for Diseases of the Esophagus</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Variability in time to surveillance endoscopy for eosinophilic esophagitis remission and relation to treatment outcomes.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -259,7 +263,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Inflammatory bowel diseases</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Comparing diagnostic accuracy of transperineal ultrasound using microconvex probe versus conventional linear probe to predict rectal histoendoscopic activity in ulcerative colitis: a paired prospective, head-to-head comparative study.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -289,7 +293,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">International journal of clinical pharmacy</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Development and validation of a LASSO-logistic regression model for predicting subtherapeutic infliximab trough concentrations in patients with Crohn's disease.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -319,7 +323,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">JAMA surgery</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Contemporary Outcomes of Cholecystectomy.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Contemporary Outcomes of Cholecystectomy.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -344,7 +348,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Zoological science</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Non-Contiguous and Multi-Regional Expression of Pancreas-Related Genes along the Lancelet Gut.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -369,7 +373,7 @@
                     <span>📅 2025 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Frontiers in immunology</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Prognostic value of PD-L1 expression on tumor-infiltrating immune cells and neutrophil-to-lymphocyte ratio in patients with biliary tract cancer.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Prognostic value of PD-L1 expression on tumor-infiltrating immune cells and neutrophil-to-lymphocyte ratio in patients with biliary tract cancer.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -399,7 +403,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Innovation (Cambridge (Mass.))</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Exploration of multi-omics liquid biopsy approaches for multi-cancer early detection: The PROMISE study.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Exploration of multi-omics liquid biopsy approaches for multi-cancer early detection: The PROMISE study.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -424,7 +428,7 @@
                     <span>📅 2026 &nbsp;|&nbsp; 📖 <i style="color:#3498db;">Frontiers in immunology</i></span> 
                 </div>
                 <div style="line-height:1.4;">
-                    <span style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Multifunctional theranostic magnetic PLGA nanoparticles encapsulating cyclosporine A: addressing challenges in pancreas transplantation for type 1 diabetes.
+                    <span class="arrow-icon" style="color:#3498db; font-size:0.9em; margin-right:8px;">▶</span>Multifunctional theranostic magnetic PLGA nanoparticles encapsulating cyclosporine A: addressing challenges in pancreas transplantation for type 1 diabetes.
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
@@ -453,7 +457,6 @@
     </div>
 
     <script>
-        // 💬 [추가 기능 2] 복사 기능 자바스크립트
         function copyToClipboard(elementId) {
             var copyText = document.getElementById(elementId);
             copyText.style.display = "block";
