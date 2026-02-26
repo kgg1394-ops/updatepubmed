@@ -3,6 +3,7 @@ import urllib.parse
 import json
 import datetime
 import time
+import re
 import xml.etree.ElementTree as ET
 
 # 👑 세계 최고 권위 소화기/간 저널 리스트
@@ -55,13 +56,23 @@ def get_pubmed_xml_with_abstract(query, limit=5):
             journal = journal_node.text if journal_node is not None else "Unknown Journal"
             
             abstract_parts = []
+            bottom_line = "" # 💡 결론만 따로 저장할 변수
+            
             for abs_text in article.findall('.//AbstractText'):
                 label = abs_text.get('Label', '')
                 text = abs_text.text if abs_text.text else ''
+                
                 if label:
                     abstract_parts.append(f"<b style='color:#3498db;'>{label}:</b> {text}")
+                    # 구조화된 초록인 경우 Conclusion 파트 추출
+                    if label.lower() in ['conclusion', 'conclusions']:
+                        bottom_line = text
                 else:
                     abstract_parts.append(text)
+                    # 비구조화된 초록인 경우 정규식으로 Conclusion 파트 추출
+                    match = re.search(r'(?i)(?:conclusion|conclusions)s?[:.]\s*(.*)', text)
+                    if match:
+                        bottom_line = match.group(1)
             
             abstract_full = "<br><br>".join(abstract_parts) if abstract_parts else "<span style='color:#999; font-style:italic;'>초록(Abstract)이 원문에 제공되지 않은 논문입니다.</span>"
             
@@ -70,7 +81,7 @@ def get_pubmed_xml_with_abstract(query, limit=5):
             
             papers.append({
                 "pmid": pmid, "title": title, "journal": journal, 
-                "abstract": abstract_full, "year": year
+                "abstract": abstract_full, "bottom_line": bottom_line, "year": year
             })
         return papers
     except Exception as e:
@@ -110,6 +121,16 @@ for name, query in categories.items():
         is_top = any(top in p['journal'].lower() for top in TOP_JOURNALS)
         top_badge = "<span style='background:#f1c40f; color:#2c3e50; padding:3px 8px; border-radius:12px; font-size:0.7em; margin-right:10px; font-weight:bold; box-shadow:0 1px 3px rgba(0,0,0,0.1);'>👑 Top Journal</span>" if is_top else ""
         
+        # 💡 Bottom Line(결론) 하이라이트 박스
+        bottom_line_html = ""
+        if p['bottom_line']:
+            bottom_line_html = f"""
+            <div style="background:#ebf5ff; border-left:4px solid #3498db; padding:15px; margin-bottom:20px; border-radius:0 8px 8px 0;">
+                <b style="color:#2c3e50; font-size:1em;">💡 Bottom Line (결론 요약)</b><br>
+                <div style="color:#1c2833; font-size:0.95em; line-height:1.6; margin-top:5px; font-weight:bold;">{p['bottom_line']}</div>
+            </div>
+            """
+        
         papers_html += f"""
         <details style="background:#fff; border: 1px solid #e0e0e0; margin-bottom:15px; border-radius:12px; border-left:4px solid #3498db; overflow:hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: all 0.2s;">
             <summary style="padding:15px; cursor:pointer; font-weight:bold; color:#2c3e50; font-size:1.05em; outline:none; display:flex; flex-direction:column;">
@@ -121,7 +142,8 @@ for name, query in categories.items():
                 </div>
             </summary>
             <div style="padding:20px; background:#f8f9fa; border-top: 1px solid #eee; font-size:0.95em; color:#555; line-height:1.7;">
-                {p['abstract']}<br><br>
+                {bottom_line_html}
+                <div style="margin-bottom:20px;">{p['abstract']}</div>
                 <a href="https://pubmed.ncbi.nlm.nih.gov/{p['pmid']}/" target="_blank" style="display:inline-block; background:#3498db; color:white; padding:6px 15px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9em;">🔗 PubMed 원문 보기</a>
             </div>
         </details>
